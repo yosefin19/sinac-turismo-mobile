@@ -1,1 +1,0 @@
-# sinac-turismo-mobile
