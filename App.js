@@ -1,21 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
+
+import { API_URL, AREAS_URL } from "../config";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [area, setArea] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const endpoint = `${API_URL}`;
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch(endpoint)
+      .then((response) => response.json())
+      .then((json) => setArea(json))
+      .catch((error) => console.error(error))
+      .finally(() => {
+        isMounted = false;
+        setLoading(false);
+      });
+  }, []);
+
+  return <Area area={area} />;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#999',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
