@@ -1,27 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
-
-import { API_URL, AREAS_URL } from "../config";
+import React from "react";
+import MainStack from "./src/navigation/MainStack";
+import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet, StatusBar } from "react-native";
 
 export default function App() {
-  const [area, setArea] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  const endpoint = `${API_URL}`;
-
-  useEffect(() => {
-    let isMounted = true;
-    fetch(endpoint)
-      .then((response) => response.json())
-      .then((json) => setArea(json))
-      .catch((error) => console.error(error))
-      .finally(() => {
-        isMounted = false;
-        setLoading(false);
-      });
-  }, []);
-
-  return <Area area={area} />;
+  return (
+    <NavigationContainer style={styles.container}>
+      <StatusBar style="auto" />
+      <MainStack />
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({

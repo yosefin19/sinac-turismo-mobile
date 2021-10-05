@@ -17,8 +17,9 @@ import Exit from "../images/exit.png";
 
 import { API_URL, DESTINATIONS_URL } from "../config";
 
-const Area = () => {
+const Area = ({ route, navigation }) => {
   const { area } = route.params;
+  console.log("area", area);
   const id = area.id;
   const name = area.name;
   const description = area.description;
@@ -64,7 +65,12 @@ const Area = () => {
 
         <Text style={styles.titleText}>Áreas Silvestres Protegidas</Text>
         <View>
-          {loading ? null : <InformationList areaDestinations={destinations} />}
+          {loading ? null : (
+            <InformationList
+              areaDestinations={destinations}
+              navigation={navigation}
+            />
+          )}
         </View>
       </View>
       <ConstantMenu />
@@ -93,7 +99,6 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     left: 19,
     top: 19,
-
     alignItems: "center",
     justifyContent: "center",
   },
@@ -109,7 +114,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
 
     marginHorizontal: 33,
-    marginTop: 20,
+    marginTop: 20, //20,
 
     color: "#383837",
   },
