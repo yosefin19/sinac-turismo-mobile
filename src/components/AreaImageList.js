@@ -1,31 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 
-import {
-  Image,
-  View,
-  ScrollView,
-  FlatList,
-  Text,
-  StyleSheet,
-  StatusBar,
-  Platform,
-  ItemSeparatorComponent,
-} from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 import AreaViewImage from "./AreaViewImage";
 
-import { IMAGE_BASE_URL } from "../config";
+const appStyles = require("../appStyle");
 
 const renderItem = ({ item }) => (
   <AreaViewImage
-    style={styles.image}
-    imageUrl={`${IMAGE_BASE_URL}areas/${item}`}
+    style={[styles.image, appStyles.default.imageListSize]}
+    imageUrl={item}
     key={item}
   />
 );
 
 const AreaImageList = (photos_path) => {
-  const paths = Object.values(photos_path)[0];
-  console.log(paths);
+  const paths = Object.values(photos_path)[0].split(",");
   const initialImageIndex = Math.floor(paths.length / 2);
 
   return (
@@ -46,48 +35,16 @@ const AreaImageList = (photos_path) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
-    // backgroundColor: "#000",
-    // // flex: 0.25,
-    // borderRadius: 7,
-    // height: "25%",
-    // top: 0,
+    top: 0,
+    marginLeft: 5,
   },
   imageList: {
-    // position: "relative",
-    marginLeft: -10,
-
-    // height: ;
-    // paddingBottom: 10,
-    // backgroundColor: "#000",
-    // flex: 1,
-    // marginRight: 10,
-    // marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    marginLeft: -5,
   },
   image: {
-    // bottom: 10,
-    // flex: 1,
     resizeMode: "stretch",
     borderRadius: 7,
-    // width: "100%",
-    // height: "20%",
-    width: 520,
-    height: 300,
-    // borderWidth: 2,
-    // borderColor: "#d35647",
-    // resizeMode: "contain",
     marginHorizontal: 8,
-    top: -5,
-  },
-  iosShadowBox: {
-    shadowColor: "#171717",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  androidShadowBox: {
-    elevation: 5,
-    shadowColor: "#52006A",
   },
 });
 

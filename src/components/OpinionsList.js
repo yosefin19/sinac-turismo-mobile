@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, ScrollView, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 import OpinionsLine from "./OpinionsLine";
 
@@ -57,13 +57,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
-
-    // marginHorizontal: 10,
-    // paddingBottom: 20,
   },
   leftLineText: {
     fontFamily: "Segoe UI",
-    // fontFamily: "Open Sans",
 
     fontStyle: "normal",
     fontWeight: "300",
@@ -76,7 +72,6 @@ const styles = StyleSheet.create({
   },
   rightLineText: {
     fontFamily: "Segoe UI",
-    // fontFamily: "Open Sans",
 
     fontStyle: "normal",
     fontWeight: "300",

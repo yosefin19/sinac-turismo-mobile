@@ -1,7 +1,9 @@
 import React from "react";
 
-import { View, ScrollView, Text, Image, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
 import Difficulty from "./Difficulty";
+
+const appStyles = require("../appStyle");
 
 const DestinationDescription = ({
   schedule,
@@ -13,41 +15,74 @@ const DestinationDescription = ({
 }) => (
   <View style={styles.container}>
     <ScrollView style={{ paddingRight: 10 }}>
-      {/* Horario */}
-      {schedule && (
+      {schedule ? (
         <View style={styles.verticalContainer}>
-          <Text style={styles.titleText}>Horario:</Text>
-          <Text style={styles.bodyText}>{schedule}</Text>
+          <Text style={[styles.titleText, appStyles.default.defaultFont]}>
+            Horario:
+          </Text>
+          <Text style={[styles.bodyText, appStyles.default.defaultFont]}>
+            {schedule}
+          </Text>
         </View>
-      )}
-      {fare && (
-        <View style={styles.verticalContainer}>
-          <Text style={styles.titleText}>Tarifas:</Text>
-          <Text style={styles.bodyText}>{fare}</Text>
-        </View>
-      )}
-      {contact && (
+      ) : null}
+      {contact ? (
         <View style={styles.horizontalContainer}>
-          <Text style={[styles.titleText, { marginRight: 2 }]}>Contacto:</Text>
-          <Text style={styles.bodyText}>{contact}</Text>
+          <Text
+            style={[
+              styles.titleText,
+              { marginRight: 2 },
+              appStyles.default.defaultFont,
+            ]}
+          >
+            Contacto:
+          </Text>
+          <Text style={[styles.bodyText, appStyles.default.defaultFont]}>
+            {contact}
+          </Text>
         </View>
-      )}
+      ) : null}
       <View style={styles.verticalContainer}>
-        <Text style={styles.titleText}>Dificultad:</Text>
+        {fare ? (
+          <View style={styles.verticalContainer}>
+            <Text style={[styles.titleText, appStyles.default.defaultFont]}>
+              Tarifas:
+            </Text>
+            <Text style={[styles.bodyText, appStyles.default.defaultFont]}>
+              {fare}
+            </Text>
+          </View>
+        ) : null}
+        <Text style={[styles.titleText, appStyles.default.defaultFont]}>
+          Dificultad:
+        </Text>
         <Difficulty difficultyRate={difficulty} />
       </View>
-      {hikes && (
+      {hikes ? (
         <View style={styles.horizontalContainer}>
-          <Text style={[styles.titleText, { marginRight: 2 }]}>Caminata:</Text>
-          <Text style={styles.bodyText}>{hikes}</Text>
+          <Text
+            style={[
+              styles.titleText,
+              { marginRight: 2 },
+              appStyles.default.defaultFont,
+            ]}
+          >
+            Caminata:
+          </Text>
+          <Text style={[styles.bodyText, appStyles.default.defaultFont]}>
+            {hikes}
+          </Text>
         </View>
-      )}
-      {recommendation && (
+      ) : null}
+      {recommendation ? (
         <View style={styles.verticalContainer}>
-          <Text style={styles.titleText}>¿Qué llevar?:</Text>
-          <Text style={styles.bodyText}>{recommendation}</Text>
+          <Text style={[styles.titleText, appStyles.default.defaultFont]}>
+            ¿Qué llevar?:
+          </Text>
+          <Text style={[styles.bodyText, appStyles.default.defaultFont]}>
+            {recommendation}
+          </Text>
         </View>
-      )}
+      ) : null}
       <View style={styles.horizontalLine} />
     </ScrollView>
   </View>
@@ -55,9 +90,9 @@ const DestinationDescription = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: 260,
-    paddingTop: 20, //15,
-    paddingLeft: 33, //30,
+    height: 240,
+    paddingTop: 20,
+    paddingLeft: 33,
     paddingRight: 16,
   },
   verticalContainer: {
@@ -65,27 +100,16 @@ const styles = StyleSheet.create({
   },
   horizontalContainer: {
     flexDirection: "row",
-    // justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
-
-    // marginHorizontal: 10,
-    // paddingBottom: 20,
   },
   accessInformation: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 20,
-
-    // justifyContent: "space-between",
-
-    // marginHorizontal: 10,
-    // paddingBottom: 20,
   },
   titleText: {
-    fontFamily: "Segoe UI",
-    // fontFamily: "Open Sans",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: 12,
@@ -94,8 +118,6 @@ const styles = StyleSheet.create({
     color: "#7B7B7B",
   },
   bodyText: {
-    fontFamily: "Segoe UI",
-    // fontFamily: "Open Sans",
     fontStyle: "normal",
     fontWeight: "300",
     fontSize: 12,
@@ -104,8 +126,6 @@ const styles = StyleSheet.create({
     color: "#7B7B7B",
   },
   distanceText: {
-    fontFamily: "Segoe UI",
-    // fontFamily: "Open Sans",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: 10,

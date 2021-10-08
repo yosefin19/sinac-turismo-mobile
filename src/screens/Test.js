@@ -1,14 +1,15 @@
-// import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, Platform } from "react-native";
 
-import { API_URL } from "../config";
+import { API_URL, AREAS_URL } from "../config";
+
+const appStyles = require("../appStyle");
 
 export default function Test({ navigation }) {
   const [area, setArea] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const endpoint = `${API_URL}`;
+  const endpoint = `${API_URL}${AREAS_URL}1`;
 
   useEffect(() => {
     let isMounted = true;
@@ -23,7 +24,7 @@ export default function Test({ navigation }) {
   }, []);
 
   try {
-    if (!loading) console.log(JSON.parse(JSON.stringify(area.name)));
+    if (!loading) console.log(JSON.parse(JSON.stringify(area)));
   } catch (error) {
     console.log(error);
   }
@@ -33,7 +34,7 @@ export default function Test({ navigation }) {
       <Text>Cargando...</Text>
     </View>
   ) : (
-    <View style={{ alignItems: "center" }}>
+    <View style={[styles.container, appStyles.default.appBackgroundColor]}>
       <Pressable
         onPress={() => {
           navigation.navigate("Area", { area: area });
@@ -48,7 +49,8 @@ export default function Test({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
   },

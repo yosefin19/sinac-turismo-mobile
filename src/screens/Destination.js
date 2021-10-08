@@ -8,6 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
   Platform,
+  StatusBar,
 } from "react-native";
 
 // Components
@@ -18,7 +19,14 @@ import DestinationDescription from "../components/DestinationDescription";
 import OpinionsMenu from "../components/OptionsMenu";
 
 import Exit from "../images/exit.png";
-import AreaRegion from "../components/AreaRegion";
+
+import {
+  FIRST_PERCENTAGE,
+  SECOND_PERCENTAGE,
+  THIRD_PERCENTAGE,
+} from "../config";
+
+const appStyles = require("../appStyle");
 
 const Destination = ({ route, navigation }) => {
   const { destination } = route.params;
@@ -49,25 +57,56 @@ const Destination = ({ route, navigation }) => {
     if (state !== 2) setState(2);
   };
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <DestinationImageList photos_path={photos_path} />
-      <View style={styles.exitView}>
-        <Image style={styles.exitImage} source={Exit} />
+    <SafeAreaView
+      style={[styles.safeContainer, appStyles.default.appBackgroundColor]}
+    >
+      <View
+        style={[
+          {
+            alignItems: "center",
+            justifyContent: "center",
+            flex: FIRST_PERCENTAGE,
+            marginBottom: 10,
+          },
+          Platform.OS === "android"
+            ? appStyles.default.androidShadowBox
+            : appStyles.default.iosShadowBox,
+          { elevation: 30, backgroundColor: "rgba(0,0,0,0.5)" },
+        ]}
+      >
+        <DestinationImageList photos_path={photos_path} />
+      </View>
+      <View style={[appStyles.default.exitView, { elevation: 31 }]}>
+        <Image style={appStyles.default.exitImage} source={Exit} />
       </View>
       <View style={styles.container}>
-        <Text style={styles.name}>{name}</Text>
+        <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
+          {name}
+        </Text>
         <View style={styles.scrollableContainer}>
           <ScrollView>
-            <Text style={styles.descriptionText}>{description}</Text>
+            <Text
+              style={[
+                appStyles.default.descriptionText,
+                appStyles.default.defaultFont,
+              ]}
+            >
+              {description}
+            </Text>
           </ScrollView>
         </View>
         <View style={styles.horizontalContainer}>
           <Stars reviewAverage={4.5} />
-          <Text style={styles.reviewsText}>480 votos</Text>
+          <Text style={[styles.reviewsText, appStyles.default.defaultFont]}>
+            480 votos
+          </Text>
         </View>
         <View style={styles.optionsContainer}>
           <View style={{ alignItems: "center" }}>
-            <Text style={styles.optionsText} onPress={changeToInformation}>
+            <Text
+              style={[styles.optionsText, appStyles.default.defaultFont]}
+              onPress={changeToInformation}
+            >
               información
             </Text>
             {state === 0 && (
@@ -75,14 +114,17 @@ const Destination = ({ route, navigation }) => {
                 style={[
                   styles.selectedLine,
                   Platform.OS === "android"
-                    ? styles.androidShadowBox
-                    : styles.iosShadowBox,
+                    ? appStyles.default.androidShadowBox
+                    : appStyles.default.iosShadowBox,
                 ]}
               />
             )}
           </View>
           <View style={{ alignItems: "center" }}>
-            <Text style={styles.optionsText} onPress={changeToMap}>
+            <Text
+              style={[styles.optionsText, appStyles.default.defaultFont]}
+              onPress={changeToMap}
+            >
               mapa
             </Text>
             {state === 1 && (
@@ -90,14 +132,17 @@ const Destination = ({ route, navigation }) => {
                 style={[
                   styles.selectedLine,
                   Platform.OS === "android"
-                    ? styles.androidShadowBox
-                    : styles.iosShadowBox,
+                    ? appStyles.default.androidShadowBox
+                    : appStyles.default.iosShadowBox,
                 ]}
               />
             )}
           </View>
           <View style={{ alignItems: "center" }}>
-            <Text style={styles.optionsText} onPress={changeToReviews}>
+            <Text
+              style={[styles.optionsText, appStyles.default.defaultFont]}
+              onPress={changeToReviews}
+            >
               opiniones
             </Text>
             {state === 2 && (
@@ -105,8 +150,8 @@ const Destination = ({ route, navigation }) => {
                 style={[
                   styles.selectedLine,
                   Platform.OS === "android"
-                    ? styles.androidShadowBox
-                    : styles.iosShadowBox,
+                    ? appStyles.default.androidShadowBox
+                    : appStyles.default.iosShadowBox,
                 ]}
               />
             )}
@@ -116,8 +161,8 @@ const Destination = ({ route, navigation }) => {
           style={[
             styles.horizontalLine,
             Platform.OS === "android"
-              ? styles.androidShadowBox
-              : styles.iosShadowBox,
+              ? appStyles.default.androidShadowBox
+              : appStyles.default.iosShadowBox,
             { zIndex: 999 },
             { elevation: -10 },
           ]}
@@ -140,12 +185,21 @@ const Destination = ({ route, navigation }) => {
               justifyContent: "center",
             }}
           >
-            <AreaRegion imageUrl="https://www.costaricavibes.com/wp-content/uploads/2020/05/costaricaregionmap-1024x683.jpg" />
+            {/* <AreaRegion imageUrl="https://www.costaricavibes.com/wp-content/uploads/2020/05/costaricaregionmap-1024x683.jpg" /> */}
           </View>
         )}
         {state === 2 && <OpinionsMenu />}
       </View>
-      <ConstantMenu />
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          flex: THIRD_PERCENTAGE,
+          width: "100%",
+        }}
+      >
+        <ConstantMenu />
+      </View>
     </SafeAreaView>
   );
 };
@@ -153,14 +207,15 @@ const Destination = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    width: "100%",
-    height: "100%",
 
-    backgroundColor: "#F0F0F0",
     justifyContent: "center",
+    alignItems: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   container: {
-    flex: 0.99,
+    flex: SECOND_PERCENTAGE,
+    height: "100%",
+    width: "100%",
   },
   scrollableContainer: {
     height: 45,
@@ -191,55 +246,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
   },
-  iosShadowBox: {
-    shadowColor: "#171717",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  androidShadowBox: {
-    elevation: 5, //5
-    shadowColor: "#52006A",
-  },
-  exitView: {
-    position: "absolute",
-
-    width: 31,
-    height: 31,
-    backgroundColor: "#F0F0F0",
-    borderRadius: 60,
-    left: 19,
-    top: 19,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  exitImage: {
-    width: 18.67,
-    height: 9.33,
-  },
-  name: {
-    fontFamily: "Segoe UI",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: 18,
-    lineHeight: 24,
-
-    marginHorizontal: 33,
-    marginTop: 20,
-
-    color: "#383837",
-  },
-  titleText: {
-    fontFamily: "Segoe UI",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: 9,
-    lineHeight: 12,
-
-    color: "#383837",
-  },
   optionsText: {
-    fontFamily: "Segoe UI",
     fontStyle: "normal",
     fontWeight: "600",
     fontSize: 13,
@@ -247,17 +254,7 @@ const styles = StyleSheet.create({
 
     color: "#7f7f7f",
   },
-  descriptionText: {
-    fontFamily: "Segoe UI",
-    fontStyle: "normal",
-    fontWeight: "300",
-    fontSize: 12,
-    lineHeight: 16,
-
-    color: "#7B7B7B",
-  },
   reviewsText: {
-    fontFamily: "Segoe UI",
     fontStyle: "normal",
     fontWeight: "300",
     fontSize: 10,

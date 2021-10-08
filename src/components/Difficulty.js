@@ -1,7 +1,6 @@
 import React from "react";
 
 import { View, StyleSheet } from "react-native";
-// import { borderColor } from "styled-system";
 
 const Difficulty = ({ difficultyRate }) => {
   let squares = [];
