@@ -72,10 +72,10 @@ const HomeSearchBar = () => {
     }
 
     return (
-        <SafeAreaView style={onClick ? {} : style.onClick}>
+        <SafeAreaView style={{width:"100%", marginHorizontal:10, alignItems: 'center', justifyContent: 'center',}}>
             <View style={style.container}>
                 {onClick &&
-                    <Pressable style={style.backButton} onPressIn={handleNotClick}><FA name={"long-arrow-left"} style={style.icon}/></Pressable>
+                <Pressable style={style.backButton} onPressIn={handleNotClick}><FA name={"long-arrow-left"} style={style.icon}/></Pressable>
                 }
                 <View style={style.section}>
                     {!onClick &&  <Icon name={"ios-search"} style={style.icon} />}

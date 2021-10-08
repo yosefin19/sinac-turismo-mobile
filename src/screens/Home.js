@@ -1,8 +1,11 @@
-import {Image, Pressable, StyleSheet, Text, View} from "react-native";
+import {Image, Platform, Pressable, StatusBar, StyleSheet, Text, SafeAreaView} from "react-native";
 import HomeSearchBar from "../components/HomeSearchBar";
 import HomeButton from "../components/HomeButton";
 import React from "react";
 import OpenURLButton from "../components/OpenURLButton";
+
+
+const appStyles = require("../appStyle");
 
 /***
  * Pantalla del Menú Principa de la Aplicación.
@@ -11,16 +14,18 @@ import OpenURLButton from "../components/OpenURLButton";
  */
 const Home = ({navigation}) => {
     return(
-        <View style={styles.container}>
+        <SafeAreaView
+            style={[styles.container, appStyles.default.appBackgroundColor]}
+        >
             <Image style={styles.logo} source={require('../../assets/menu-icon.png')}/>
             <HomeSearchBar/>
-            <HomeButton title="Destinos de Costa Rica" to='Destination' navigation={navigation}/>
+            <HomeButton title="Destinos de Costa Rica" to='InformationSection' navigation={navigation}/>
             <OpenURLButton url={"https://serviciosenlinea.sinac.go.cr/"} text="Compra y Reserva">Open Supported URL</OpenURLButton>
             <HomeButton title="Mi Perfil" to='Profile' navigation={navigation}/>
             <Pressable style={styles.aboutButton} onPress={() => { navigation.navigate('About')}}>
                 <Text style={styles.aboutText}>Cozoncanos</Text>
             </Pressable>
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -34,6 +39,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     logo: {
         height: 70,

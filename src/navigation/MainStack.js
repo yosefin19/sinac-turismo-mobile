@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import About from "../screens/About";
-import Destination from "../screens/Destinations";
+import InformationSection from "../screens/InformationSection";
 
 /***
  * Pila de Ventanas de la Aplicación
@@ -31,8 +31,8 @@ const MainStack = () => {
                 component={Home}
             />
             <Stack.Screen
-                name="Destination"
-                component={Destination}
+                name="InformationSection"
+                component={InformationSection}
             />
             <Stack.Screen
                 name = "Profile"
