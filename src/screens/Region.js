@@ -29,7 +29,7 @@ const image_width =
 
 /***
  * Imagen de las que existen de un destino turístico
- * @param route
+ * @param route Almacena la dirección de la imagen de la región
  * @returns {JSX.Element}
  */
 const Region = ({ route }) => {
