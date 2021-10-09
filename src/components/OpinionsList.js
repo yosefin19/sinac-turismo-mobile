@@ -1,9 +1,21 @@
 import React from "react";
-
 import { View, Text, StyleSheet } from "react-native";
 
+// Componentes
 import OpinionsLine from "./OpinionsLine";
 
+// Estilos globales
+const appStyles = require("../appStyle");
+
+/***
+ * Lista que almacena información de las reseñas de un destino
+ * @param fiveStarsCount Cantidad de reseñas de 5 estrellas
+ * @param fourStarsCount Cantidad de reseñas de 4 estrellas
+ * @param threeStarsCount Cantidad de reseñas de 3 estrellas
+ * @param twoStarsCount Cantidad de reseñas de 2 estrellas
+ * @param oneStarsCount Cantidad de reseñas de 1 estrella
+ * @returns {JSX.Element}
+ */
 const OpinionsList = ({
   fiveStarsCount,
   fourStarsCount,
@@ -21,29 +33,49 @@ const OpinionsList = ({
     <View>
       <View>
         <View style={styles.horizontalContainer}>
-          <Text style={styles.leftLineText}>excelente</Text>
+          <Text style={[styles.leftLineText, appStyles.default.defaultFont]}>
+            excelente
+          </Text>
           <OpinionsLine totalReviews={totalReviews} reviews={fiveStarsCount} />
-          <Text style={styles.rightLineText}>{fiveStarsCount}</Text>
+          <Text style={[styles.rightLineText, appStyles.default.defaultFont]}>
+            {fiveStarsCount}
+          </Text>
         </View>
         <View style={styles.horizontalContainer}>
-          <Text style={styles.leftLineText}>muy bueno</Text>
+          <Text style={[styles.leftLineText, appStyles.default.defaultFont]}>
+            muy bueno
+          </Text>
           <OpinionsLine totalReviews={totalReviews} reviews={fourStarsCount} />
-          <Text style={styles.rightLineText}>{fourStarsCount}</Text>
+          <Text style={[styles.rightLineText, appStyles.default.defaultFont]}>
+            {fourStarsCount}
+          </Text>
         </View>
         <View style={styles.horizontalContainer}>
-          <Text style={styles.leftLineText}>normal</Text>
+          <Text style={[styles.leftLineText, appStyles.default.defaultFont]}>
+            normal
+          </Text>
           <OpinionsLine totalReviews={totalReviews} reviews={threeStarsCount} />
-          <Text style={styles.rightLineText}>{threeStarsCount}</Text>
+          <Text style={[styles.rightLineText, appStyles.default.defaultFont]}>
+            {threeStarsCount}
+          </Text>
         </View>
         <View style={styles.horizontalContainer}>
-          <Text style={styles.leftLineText}>malo</Text>
+          <Text style={[styles.leftLineText, appStyles.default.defaultFont]}>
+            malo
+          </Text>
           <OpinionsLine totalReviews={totalReviews} reviews={twoStarsCount} />
-          <Text style={styles.rightLineText}>{twoStarsCount}</Text>
+          <Text style={[styles.rightLineText, appStyles.default.defaultFont]}>
+            {twoStarsCount}
+          </Text>
         </View>
         <View style={styles.horizontalContainer}>
-          <Text style={styles.leftLineText}>pésimo</Text>
+          <Text style={[styles.leftLineText, appStyles.default.defaultFont]}>
+            pésimo
+          </Text>
           <OpinionsLine totalReviews={totalReviews} reviews={oneStarsCount} />
-          <Text style={styles.rightLineText}>{oneStarsCount}</Text>
+          <Text style={[styles.rightLineText, appStyles.default.defaultFont]}>
+            {oneStarsCount}
+          </Text>
         </View>
       </View>
     </View>
@@ -59,8 +91,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   leftLineText: {
-    fontFamily: "Segoe UI",
-
     fontStyle: "normal",
     fontWeight: "300",
     fontSize: 10,
@@ -71,8 +101,6 @@ const styles = StyleSheet.create({
     color: "#676767",
   },
   rightLineText: {
-    fontFamily: "Segoe UI",
-
     fontStyle: "normal",
     fontWeight: "300",
     fontSize: 10,

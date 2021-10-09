@@ -5,31 +5,37 @@ import {
   ScrollView,
   Image,
   SafeAreaView,
-  Platform,
   StatusBar,
   Dimensions,
 } from "react-native";
 
+// Imagenes
+import Exit from "../images/exit.png";
+
+// Configuración
 import {
   IMAGE_BASE_URL,
   REGION_IMAGE_WIDTH,
   REGION_IMAGE_HEIGHT,
 } from "../config";
 
-import Exit from "../images/exit.png";
-
+// Estilos globales
 const appStyles = require("../appStyle");
 
+// Dimensiones de la imagen
 const image_height = Dimensions.get("window").height;
 const image_width =
   REGION_IMAGE_WIDTH * (Dimensions.get("window").height / REGION_IMAGE_HEIGHT);
 
+/***
+ * Imagen de las que existen de un destino turístico
+ * @param route
+ * @returns {JSX.Element}
+ */
 const Region = ({ route }) => {
   const { imageUrl } = route.params;
   return (
-    <SafeAreaView
-      style={[styles.safeContainer, appStyles.default.appBackgroundColor]}
-    >
+    <SafeAreaView style={[styles.safeContainer]}>
       <View style={styles.container}>
         <ScrollView>
           <ScrollView horizontal={true}>
@@ -56,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: "#FFF",
   },
   container: {
     height: "100%",
@@ -65,7 +71,6 @@ const styles = StyleSheet.create({
     top: StatusBar.currentHeight,
     width: "100%",
     overflow: "hidden",
-    // backgroundColor: "#000",
   },
   region: {
     resizeMode: "contain",

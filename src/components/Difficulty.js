@@ -1,7 +1,11 @@
 import React from "react";
-
 import { View, StyleSheet } from "react-native";
 
+/***
+ * Cuadros que indican la dificultad de un destino.
+ * @param difficultyRate puntuación de dificultad entre 0 y 5
+ * @returns {JSX.Element}
+ */
 const Difficulty = ({ difficultyRate }) => {
   let squares = [];
   difficultyRate = difficultyRate ? difficultyRate : 0;

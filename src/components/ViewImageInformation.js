@@ -1,16 +1,38 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, Platform } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Platform,
+  Dimensions,
+} from "react-native";
 
+// Imagenes
 import Favorite from "../images/favorite.png";
 
-import { DESTINATIONS_IMAGE_WIDTH, DESTINATIONS_IMAGE_HEIGHT } from "../config";
+// Configuración
+import {
+  DESTINATIONS_IMAGE_WIDTH,
+  DESTINATIONS_IMAGE_HEIGHT,
+  IMAGE_IN_LIST_PERCENTAGE,
+} from "../config";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+// Ancho de la imagen a desplegar
+const image_width = Dimensions.get("window").width * IMAGE_IN_LIST_PERCENTAGE;
+
+/***
+ * Imagen y nombre de un destino presente en un área de conservación
+ * @param imageUrl Dirección de la imagen
+ * @returns {JSX.Element}
+ */
 const ViewImageInformation = ({ name, imageUrl }) => (
-  <View style={[styles.container, appStyles.default.informativeImageListSize]}>
+  <View style={[styles.container]}>
     <Image
-      style={[styles.image, appStyles.default.informativeImageSize]}
+      style={[styles.image]}
       source={{
         width: DESTINATIONS_IMAGE_WIDTH,
         height: DESTINATIONS_IMAGE_HEIGHT,
@@ -35,6 +57,9 @@ const ViewImageInformation = ({ name, imageUrl }) => (
 
 const styles = StyleSheet.create({
   container: {
+    height: "100%",
+    width: image_width,
+
     marginHorizontal: 10,
   },
   nameView: {
@@ -42,9 +67,9 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     backgroundColor: "#769F5E",
     height: 41,
-    width: "105%",
+    width: "103%",
     bottom: 8,
-    right: -5,
+    right: -3,
     padding: 3,
   },
   name: {
@@ -56,6 +81,8 @@ const styles = StyleSheet.create({
     color: "#383837",
   },
   image: {
+    width: "100%",
+    height: "90%",
     resizeMode: "stretch",
     borderRadius: 7,
   },

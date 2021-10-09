@@ -1,11 +1,16 @@
 import React from "react";
-
 import { Image, StyleSheet, View } from "react-native";
 
+// Imagenes
 import Empty from "../images/empty_star.png";
 import Filled from "../images/filled_star.png";
 import Half from "../images/half_star.png";
 
+/***
+ * Estrellas que representan la media de puntuación de un destino
+ * @param reviewAverage Media de la puntuación de un destino turístico
+ * @returns {JSX.Element}
+ */
 const Stars = ({ reviewAverage }) => {
   let stars = [];
   reviewAverage = reviewAverage ? reviewAverage : 0;

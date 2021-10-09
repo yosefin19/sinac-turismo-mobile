@@ -1,10 +1,22 @@
 import React from "react";
-
 import { View, ScrollView, Text, StyleSheet } from "react-native";
+
+// Componentes
 import Difficulty from "./Difficulty";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+/***
+ * Descripción detallada relacionada con el viaje a un destino turístico.
+ * @param schedule Horario en el que se puede visitar
+ * @param fare Tarifas dependiendo de la persona
+ * @param contact Información de contacto
+ * @param difficulty Dificultad del recorrido entre 0 y 5
+ * @param hikes Largo de la caminata
+ * @param recommendation Recomendación para visitar
+ * @returns {JSX.Element}
+ */
 const DestinationDescription = ({
   schedule,
   fare,
@@ -83,17 +95,16 @@ const DestinationDescription = ({
           </Text>
         </View>
       ) : null}
-      <View style={styles.horizontalLine} />
     </ScrollView>
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    height: 240,
-    paddingTop: 20,
+    flex: 1,
     paddingLeft: 33,
     paddingRight: 16,
+    paddingVertical: 10,
   },
   verticalContainer: {
     marginBottom: 10,

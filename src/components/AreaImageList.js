@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useRef } from "react";
 
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, Pressable } from "react-native";
+
+// Componentes
 import AreaViewImage from "./AreaViewImage";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
-const renderItem = ({ item }) => (
-  <AreaViewImage
-    style={[styles.image, appStyles.default.imageListSize]}
-    imageUrl={item}
-    key={item}
-  />
-);
-
+/***
+ * Lista de imágenes de un área de conservación
+ * @param photos_path Lista de direcciones de imágenes
+ * @returns {JSX.Element}
+ */
 const AreaImageList = (photos_path) => {
+  // Referencia para utilizar "scrollToIndex"
+  const myRef = useRef(null);
+
   const paths = Object.values(photos_path)[0].split(",");
   const initialImageIndex = Math.floor(paths.length / 2);
 
@@ -23,7 +26,20 @@ const AreaImageList = (photos_path) => {
         initialNumToRender={3}
         initialScrollIndex={initialImageIndex}
         data={paths}
-        renderItem={renderItem}
+        ref={myRef}
+        renderItem={({ item, index }) => {
+          const scroll = () =>
+            myRef.current.scrollToIndex({ animated: true, index: index });
+          return (
+            <Pressable onPress={scroll}>
+              <AreaViewImage
+                style={[styles.image, appStyles.default.imageListSize]}
+                imageUrl={item}
+                key={item}
+              />
+            </Pressable>
+          );
+        }}
         keyExtractor={(item) => item}
         horizontal={true}
         showsHorizontalScrollIndicator={false}

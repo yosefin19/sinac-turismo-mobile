@@ -1,7 +1,12 @@
 import React from "react";
-
 import { View, StyleSheet } from "react-native";
 
+/***
+ * Líneas que representan los porcentajes de opiniones
+ * @param totalReviews Total de reseñas de un destino
+ * @param reviews Reseñas de la línea actual
+ * @returns {JSX.Element}
+ */
 const OpinionsLine = ({ totalReviews, reviews }) => {
   const percentage = (reviews / totalReviews) * 100 + "%";
   const filledLine = (
@@ -13,7 +18,7 @@ const OpinionsLine = ({ totalReviews, reviews }) => {
 
 const styles = StyleSheet.create({
   containerLine: {
-    width: 200,
+    width: "70%",
     height: 10,
 
     borderRadius: 7,

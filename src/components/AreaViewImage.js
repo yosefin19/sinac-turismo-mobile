@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Image, StyleSheet, Dimensions } from "react-native";
+import { View, Image, Dimensions, StyleSheet } from "react-native";
 
+// Imagenes
 import No_favorite from "../images/empty_heart.png";
 
+// Configuración
 import {
   IMAGE_BASE_URL,
   AREAS_IMAGE_WIDTH,
@@ -10,11 +12,18 @@ import {
   FIRST_PERCENTAGE,
 } from "../config";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+// Dimensiones de la imagen
 const image_height = Dimensions.get("window").height * FIRST_PERCENTAGE;
 const image_width = Dimensions.get("window").width;
 
+/***
+ * Imagen de entre las presentes de un área de conservación
+ * @param imageUrl Dirección de la imagen
+ * @returns {JSX.Element}
+ */
 const AreaViewImage = ({ imageUrl }) => {
   return (
     <View style={styles.container}>

@@ -1,20 +1,29 @@
 import React from "react";
 import { View, Image, StyleSheet, Dimensions } from "react-native";
 
+// Imagenes
 import No_favorite from "../images/empty_heart.png";
 import Seen from "../images/seen.png";
 
+// Configuración
 import {
   DESTINATIONS_IMAGE_WIDTH,
   DESTINATIONS_IMAGE_HEIGHT,
   FIRST_PERCENTAGE,
 } from "../config";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+// Dimensiones de la imagen
 const image_height = Dimensions.get("window").height * FIRST_PERCENTAGE;
 const image_width = Dimensions.get("window").width;
 
+/***
+ * Imagen de las que existen de un destino turístico
+ * @param imageUrl Dirección de la imagen
+ * @returns {JSX.Element}
+ */
 const DestinationViewImage = ({ imageUrl }) => {
   return (
     <View style={styles.container}>

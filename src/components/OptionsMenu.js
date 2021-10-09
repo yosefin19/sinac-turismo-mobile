@@ -1,13 +1,19 @@
 import React from "react";
-
 import { View, ScrollView, Text, Image, StyleSheet } from "react-native";
 
+// Componentes
 import OpinionsList from "./OpinionsList";
 
+// Imagenes
 import Star from "../images/black_star.png";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+/***
+ * Menú que es desplegado cuando se desean ver las opiniones de un destino
+ * @returns {JSX.Element}
+ */
 const OpinionsMenu = () => {
   return (
     <View>
@@ -25,7 +31,6 @@ const OpinionsMenu = () => {
         Escribe una opinión
       </Text>
       <View style={styles.horizontalLine} />
-      {/* // View de excelente... */}
       <View style={styles.scrollableContainer}>
         <ScrollView>
           <OpinionsList

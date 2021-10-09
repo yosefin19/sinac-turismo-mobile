@@ -1,12 +1,20 @@
 import React from "react";
-
 import { FlatList, StyleSheet, Pressable } from "react-native";
+
+// Componentes
 import ViewImageInformation from "./ViewImageInformation";
 
+// Configuración
 import { IMAGE_BASE_URL } from "../config";
 
 const INIT_NUM_TO_RENDER = 3;
 
+/***
+ * Lista de destinos turísticos presentes en un área
+ * @param areaDestinations Destinos de un área de conservación
+ * @param navigation Pila para el manejo de ventanas
+ * @returns {JSX.Element}
+ */
 const InformationList = ({ areaDestinations, navigation }) => {
   const initialImageIndex = Math.floor(areaDestinations.length / 2);
 
@@ -25,6 +33,7 @@ const InformationList = ({ areaDestinations, navigation }) => {
             name={item.name}
             imageUrl={`${IMAGE_BASE_URL}${item.photos_path.split(",")[0]}`}
             key={index}
+            style={{ marginLeft: 50 }}
           />
         </Pressable>
       )}
@@ -38,15 +47,14 @@ const InformationList = ({ areaDestinations, navigation }) => {
 
 const styles = StyleSheet.create({
   informationList: {
-    position: "relative",
+    height: "100%",
+    width: "100%",
+    flex: 1,
     paddingHorizontal: 10,
     paddingLeft: 3,
   },
   image: {
-    resizeMode: "stretch",
     borderRadius: 7,
-    width: 102,
-    height: 56,
     margin: 8,
   },
 });

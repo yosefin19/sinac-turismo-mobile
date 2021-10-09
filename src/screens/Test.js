@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Pressable, Platform } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 
+// Configuración
 import { API_URL, AREAS_URL } from "../config";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+/***
+ * Pantalla utilizada para probar la funcionalidad de ver un área
+ * @param navigation Pila para el manejo de ventanas
+ * @returns {JSX.Element}
+ */
 export default function Test({ navigation }) {
   const [area, setArea] = useState({});
   const [loading, setLoading] = useState(true);
@@ -23,14 +30,8 @@ export default function Test({ navigation }) {
       });
   }, []);
 
-  try {
-    if (!loading) console.log(JSON.parse(JSON.stringify(area)));
-  } catch (error) {
-    console.log(error);
-  }
-
   return loading ? (
-    <View style={{ height: "100%", justifyContent: "center" }}>
+    <View style={[styles.container, appStyles.default.appBackgroundColor]}>
       <Text>Cargando...</Text>
     </View>
   ) : (

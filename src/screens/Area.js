@@ -7,26 +7,41 @@ import {
   Image,
   SafeAreaView,
   Platform,
-  StatusBar,
+  Dimensions,
 } from "react-native";
 
+// Componentes
 import ConstantMenu from "../components/ConstantMenu";
 import AreaImageList from "../components/AreaImageList";
 import InformationList from "../components/InformationList";
 import AreaRegion from "../components/AreaRegion";
 
+// Imagenes
 import Exit from "../images/exit.png";
 
+// Configuración
 import {
   API_URL,
   DESTINATIONS_URL,
   FIRST_PERCENTAGE,
   SECOND_PERCENTAGE,
   THIRD_PERCENTAGE,
+  TEXT_CONTAINER_PERCENTAGE,
 } from "../config";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+// Altura del contenedor de la descripción del texto
+const description_height =
+  Dimensions.get("window").height * TEXT_CONTAINER_PERCENTAGE;
+
+/***
+ * Pantalla que muestra la información de un área de conservación
+ * @param route Almacena la información del área
+ * @param navigation Pila para el manejo de ventanas
+ * @returns {JSX.Element}
+ */
 const Area = ({ route, navigation }) => {
   const { area } = route.params;
   const id = area.id;
@@ -65,7 +80,6 @@ const Area = ({ route, navigation }) => {
             alignItems: "center",
             justifyContent: "center",
             flex: FIRST_PERCENTAGE,
-            marginBottom: 10,
           },
           Platform.OS === "android"
             ? appStyles.default.androidShadowBox
@@ -82,42 +96,54 @@ const Area = ({ route, navigation }) => {
         <Image style={appStyles.default.exitImage} source={Exit} />
       </View>
       <View style={styles.container}>
-        <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
-          {name}
-        </Text>
-        <View style={styles.scrollableContainer}>
-          <ScrollView>
-            <Text
-              style={[
-                appStyles.default.descriptionText,
-                appStyles.default.defaultFont,
-              ]}
-            >
-              {description}
-            </Text>
-          </ScrollView>
+        <View>
+          <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
+            {name}
+          </Text>
+          <View style={styles.scrollableContainer}>
+            <ScrollView>
+              <Text
+                style={[
+                  appStyles.default.descriptionText,
+                  appStyles.default.defaultFont,
+                ]}
+              >
+                {description}
+              </Text>
+            </ScrollView>
+          </View>
         </View>
-        <View style={{ alignItems: "center" }}>
+        <View
+          style={{
+            alignItems: "center",
+            height: "30%",
+            paddingHorizontal: 30,
+          }}
+        >
           <AreaRegion imageUrl={region_path} navigation={navigation} />
         </View>
         <View
           style={{
-            marginLeft: 20,
+            flex: 1,
+            marginBottom: 10,
           }}
         >
           <Text
-            style={[appStyles.default.titleText, appStyles.default.defaultFont]}
+            style={[
+              appStyles.default.titleText,
+              appStyles.default.defaultFont,
+              { marginLeft: 20 },
+            ]}
           >
             Áreas Silvestres Protegidas
           </Text>
+          {loading ? null : (
+            <InformationList
+              areaDestinations={destinations}
+              navigation={navigation}
+            />
+          )}
         </View>
-        {/* <View> */}
-        {loading ? null : (
-          <InformationList
-            areaDestinations={destinations}
-            navigation={navigation}
-          />
-        )}
       </View>
       <View
         style={{
@@ -139,19 +165,16 @@ const styles = StyleSheet.create({
 
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   container: {
-    justifyContent: "center",
     flex: SECOND_PERCENTAGE,
     height: "100%",
     width: "100%",
   },
   scrollableContainer: {
-    height: 62,
+    height: description_height,
     paddingHorizontal: 33,
-    marginTop: 8,
-    marginBottom: 5,
+    marginVertical: 8,
   },
 });
 

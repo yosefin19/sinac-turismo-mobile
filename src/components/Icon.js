@@ -1,8 +1,17 @@
 import React from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+/***
+ * Icono presente en el menu constante
+ * @param text Texto debajo del icono
+ * @param imageUrl Dirección de la imagen del icono
+ * @param width Ancho de la imagen
+ * @param height Largo de la imagen
+ * @returns {JSX.Element}
+ */
 const Icon = ({ text, imageUrl, width, height }) => (
   <View style={styles.container}>
     <Image

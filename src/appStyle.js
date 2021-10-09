@@ -1,6 +1,16 @@
-import { StatusBar, Platform, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+import { REGION_IMAGE_WIDTH, REGION_IMAGE_HEIGHT } from "./config";
+
+const image_height = Dimensions.get("window").height;
+const image_width =
+  REGION_IMAGE_WIDTH * (Dimensions.get("window").height / REGION_IMAGE_HEIGHT);
 
 export default StyleSheet.create({
+  regionImage: {
+    height: image_height,
+    width: image_width,
+  },
   defaultFont: {
     fontFamily: "Segoe UI",
   },
@@ -99,8 +109,6 @@ export default StyleSheet.create({
     top: 19,
     alignItems: "center",
     justifyContent: "center",
-
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   exitImage: {
     width: 18.67,
@@ -127,12 +135,12 @@ export default StyleSheet.create({
     height: 110,
   },
   horizontalLine: {
-    borderWidth: 0.18,
-    borderColor: "#000",
+    borderWidth: 0.5,
+    borderColor: "rgba(0,0,0,0.2)",
     marginVertical: 10,
   },
   androidShadowBox: {
-    elevation: 5,
+    elevation: 4,
     shadowColor: "#52006A",
   },
   iosShadowBox: {

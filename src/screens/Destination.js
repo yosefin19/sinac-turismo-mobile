@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Image,
   StyleSheet,
@@ -8,26 +7,40 @@ import {
   ScrollView,
   SafeAreaView,
   Platform,
-  StatusBar,
+  Dimensions,
 } from "react-native";
 
-// Components
+// Componentes
 import ConstantMenu from "../components/ConstantMenu";
 import DestinationImageList from "../components/DestinationImageList";
 import Stars from "../components/Stars";
 import DestinationDescription from "../components/DestinationDescription";
 import OpinionsMenu from "../components/OptionsMenu";
 
+// Imagenes
 import Exit from "../images/exit.png";
 
+// Configuración
 import {
   FIRST_PERCENTAGE,
   SECOND_PERCENTAGE,
   THIRD_PERCENTAGE,
+  TEXT_CONTAINER_PERCENTAGE,
 } from "../config";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+// Altura del contenedor de la descripción del texto
+const description_height =
+  Dimensions.get("window").height * TEXT_CONTAINER_PERCENTAGE;
+
+/***
+ * Pantalla que muestra la información de un destino turístico
+ * @param route Almacena la información del destino
+ * @param navigation Pila para el manejo de ventanas
+ * @returns {JSX.Element}
+ */
 const Destination = ({ route, navigation }) => {
   const { destination } = route.params;
   const loading = destination.loading;
@@ -210,7 +223,6 @@ const styles = StyleSheet.create({
 
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: SECOND_PERCENTAGE,
@@ -218,7 +230,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   scrollableContainer: {
-    height: 45,
+    height: description_height,
     paddingHorizontal: 33,
     marginTop: 19,
     marginBottom: 5,
@@ -264,11 +276,10 @@ const styles = StyleSheet.create({
     color: "#676767",
   },
   horizontalLine: {
-    borderWidth: 0.18,
-    borderColor: "#000",
+    borderWidth: 0.5,
+    borderColor: "rgba(0,0,0,0.2)",
 
     marginTop: 3.5,
-    zIndex: -999,
   },
   shadowProp: {
     shadowColor: "#171717",
