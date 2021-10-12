@@ -1,32 +1,31 @@
 import React from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
 
-// import PropTypes from "prop-types";
+// Estilos globales
+const appStyles = require("../appStyle");
 
-// Styles
-// import { Wrapper, IconText, IconImage } from "./Icon.styles";
-
+/***
+ * Icono presente en el menu constante
+ * @param text Texto debajo del icono
+ * @param imageUrl Dirección de la imagen del icono
+ * @param width Ancho de la imagen
+ * @param height Largo de la imagen
+ * @returns {JSX.Element}
+ */
 const Icon = ({ text, imageUrl, width, height }) => (
-  <View style={styles.wrapper}>
+  <View style={styles.container}>
     <Image
       style={[{ width: width }, { height: height }]}
       source={imageUrl}
       alt="Icon"
     />
-    <Text style={styles.iconText}>{text}</Text>
+    <Text style={[styles.iconText, appStyles.default.defaultFont]}>{text}</Text>
   </View>
 );
 
 const styles = StyleSheet.create({
-  wrapper: { alignItems: "center" },
-  // iconImage: {
-  //   width: 21.49,
-  //   height: 19.72,
-  // },
+  container: { alignItems: "center" },
   iconText: {
-    // fontFamily: "Open Sans",
-    fontFamily: "Segoe UI",
-
     fontStyle: "normal",
     fontWeight: "600",
     fontSize: 9,

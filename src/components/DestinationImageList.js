@@ -1,20 +1,21 @@
 import React, { useRef } from "react";
-
-import { View, FlatList, StyleSheet, Pressable } from "react-native";
+import { View, FlatList, Pressable, StyleSheet } from "react-native";
 
 // Componentes
-import AreaViewImage from "./AreaViewImage";
+import DestinationViewImage from "./DestinationViewImage";
+
+// Configuración
+import { IMAGE_BASE_URL } from "../config";
 
 // Estilos globales
 const appStyles = require("../appStyle");
 
 /***
- * Lista de imágenes de un área de conservación
+ * Lista de imágenes de un destino turístico
  * @param photos_path Lista de direcciones de imágenes
  * @returns {JSX.Element}
  */
-const AreaImageList = (photos_path) => {
-  // Referencia para utilizar "scrollToIndex"
+const DestinationImageList = (photos_path) => {
   const myRef = useRef(null);
 
   const paths = Object.values(photos_path)[0].split(",");
@@ -30,11 +31,12 @@ const AreaImageList = (photos_path) => {
         renderItem={({ item, index }) => {
           const scroll = () =>
             myRef.current.scrollToIndex({ animated: true, index: index });
+
           return (
             <Pressable onPress={scroll}>
-              <AreaViewImage
+              <DestinationViewImage
                 style={[styles.image, appStyles.default.imageListSize]}
-                imageUrl={item}
+                imageUrl={`${IMAGE_BASE_URL}${item}`}
                 key={item}
               />
             </Pressable>
@@ -60,8 +62,8 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: "stretch",
     borderRadius: 7,
-    marginHorizontal: 8,
+    margin: 8,
   },
 });
 
-export default AreaImageList;
+export default DestinationImageList;

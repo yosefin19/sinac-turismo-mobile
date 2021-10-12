@@ -1,31 +1,33 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import {StyleSheet} from 'react-native';
-
-
+import React from "react";
 import MainStack from "./src/navigation/MainStack";
-import {NavigationContainer} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet, StatusBar } from "react-native";
+
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
 
 /***
  * Componente principal de la aplicación
  * @returns {JSX.Element}
  */
 export default function App() {
-    /*  Para cargar tipografias -> da error en android, en Iphone no
-        const [loaded] = useFonts({
-        SegoeUI: require('./assets/fonts/Segoe UI.ttf'),
-        SegoeUIBold: require('./assets/fonts/Segoe UI Bold.ttf'),
-        SegoeUIItalic: require('./assets/fonts/Segoe UI Italic.ttf'),
-        SegoeUIBoldItalic: require('./assets/fonts/Segoe UI Bold Italic.ttf'),
-    });*/
+  const [loaded] = useFonts({
+    "Segoe UI": require("./assets/fonts/SegoeUI.ttf"),
+    "Segoe UI Bold": require("./assets/fonts/SegoeUIBold.ttf"),
+    "Segoe UI Italic": require("./assets/fonts/SegoeUIItalic.ttf"),
+    "Segoe UI Bold Italic": require("./assets/fonts/SegoeUIBoldItalic.ttf"),
+  });
+  if (!loaded) {
+    return <AppLoading />;
+  }
 
+  return (
+    <NavigationContainer style={styles.container}>
+      <StatusBar style="auto" />
+      <MainStack />
+    </NavigationContainer>
+  );
 
-    return (
-        <NavigationContainer style={styles.container}>
-            <StatusBar style="auto" />
-            <MainStack/>
-        </NavigationContainer>
-    );
 }
 /***
  * Estilos del componente App

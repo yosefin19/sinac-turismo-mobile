@@ -1,14 +1,14 @@
 import React from "react";
-import { View, Image, Dimensions, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Dimensions } from "react-native";
 
 // Imagenes
 import No_favorite from "../images/empty_heart.png";
+import Seen from "../images/seen.png";
 
 // Configuración
 import {
-  IMAGE_BASE_URL,
-  AREAS_IMAGE_WIDTH,
-  AREAS_IMAGE_HEIGHT,
+  DESTINATIONS_IMAGE_WIDTH,
+  DESTINATIONS_IMAGE_HEIGHT,
   FIRST_PERCENTAGE,
 } from "../config";
 
@@ -20,23 +20,26 @@ const image_height = Dimensions.get("window").height * FIRST_PERCENTAGE;
 const image_width = Dimensions.get("window").width;
 
 /***
- * Imagen de entre las presentes de un área de conservación
+ * Imagen de las que existen de un destino turístico
  * @param imageUrl Dirección de la imagen
  * @returns {JSX.Element}
  */
-const AreaViewImage = ({ imageUrl }) => {
+const DestinationViewImage = ({ imageUrl }) => {
   return (
     <View style={styles.container}>
       <Image
         style={styles.image}
         source={{
-          width: AREAS_IMAGE_WIDTH,
-          height: AREAS_IMAGE_HEIGHT,
-          uri: `${IMAGE_BASE_URL}${imageUrl}`,
+          width: DESTINATIONS_IMAGE_WIDTH,
+          height: DESTINATIONS_IMAGE_HEIGHT,
+          uri: imageUrl,
         }}
       />
       <View style={appStyles.default.favoriteView}>
         <Image style={appStyles.default.favoriteImage} source={No_favorite} />
+      </View>
+      <View style={appStyles.default.seenView}>
+        <Image style={appStyles.default.seenImage} source={Seen} />
       </View>
     </View>
   );
@@ -58,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AreaViewImage;
+export default DestinationViewImage;

@@ -1,28 +1,25 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
-// import PropTypes from "prop-types";
-
-// Image
-import NoImage from "../images/no_image.png";
+// Imagenes
 import Home from "../images/home.png";
 import Favorite from "../images/favorite.png";
 import Person from "../images/person.png";
 
-// Components
+// Componentes
 import Icon from "./Icon";
 
-// Styles
-// import {
-//   Wrapper,
-//   HorizontalWrapper,
-//   HorizontalLine,
-// } from "./ConstantMenu.styles";
+// Estilos globales
+const appStyles = require("../appStyle");
 
+/***
+ * Menú constante en el pie de las secciones
+ * @returns {JSX.Element}
+ */
 const ConstantMenu = () => (
-  <View style={styles.wrapper}>
-    <View style={styles.horizontalLine} />
-    <View style={styles.horizontalWrapper}>
+  <View style={styles.container}>
+    <View style={appStyles.default.horizontalLine} />
+    <View style={styles.horizontalContainer}>
       <Icon text="inicio" imageUrl={Home} width={19.65} height={20.72} />
       <Icon text="favoritos" imageUrl={Favorite} width={21.49} height={19.72} />
       <Icon text="perfil" imageUrl={Person} width={23.33} height={23.33} />
@@ -31,29 +28,18 @@ const ConstantMenu = () => (
 );
 
 const styles = StyleSheet.create({
-  wrapper: {
-    // position: "absolute",
-    // right: 0,
-    bottom: 0,
-
+  container: {
+    top: -10,
     marginHorizontal: 20,
-    marginVertical: 20,
-    // right: 100,
-    // width: "100%",
-    // position: "absolute",
-    // bottom: 0.5,
+    width: "100%",
+    paddingHorizontal: 20,
+    justifyContent: "flex-start",
   },
-  horizontalLine: {
-    borderWidth: 0.18,
-    borderColor: "#000",
-    marginVertical: 10,
-  },
-  horizontalWrapper: {
+  horizontalContainer: {
+    top: 0,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    // paddingHorizontal: 2,
-    // paddingVertical: 2,
   },
 });
 

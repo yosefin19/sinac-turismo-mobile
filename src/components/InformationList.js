@@ -1,30 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
+import { FlatList, StyleSheet, Pressable } from "react-native";
 
-import { FlatList, StyleSheet } from "react-native";
+// Componentes
 import ViewImageInformation from "./ViewImageInformation";
 
+// Configuración
 import { IMAGE_BASE_URL } from "../config";
 
-const InformationList = ({ areaDestinations }) => {
+const INIT_NUM_TO_RENDER = 3;
+
+/***
+ * Lista de destinos turísticos presentes en un área
+ * @param areaDestinations Destinos de un área de conservación
+ * @param navigation Pila para el manejo de ventanas
+ * @returns {JSX.Element}
+ */
+const InformationList = ({ areaDestinations, navigation }) => {
   const initialImageIndex = Math.floor(areaDestinations.length / 2);
-  const x = initialImageIndex;
 
-  const [state, setState] = useState(initialImageIndex);
-
-  const handleState = (index) => setState(index);
   return (
     <FlatList
-      initialNumToRender={3}
+      initialNumToRender={INIT_NUM_TO_RENDER}
       initialScrollIndex={initialImageIndex}
       data={areaDestinations}
       renderItem={({ item, index }) => (
-        <ViewImageInformation
-          name={item.name}
-          imageUrl={`${IMAGE_BASE_URL}destinations/${item.photos_path}`}
-          key={index}
-        />
+        <Pressable
+          onPress={() => {
+            navigation.push("Destination", { destination: item });
+          }}
+        >
+          <ViewImageInformation
+            name={item.name}
+            imageUrl={`${IMAGE_BASE_URL}${item.photos_path.split(",")[0]}`}
+            key={index}
+            style={{ marginLeft: 50 }}
+          />
+        </Pressable>
       )}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       style={styles.informationList}
@@ -33,23 +46,15 @@ const InformationList = ({ areaDestinations }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#000",
-    borderRadius: 7,
-
-    width: 102,
-    height: 56,
-  },
   informationList: {
-    position: "relative",
+    height: "100%",
+    width: "100%",
+    flex: 1,
     paddingHorizontal: 10,
     paddingLeft: 3,
   },
   image: {
-    resizeMode: "stretch",
     borderRadius: 7,
-    width: 102,
-    height: 56,
     margin: 8,
   },
 });
