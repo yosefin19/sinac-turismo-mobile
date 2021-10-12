@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {StyleSheet} from 'react-native';
 
+
 import MainStack from "./src/navigation/MainStack";
 import {NavigationContainer} from "@react-navigation/native";
 
@@ -10,7 +11,6 @@ import {NavigationContainer} from "@react-navigation/native";
  * @returns {JSX.Element}
  */
 export default function App() {
-
     /*  Para cargar tipografias -> da error en android, en Iphone no
         const [loaded] = useFonts({
         SegoeUI: require('./assets/fonts/Segoe UI.ttf'),
@@ -42,3 +42,4 @@ const styles = StyleSheet.create({
     },
     }
 );
+
