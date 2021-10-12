@@ -3,6 +3,8 @@ import { Component } from 'react';
 import { Pressable, StyleSheet, Text, View, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import {API_URL} from "../config";
+
 export default class SignUp extends Component {    
   constructor(props) {
     super(props);
@@ -24,7 +26,7 @@ export default class SignUp extends Component {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({email:this.state.email, password: this.state.password, admin:false})
       };
-        fetch('http://192.168.0.12:8000/add-user', requestOptionsUser)
+        fetch(`${API_URL}add-user`, requestOptionsUser)
         .then(response => response.json())
         .then((data) => {this.setState({id_user: data.id})})
 
@@ -34,7 +36,7 @@ export default class SignUp extends Component {
           headers: { 'Content-Type': 'application/json'},
           body: JSON.stringify({email:this.state.email, name:this.state.name, phone: this.state.phone, user_id: this.state.id_user, profile_photo_path: null, cover_photo_path:null})
         };
-          fetch('http://127.0.0.1:8000/add-profile', requestOptionsProfile)
+          fetch(`${API_URL}add-profile`, requestOptionsProfile)
           .then(response => response.json())
          
         

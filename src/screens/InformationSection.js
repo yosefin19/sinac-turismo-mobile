@@ -20,11 +20,6 @@ const InformationSection = ({navigation}) => {
             });
     }, []);
 
-    try {
-        if (!loading) console.log(JSON.parse(JSON.stringify(area)));
-    } catch (error) {
-        console.log(error);
-    }
 
     return loading ? (
         <View style={{ height: "100%", justifyContent: "center" }}>

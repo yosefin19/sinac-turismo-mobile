@@ -8,6 +8,8 @@ import InformationSection from "../screens/InformationSection";
 import Area from "../screens/Area";
 import Destination from "../screens/Destination";
 import Region from "../screens/Region";
+import Login from "../screens/Login";
+import SignUp from "../screens/SignUp";
 
 /***
  * Pila de Ventanas de la Aplicación
@@ -57,6 +59,14 @@ const MainStack = () => {
             <Stack.Screen 
                 name="Region" 
                 component={Region} 
+            />
+            <Stack.Screen
+                name="Login"
+                component={Login}
+            />
+            <Stack.Screen
+                name="SignUp"
+                component={SignUp}
             />
         </Stack.Navigator>
     );

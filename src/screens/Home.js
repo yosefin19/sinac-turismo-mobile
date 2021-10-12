@@ -1,4 +1,4 @@
-import {Image, Platform, Pressable, StatusBar, StyleSheet, Text, SafeAreaView} from "react-native";
+import {Image, Pressable, StyleSheet, Text, SafeAreaView} from "react-native";
 import HomeSearchBar from "../components/HomeSearchBar";
 import HomeButton from "../components/HomeButton";
 import React from "react";
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     logo: {
         height: 70,
