@@ -6,6 +6,10 @@ import { StyleSheet, StatusBar } from "react-native";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
+/***
+ * Componente principal de la aplicación
+ * @returns {JSX.Element}
+ */
 export default function App() {
   const [loaded] = useFonts({
     "Segoe UI": require("./assets/fonts/SegoeUI.ttf"),
@@ -23,13 +27,21 @@ export default function App() {
       <MainStack />
     </NavigationContainer>
   );
-}
 
+}
+/***
+ * Estilos del componente App
+ * @type {{container: {backgroundColor: string, alignItems: string, flex: number, width: string, justifyContent: string, height: string}}}
+ */
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+    container: {
+        flex: 1,
+        width: "100%",
+        height: "100%",
+        backgroundColor: '#F0F0F0',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    }
+);
+

@@ -1,3 +1,4 @@
+
 import { Dimensions, StyleSheet } from "react-native";
 
 import { REGION_IMAGE_WIDTH, REGION_IMAGE_HEIGHT } from "./config";
@@ -142,6 +143,7 @@ export default StyleSheet.create({
   androidShadowBox: {
     elevation: 4,
     shadowColor: "#52006A",
+
   },
   iosShadowBox: {
     shadowColor: "#171717",

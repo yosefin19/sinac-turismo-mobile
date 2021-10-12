@@ -1,7 +1,10 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
-import Test from "../screens/Test";
+import Home from "../screens/Home";
+import Profile from "../screens/Profile";
+import About from "../screens/About";
+import InformationSection from "../screens/InformationSection";
 import Area from "../screens/Area";
 import Destination from "../screens/Destination";
 import Region from "../screens/Region";
@@ -11,6 +14,7 @@ import Region from "../screens/Region";
  */
 const Stack = createNativeStackNavigator();
 
+
 /***
  * Componente que proporciona la posibilidad de realizar transiciones
  * entre pantallas, donde cada ventana nueva se agrega en un pila.
@@ -18,19 +22,44 @@ const Stack = createNativeStackNavigator();
  * @constructor
  */
 const MainStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Test"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Test" component={Test} />
-      <Stack.Screen name="Area" component={Area} />
-      <Stack.Screen name="Destination" component={Destination} />
-      <Stack.Screen name="Region" component={Region} />
-    </Stack.Navigator>
-  );
+
+    return(
+        <Stack.Navigator
+            initialRouteName="Home"
+            screenOptions = {{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen
+                name="Home"
+                component={Home}
+            />
+            <Stack.Screen
+                name="InformationSection"
+                component={InformationSection}
+            />
+            <Stack.Screen
+                name = "Profile"
+                component={Profile}
+            />
+            <Stack.Screen
+                name="About"
+                component={About}
+            />
+            <Stack.Screen 
+                name="Area" 
+                component={Area}
+            />
+            <Stack.Screen 
+                name="Destination" 
+                component={Destination} 
+            />
+            <Stack.Screen 
+                name="Region" 
+                component={Region} 
+            />
+        </Stack.Navigator>
+    );
 };
 
 export default MainStack;
