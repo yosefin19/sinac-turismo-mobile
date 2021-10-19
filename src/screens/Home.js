@@ -1,9 +1,10 @@
-import {Image, Pressable, StyleSheet, Text, SafeAreaView} from "react-native";
+import {Image, Pressable, SafeAreaView, StyleSheet, Text,} from "react-native";
 import HomeSearchBar from "../components/HomeSearchBar";
 import HomeButton from "../components/HomeButton";
-import React from "react";
+import React, {useContext} from "react";
 import OpenURLButton from "../components/OpenURLButton";
 
+import {CredentialsContext} from "../CredentialsContext";
 
 const appStyles = require("../appStyle");
 
@@ -13,22 +14,40 @@ const appStyles = require("../appStyle");
  * @returns {JSX.Element}
  */
 const Home = ({navigation}) => {
-    return(
+    const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
+
+    return (
         <SafeAreaView
             style={[styles.container, appStyles.default.appBackgroundColor]}
         >
-            <Image style={styles.logo} source={require('../../assets/menu-icon.png')}/>
+            <Image
+                style={styles.logo}
+                source={require("../../assets/menu-icon.png")}
+            />
             <HomeSearchBar/>
-            <HomeButton title="Destinos de Costa Rica" to='InformationSection' navigation={navigation}/>
-            <OpenURLButton url={"https://serviciosenlinea.sinac.go.cr/"} text="Compra y Reserva">Open Supported URL</OpenURLButton>
-            <HomeButton title="Mi Perfil" to='Profile' navigation={navigation}/>
-            <Pressable style={styles.aboutButton} onPress={() => { navigation.navigate('About')}}>
-                <Text style={styles.aboutText}>Cozoncanos</Text>
+            <HomeButton
+                title="Destinos de Costa Rica"
+                to="InformationSection"
+                navigation={navigation}
+            />
+            <OpenURLButton
+                url={"https://serviciosenlinea.sinac.go.cr/"}
+                text="Compra y Reserva"
+            >
+                Open Supported URL
+            </OpenURLButton>
+            <HomeButton title="Mi Perfil" to={storedCredentials ? "Profile" : "Login"} navigation={navigation}/>
+            <Pressable
+                style={styles.aboutButton}
+                onPress={() => {
+                    navigation.navigate("About");
+                }}
+            >
+                <Text style={styles.aboutText}>Conozcanos</Text>
             </Pressable>
         </SafeAreaView>
     );
 };
-
 
 /***
  * Estilos utilizados en el componente de Home.
@@ -53,7 +72,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         lineHeight: 16,
         textAlign: "center",
-        fontWeight: 'bold',
+        fontWeight: "bold",
         letterSpacing: 0.25,
         color: "rgba(0, 0, 0, 0.6)",
     },
