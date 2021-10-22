@@ -1,5 +1,6 @@
 import React, {useContext, useState} from "react";
 import {Alert, Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View} from "react-native";
+import {ActivityIndicator} from 'react-native-paper';
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import {API_URL, FIRST_PERCENTAGE, SECRET} from "../config";
@@ -25,6 +26,7 @@ const Login = ({navigation}) => {
     const [passwordValidated, setPasswordValidated] = useState(true)
     const [emailValidated, setEmailValidated] = useState(true)
     const [hidePassword, setHidePassword] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     /**
      * Con el uso de Async storage, se almacenan el token de un usuario con
@@ -60,6 +62,7 @@ const Login = ({navigation}) => {
          * se establecen los encabezados necesarios de la consulta
          * @type {{headers: {"Content-Type": string}, method: string, body: string}}
          */
+        setLoading(true)
         const requestOptionsUser = {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -74,12 +77,12 @@ const Login = ({navigation}) => {
         fetch(`${API_URL}login`, requestOptionsUser)
             .then((response) => response.json())
             .then((data) => {
-                if(data.token) {
+                if (data.token) {
                     const {token} = data;
                     persistLogin(token, "SUCCESS", 200);
+                    setLoading(false)
                     navigation.goBack()
-                }
-                else{
+                } else {
                     persistLogin(data, "FAILURE", 500);
                     Alert.alert(
                         "Error al iniciar sesión",
@@ -89,6 +92,7 @@ const Login = ({navigation}) => {
                             text: "Reintentar"
                         }]
                     );
+                    setLoading(false)
                 }
             });
     }
@@ -99,7 +103,7 @@ const Login = ({navigation}) => {
      */
     const emailValidation = (email) => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        setEmailValidated(reg.test(email));
+        return reg.test(email);
     }
 
     /**
@@ -113,8 +117,8 @@ const Login = ({navigation}) => {
             'digit': /[0-9]/,
             'full': /^[A-Za-z0-9]{7,13}$/
         };
-        setPasswordValidated(password.length > 7 && password.length < 32 &&
-            re.capital .test(password) && re.digit   .test(password) && re.full.test(password));
+        return password.length > 7 && password.length < 32 &&
+            re.capital.test(password) && re.digit.test(password) && re.full.test(password);
     }
 
 
@@ -123,10 +127,14 @@ const Login = ({navigation}) => {
      * usuario si estos son validos.
      */
     const handleLogin = () => {
-        emailValidation(email)
-        passwordValidation(password)
-        if(emailValidated && passwordValidated){Login(email, password)}
-        else if(emailValidated && passwordValidated){Login(email, password)}
+        if (emailValidation(email) && passwordValidation(password)) {
+            Login(email, password)
+            setEmailValidated(true)
+            setPasswordValidated(true)
+        } else {
+            setEmailValidated(false)
+            setPasswordValidated(false)
+        }
     };
 
     /**
@@ -143,6 +151,24 @@ const Login = ({navigation}) => {
         setHidePassword(!hidePassword)
     }
 
+    /**
+     * Maneja los cambios en la entrada de correo electrónico
+     * @param event
+     */
+    const handleEmailChange = (event) => {
+        setEmail(event)
+        setEmailValidated(emailValidation(email))
+    }
+
+    /**
+     * Maneja los cambios en la entrada de la contraseña
+     * @param event
+     */
+    const handlePasswordChange = (event) => {
+        setPassword(event)
+        setPasswordValidated(passwordValidation(password))
+    }
+
     return (
         <SafeAreaView style={[styles.container, appStyles.default.appBackgroundColor]}>
             <Image style={styles.logo} source={require('../../assets/menu-icon.png')}/>
@@ -154,7 +180,7 @@ const Login = ({navigation}) => {
                         autoCapitalize="none"
                         placeholder="Correo electrónico"
                         secureTextEntry={false}
-                        onChangeText={(event) => setEmail(event)}
+                        onChangeText={handleEmailChange}
                         value={email}
                     />
                 </View>
@@ -168,7 +194,7 @@ const Login = ({navigation}) => {
                         autoCapitalize="none"
                         placeholder="Contraseña"
                         secureTextEntry={!hidePassword}
-                        onChangeText={(event) => setPassword(event)}
+                        onChangeText={handlePasswordChange}
                         value={password}
                     />
                 </View>
@@ -176,14 +202,18 @@ const Login = ({navigation}) => {
                     <Icon name={hidePassword ? "eye" : "eye-slash"} size={24} color={"#CACACA"}/>
                 </Pressable>
             </View>
-            {!passwordValidated && <Text style={styles.error_msg}>Contraseña incorrecta, debe contener: mayusculas, minusculas y números</Text>}
+            {!passwordValidated &&
+            <Text style={styles.error_msg}>Contraseña incorrecta, debe contener: mayusculas, minusculas y
+                números</Text>}
             <View style={styles.leftText}>
                 <Pressable>
                     <Text style={{textAlign: "right", color: "#605f5f"}}> ¿Olvidó su contraseña?</Text>
                 </Pressable>
             </View>
-            <Pressable style={styles.submit} onPress={handleLogin}>
-                <Text style={styles.submit_text}>Ingresar</Text>
+            <Pressable style={styles.submit} onPress={handleLogin} disable={!loading}>
+                {loading ?
+                    <ActivityIndicator animating={true} color={"#4A4A4A"}/>
+                    : <Text style={styles.submit_text}>Ingresar</Text>}
             </Pressable>
             <View style={styles.register}>
                 <Text style={styles.register_text}>¿No tiene cuenta?</Text>
@@ -192,11 +222,11 @@ const Login = ({navigation}) => {
                 </Pressable>
             </View>
             <View style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: FIRST_PERCENTAGE,
-                    width: "100%",
-                }}>
+                alignItems: "center",
+                justifyContent: "center",
+                flex: FIRST_PERCENTAGE,
+                width: "100%",
+            }}>
                 <ConstantMenu/>
             </View>
         </SafeAreaView>
