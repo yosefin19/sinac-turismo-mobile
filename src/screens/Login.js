@@ -83,15 +83,28 @@ const Login = ({navigation}) => {
                     setLoading(false)
                     navigation.goBack()
                 } else {
-                    persistLogin(data, "FAILURE", 500);
-                    Alert.alert(
-                        "Error al iniciar sesión",
-                        "El correo electrónico o contraseña no coinciden, " +
-                        "asegúrese de contar con una cuenta valida",
-                        [{
-                            text: "Reintentar"
-                        }]
-                    );
+                    if(data.detail === "User not found") {
+                        persistLogin(data, "FAILURE", 500);
+                        Alert.alert(
+                            "Error al iniciar sesión",
+                            "El correo electrónico no corresponde a ningun usuario registrado",
+                            [{
+                                text: "Reintentar"
+                            }]
+                        );
+                    }
+                    else if (data.detail === "Email or Password not found"){
+                        persistLogin(data, "FAILURE", 500);
+                        Alert.alert(
+                            "Error al iniciar sesión",
+                            "El correo electrónico o contraseña no coinciden, " +
+                            "asegúrese de contar con datos valida",
+                            [{
+                                text: "Reintentar"
+                            }]
+                        );
+                    }
+
                     setLoading(false)
                 }
             });
