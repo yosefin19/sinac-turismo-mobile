@@ -7,7 +7,7 @@ import {
   Image,
   SafeAreaView,
   Platform,
-  Dimensions,
+  Dimensions, Pressable,
 } from "react-native";
 
 // Componentes
@@ -26,7 +26,7 @@ import {
   FIRST_PERCENTAGE,
   SECOND_PERCENTAGE,
   THIRD_PERCENTAGE,
-  TEXT_CONTAINER_PERCENTAGE,
+  TEXT_CONTAINER_PERCENTAGE, AREAS_URL,
 } from "../config";
 
 // Estilos globales
@@ -53,15 +53,14 @@ const Area = ({ route, navigation }) => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const endpoint = API_URL + DESTINATIONS_URL;
+  const endpoint = API_URL + DESTINATIONS_URL + AREAS_URL + id;
 
   useEffect(() => {
     let isMounted = true;
     fetch(endpoint)
       .then((response) => response.json())
       .then((json) => {
-        const data = json.filter((item) => item.conservation_area_id === id);
-        if (isMounted) setDestinations(data);
+        if (isMounted) setDestinations(json);
       })
       .catch((error) => console.error(error))
       .finally(() => {
@@ -93,7 +92,9 @@ const Area = ({ route, navigation }) => {
         {loading ? null : <AreaImageList photos_path={photos_path} />}
       </View>
       <View style={[appStyles.default.exitView, { elevation: 31 }]}>
-        <Image style={appStyles.default.exitImage} source={Exit} />
+        <Pressable onPress={() => navigation.goBack()}>
+          <Image style={appStyles.default.exitImage} source={Exit} />
+        </Pressable>
       </View>
       <View style={styles.container}>
         <View>
@@ -139,7 +140,8 @@ const Area = ({ route, navigation }) => {
           </Text>
           {loading ? null : (
             <InformationList
-              areaDestinations={destinations}
+                destinations={destinations}
+                isArea={false}
               navigation={navigation}
             />
           )}
