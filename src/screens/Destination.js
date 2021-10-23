@@ -114,6 +114,8 @@ const Destination = ({ route, navigation }) => {
             480 votos
           </Text>
         </View>
+
+        
         <View style={styles.optionsContainer}>
           <View style={{ alignItems: "center" }}>
             <Text
