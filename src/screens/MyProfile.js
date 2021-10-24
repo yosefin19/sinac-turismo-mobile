@@ -31,40 +31,41 @@ const MyProfile = ({navigation}) => {
       if (state !== 1) setState(1);
     };
  
-  useEffect(() => {
-    const endpoint = API_URL+ 'profile';
-    const requestOptions = {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + storedCredentials,
-        },
-    };
-    console.log(requestOptions)
-    fetch(endpoint, requestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-            setUser(data);
-            setName(data.name);
-            setProfile(data.profile_photo_path);
-            setCover(data.cover_photo_path);
-            //Siel perfil no posee foto de perfil o portada se coloca una por defecto
-            if(data.cover_photo_path == "/"){
-                setCover(defaultCover);}
-            else {
-                setCover(`${IMAGE_BASE_URL}${data.cover_photo_path}`);
+    useEffect(() => {
+      const endpoint = API_URL+ 'profile';
+      const requestOptions = {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + storedCredentials,
+          },
+      };
+      fetch(endpoint, requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+              setUser(data);
+              setName(data.name);
+              setProfile(data.profile_photo_path);
+              setCover(data.cover_photo_path);
+              if(data.cover_photo_path == "/"){
+                  setCover(require("../images/defaultCover.jpg"));}
+              else {
+                  setCover({uri:`${IMAGE_BASE_URL}${data.cover_photo_path}`});
+              }
+              if(data.profile_photo_path == "/"){
+                setProfile(require("../images/defaultProfile.png"));}
+              else {
+              setProfile({uri:`${IMAGE_BASE_URL}${data.profile_photo_path}`});
+              }  
+            })
+          .catch((error) => console.error(error))
+          .finally(() => {
+            setLoading(false);    
             }
-            if(data.profile_photo_path == "/"){
-            setProfile(defaultProfile);}
-            else {
-              console.log(data.profile_photo_path)
-            setProfile(`${IMAGE_BASE_URL}${data.profile_photo_path}`);
-            }  })
-        .catch((error) => console.error(error))
-        .finally(() => {
-          setLoading(false);    
-          }
-      );}, []);
+        );
+   
+      
+      }, []);
 
     return loading ? (
       <View style={{ height: "100%", justifyContent: "center" }}>
@@ -72,12 +73,12 @@ const MyProfile = ({navigation}) => {
       </View>
   ) : (
         <ScrollView>
-                    <View >
-                        <Image source={{uri:cover_photo}}style={styles.cover} /> 
+               <View >
+                        <Image source={cover_photo} style={styles.cover} /> 
  
                     </View>                       
                     <View style={{alignItems:'center'}}>
-                            <Image source={{uri: profile_photo}} style={styles.profileImage}/>
+                            <Image source={profile_photo} style={styles.profileImage}/>
                             <Text>{name}</Text>
                         </View>
                     <View style={[appStyles.default.exitView, { elevation: 31 }]}>
