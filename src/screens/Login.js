@@ -84,7 +84,7 @@ const Login = ({navigation}) => {
                     navigation.goBack()
                 } else {
                     if(data.detail === "User not found") {
-                        persistLogin(data, "FAILURE", 500);
+                        //persistLogin(data, "FAILURE", 500);
                         Alert.alert(
                             "Error al iniciar sesión",
                             "El correo electrónico no corresponde a ningun usuario registrado",
@@ -94,11 +94,11 @@ const Login = ({navigation}) => {
                         );
                     }
                     else if (data.detail === "Email or Password not found"){
-                        persistLogin(data, "FAILURE", 500);
+                        //persistLogin(data, "FAILURE", 500);
                         Alert.alert(
                             "Error al iniciar sesión",
                             "El correo electrónico o contraseña no coinciden, " +
-                            "asegúrese de contar con datos valida",
+                            "asegúrese de contar con los datos correctos",
                             [{
                                 text: "Reintentar"
                             }]
@@ -175,7 +175,7 @@ const Login = ({navigation}) => {
 
     /**
      * Maneja los cambios en la entrada de la contraseña
-     * @param event
+     * @param event Contenido en el campo
      */
     const handlePasswordChange = (event) => {
         setPassword(event)

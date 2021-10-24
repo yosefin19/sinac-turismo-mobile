@@ -85,6 +85,13 @@ const styles = StyleSheet.create({
         borderBottomColor: "#000",
         paddingVertical: 6,
         paddingHorizontal: 60,
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowRadius: 4.65,
+
+        elevation: 5,
     },
 });
 export default Home;
