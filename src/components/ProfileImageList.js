@@ -28,8 +28,8 @@ const ProfileImageList = ({ areas, destinations, isFavorite, navigation }) => {
       initialNumToRender={INIT_NUM_TO_RENDER}
       data={informationList}
       renderItem={({ item, index }) => {
-        current = item[0];
-        isArea = item[1];
+        const current = item[0];
+        const isArea = item[1];
         return (
           <Pressable
             onPress={() => {
