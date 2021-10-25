@@ -43,7 +43,7 @@ const DestinationViewImage = ({ id, imageUrl }) => {
   const isFocused = useIsFocused();
 
   const [favoriteRelationId, setFavoriteRelationId] = useState(0);
-  // const [visitedRelationId, setVisitedRelationId] = useState(0);
+  const [visitedRelationId, setVisitedRelationId] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const requestOptionsUser = {
@@ -119,37 +119,37 @@ const DestinationViewImage = ({ id, imageUrl }) => {
       }
     }
   };
-  // const handle_visited = () => {
-  //   if (storedCredentials) {
-  //     if (visitedRelationId !== 0) {
-  //       let endpoint = `${API_URL}${DESTINATIONS_URL}${ALL_URL}${VISITED_URL}/${visitedRelationId}`;
+  const handle_visited = () => {
+    if (storedCredentials) {
+      if (visitedRelationId !== 0) {
+        let endpoint = `${API_URL}${DESTINATIONS_URL}${ALL_URL}${VISITED_URL}/${visitedRelationId}`;
 
-  //       fetch(endpoint, {
-  //         method: "DELETE",
-  //         headers: {
-  //           // "Content-Type": "application/json",
-  //           Authorization: "Bearer " + storedCredentials,
-  //         },
-  //       })
-  //         .then((response) => response.json())
-  //         .then((data) => setVisitedRelationId(0));
-  //     } else {
-  //       let endpoint = `${API_URL}${DESTINATIONS_URL}${id}/${VISITED_URL}`;
+        fetch(endpoint, {
+          method: "DELETE",
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: "Bearer " + storedCredentials,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => setVisitedRelationId(0));
+      } else {
+        let endpoint = `${API_URL}${DESTINATIONS_URL}${id}/${VISITED_URL}`;
 
-  //       fetch(endpoint, {
-  //         method: "POST",
-  //         headers: {
-  //           // "Content-Type": "application/json",
-  //           Authorization: "Bearer " + storedCredentials,
-  //         },
-  //       })
-  //         .then((response) => response.json())
-  //         .then((json) => {
-  //           setVisitedRelationId(json.id);
-  //         });
-  //     }
-  //   }
-  // };
+        fetch(endpoint, {
+          method: "POST",
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: "Bearer " + storedCredentials,
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            setVisitedRelationId(json.id);
+          });
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -177,12 +177,12 @@ const DestinationViewImage = ({ id, imageUrl }) => {
       </Pressable>
       {/* </View> */}
       {/* <View style={appStyles.default.seenView}> */}
-      {/* <Pressable style={appStyles.default.seenView} onPress={handle_visited}> */}
-      <Image
-        style={appStyles.default.seenImage}
-        // source={visitedRelationId !== 0 ? Seen : No_seen}
-      />
-      {/* </Pressable> */}
+      <Pressable style={appStyles.default.seenView} onPress={handle_visited}>
+        <Image
+          style={appStyles.default.seenImage}
+          source={visitedRelationId !== 0 ? Seen : No_seen}
+        />
+      </Pressable>
       {/* </View> */}
     </View>
   );
