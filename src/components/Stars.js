@@ -8,20 +8,20 @@ import Half from "../images/half_star.png";
 
 /***
  * Estrellas que representan la media de puntuación de un destino
- * @param reviewAverage Media de la puntuación de un destino turístico
+ * @param review Puntuación de un destino turístico
  * @returns {JSX.Element}
  */
-const Stars = ({ reviewAverage }) => {
+const Stars = ({ review }) => {
   let stars = [];
-  reviewAverage = reviewAverage ? reviewAverage : 0;
+  review = review ? review : 0;
 
   for (let i = 0; i < 5; ++i) {
-    if (reviewAverage <= 0)
+    if (review <= 0)
       stars.push(<Image style={styles.star} key={i} source={Empty} />);
-    else if (reviewAverage < 1)
+    else if (review < 1)
       stars.push(<Image style={styles.star} key={i} source={Half} />);
     else stars.push(<Image style={styles.star} key={i} source={Filled} />);
-    --reviewAverage;
+    --review;
   }
 
   return <View style={styles.container}>{stars}</View>;

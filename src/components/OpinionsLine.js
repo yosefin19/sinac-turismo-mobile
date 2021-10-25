@@ -8,7 +8,7 @@ import { View, StyleSheet } from "react-native";
  * @returns {JSX.Element}
  */
 const OpinionsLine = ({ totalReviews, reviews }) => {
-  const percentage = (reviews / totalReviews) * 100 + "%";
+  const percentage = totalReviews ? (reviews / totalReviews) * 100 + "%" : 0;
   const filledLine = (
     <View style={[styles.filledLine, { width: percentage }]}></View>
   );
