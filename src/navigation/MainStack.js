@@ -1,5 +1,5 @@
 import React from "react";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
@@ -10,12 +10,12 @@ import Destination from "../screens/Destination";
 import Region from "../screens/Region";
 import Login from "../screens/Login";
 import SignUp from "../screens/SignUp";
+import Favorites from "../screens/Favorites";
 
 /***
  * Pila de Ventanas de la Aplicación
  */
 const Stack = createNativeStackNavigator();
-
 
 /***
  * Componente que proporciona la posibilidad de realizar transiciones
@@ -24,52 +24,25 @@ const Stack = createNativeStackNavigator();
  * @constructor
  */
 const MainStack = () => {
-
-    return(
-        <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions = {{
-                headerShown: false,
-            }}
-        >
-            <Stack.Screen
-                name="Home"
-                component={Home}
-            />
-            <Stack.Screen
-                name="InformationSection"
-                component={InformationSection}
-            />
-            <Stack.Screen
-                name = "Profile"
-                component={Profile}
-            />
-            <Stack.Screen
-                name="About"
-                component={About}
-            />
-            <Stack.Screen 
-                name="Area" 
-                component={Area}
-            />
-            <Stack.Screen 
-                name="Destination" 
-                component={Destination} 
-            />
-            <Stack.Screen 
-                name="Region" 
-                component={Region} 
-            />
-            <Stack.Screen
-                name="Login"
-                component={Login}
-            />
-            <Stack.Screen
-                name="SignUp"
-                component={SignUp}
-            />
-        </Stack.Navigator>
-    );
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="InformationSection" component={InformationSection} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="About" component={About} />
+      <Stack.Screen name="Area" component={Area} />
+      <Stack.Screen name="Destination" component={Destination} />
+      <Stack.Screen name="Region" component={Region} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Favorites" component={Favorites} />
+    </Stack.Navigator>
+  );
 };
 
 export default MainStack;
