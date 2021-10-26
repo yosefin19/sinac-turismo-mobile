@@ -36,7 +36,7 @@ const Home = ({navigation}) => {
             >
                 Open Supported URL
             </OpenURLButton>
-            <HomeButton title="Mi Perfil" to={storedCredentials ? "Profile" : "Login"} navigation={navigation}/>
+            <HomeButton title="Mi Perfil" to={storedCredentials ? "MyProfile" : "Login"} navigation={navigation}/>
             <Pressable
                 style={styles.aboutButton}
                 onPress={() => {
@@ -49,23 +49,24 @@ const Home = ({navigation}) => {
     );
 };
 
+
 /***
  * Estilos utilizados en el componente de Home.
  * @type {{container: {alignItems: string, flex: number, justifyContent: string}, logo: {backgroundColor: string, width: number, marginBottom: number, resizeMode: string, height: number}, aboutButton: {borderBottomColor: string, paddingVertical: number, backgroundColor: string, borderRadius: number, paddingHorizontal: number, shadowOpacity: number, shadowColor: string, marginTop: number}, aboutText: {color: string, textAlign: string, letterSpacing: number, fontSize: number, lineHeight: number, fontStyle: string, fontWeight: string}}}
  */
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    logo: {
-        height: 70,
-        width: 120,
-        resizeMode: "stretch",
-        backgroundColor: "transparent",
-        marginBottom: 36,
-    },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logo: {
+    height: 70,
+    width: 120,
+    resizeMode: "stretch",
+    backgroundColor: "transparent",
+    marginBottom: 36,
+  },
 
     aboutText: {
         fontStyle: "normal",

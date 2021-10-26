@@ -2,13 +2,14 @@ import React, {useContext} from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
 import Home from "../screens/Home";
-import Profile from "../screens/Profile";
+import MyProfile from "../screens/MyProfile";
 import About from "../screens/About";
 import InformationSection from "../screens/InformationSection";
 import Area from "../screens/Area";
 import Destination from "../screens/Destination";
 import Region from "../screens/Region";
 import SignUp from "../screens/SignUp";
+import UpdateProfile from "../screens/UpdateProfile";
 import Login from "../screens/Login";
 import {CredentialsContext} from "../CredentialsContext";
 
@@ -48,6 +49,10 @@ const MainStack = () => {
                         component={Profile}
                     />
                     <Stack.Screen
+                        name="MyProfile"
+                        component={MyProfile}
+                    />
+                    <Stack.Screen
                         name="About"
                         component={About}
                     />
@@ -70,6 +75,10 @@ const MainStack = () => {
                     <Stack.Screen
                         name="SignUp"
                         component={SignUp}
+                    />
+                    <Stack.Screen
+                        name="Update"
+                        component={UpdateProfile}
                     />
                 </Stack.Navigator>
             )}
