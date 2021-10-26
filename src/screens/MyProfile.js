@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, Pressable, Image, ScrollView, Dimensions} from "react-native";
 import Icon from "react-native-vector-icons/Fontisto";
 import GalleryList from '../components/GalleryList'
+
 import { CredentialsContext } from "../CredentialsContext";
 
 import { API_URL, IMAGE_BASE_URL} from "../config";
@@ -9,6 +10,9 @@ let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 // Imagenes
 import Exit from "../images/exit.png";
+import defaultProfile from "../images/defaultProfile.png"
+import defaultCover from "../images/defaultCover.jpg"
+
 // Estilos globales
 const appStyles = require("../appStyle");
 
@@ -27,47 +31,44 @@ const MyProfile = ({navigation}) => {
       if (state !== 0) setState(0);
     };
     const changeToGallery = () => {
-      if (state !== 1) {
-      setState(1);
-
-      }
+      if (state !== 1) setState(1);
     };
  
-  useEffect(() => {
-    const endpoint = API_URL+ 'profile';
-    const requestOptions = {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + storedCredentials,
-        },
-    };
-    fetch(endpoint, requestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-            setUser(data);
-            setName(data.name);
-            setProfile(data.profile_photo_path);
-            setCover(data.cover_photo_path);
-            if(data.cover_photo_path == "/"){
-                setCover(require("../images/defaultCover.jpg"));}
-            else {
-                setCover({uri:`${IMAGE_BASE_URL}${data.cover_photo_path}`});
+    useEffect(() => {
+      const endpoint = API_URL+ 'profile';
+      const requestOptions = {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + storedCredentials,
+          },
+      };
+      fetch(endpoint, requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+              setUser(data);
+              setName(data.name);
+              setProfile(data.profile_photo_path);
+              setCover(data.cover_photo_path);
+              if(data.cover_photo_path == "/"){
+                  setCover(require("../images/defaultCover.jpg"));}
+              else {
+                  setCover({uri:`${IMAGE_BASE_URL}${data.cover_photo_path}`});
+              }
+              if(data.profile_photo_path == "/"){
+                setProfile(require("../images/defaultProfile.png"));}
+              else {
+              setProfile({uri:`${IMAGE_BASE_URL}${data.profile_photo_path}`});
+              }  
+            })
+          .catch((error) => console.error(error))
+          .finally(() => {
+            setLoading(false);    
             }
-            if(data.profile_photo_path == "/"){
-              setProfile(require("../images/defaultProfile.png"));}
-            else {
-            setProfile({uri:`${IMAGE_BASE_URL}${data.profile_photo_path}`});
-            }  
-          })
-        .catch((error) => console.error(error))
-        .finally(() => {
-          setLoading(false);    
-          }
-      );
- 
-    
-    }, []);
+        );
+   
+      
+      }, []);
 
     return loading ? (
       <View style={{ height: "100%", justifyContent: "center" }}>
@@ -76,6 +77,7 @@ const MyProfile = ({navigation}) => {
   ) : (
         <ScrollView>
                     <View >
+
                         <Image source={cover_photo} style={styles.cover} /> 
  
                     </View>                       
@@ -87,7 +89,10 @@ const MyProfile = ({navigation}) => {
                         <Image style={appStyles.default.exitImage} source={Exit} />
                     </View>
 
-                    <Pressable style={styles.update} >
+
+                    <Pressable style={styles.update} onPress={() => {
+                              navigation.navigate("Update", { profile: user });
+                        }}>
                     <Icon name="player-settings" size={21} color={"grey"} />
                      </Pressable>
             <ScrollView> 
@@ -122,7 +127,6 @@ const MyProfile = ({navigation}) => {
 
         {state === 0 /** aqui se agrega visitados y recomendados */}
 
-
         {state === 1 && (
             <ScrollView>
               <View style={styles.container}>
@@ -131,6 +135,7 @@ const MyProfile = ({navigation}) => {
             </ScrollView>
             
         )}      
+
             </ScrollView>
         </ScrollView>
         )

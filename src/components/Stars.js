@@ -2,25 +2,25 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 // Imagenes
-import Empty from "../images/empty_star.png";
-import Filled from "../images/filled_star.png";
-import Half from "../images/half_star.png";
 
 /***
  * Estrellas que representan la media de puntuación de un destino
  * @param reviewAverage Media de la puntuación de un destino turístico
+ * @param emptyStar imagen de icono vacio
+ * @param halfStar imagen del icono a la mitad
+ * @param filledStar imagen del icono lleno o completo
  * @returns {JSX.Element}
  */
-const Stars = ({ reviewAverage }) => {
+const Stars = ({ reviewAverage, emptyStar, halfStar, filledStar }) => {
   let stars = [];
   reviewAverage = reviewAverage ? reviewAverage : 0;
 
   for (let i = 0; i < 5; ++i) {
     if (reviewAverage <= 0)
-      stars.push(<Image style={styles.star} key={i} source={Empty} />);
+      stars.push(<Image style={styles.star} key={i} source={emptyStar} />);
     else if (reviewAverage < 1)
-      stars.push(<Image style={styles.star} key={i} source={Half} />);
-    else stars.push(<Image style={styles.star} key={i} source={Filled} />);
+      stars.push(<Image style={styles.star} key={i} source={halfStar} />);
+    else stars.push(<Image style={styles.star} key={i} source={filledStar} />);
     --reviewAverage;
   }
 
