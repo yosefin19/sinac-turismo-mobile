@@ -343,6 +343,5 @@ const styles = StyleSheet.create({
         fontWeight: "normal",
         textAlign: "center"
     }
-
 });
 export default Login;

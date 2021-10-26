@@ -15,10 +15,10 @@ const appStyles = require("../appStyle");
  * @param photos_path Lista de direcciones de imágenes
  * @returns {JSX.Element}
  */
-const DestinationImageList = (photos_path) => {
+const DestinationImageList = ({ destinationId, photos_path }) => {
   const myRef = useRef(null);
 
-  const paths = Object.values(photos_path)[0].split(",");
+  const paths = photos_path.split(",");
   const initialImageIndex = Math.floor(paths.length / 2);
 
   return (
@@ -36,6 +36,7 @@ const DestinationImageList = (photos_path) => {
             <Pressable onPress={scroll}>
               <DestinationViewImage
                 style={[styles.image, appStyles.default.imageListSize]}
+                id={destinationId}
                 imageUrl={`${IMAGE_BASE_URL}${item}`}
                 key={item}
               />

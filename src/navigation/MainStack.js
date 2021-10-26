@@ -9,6 +9,9 @@ import Area from "../screens/Area";
 import Destination from "../screens/Destination";
 import Region from "../screens/Region";
 import SignUp from "../screens/SignUp";
+
+import Favorites from "../screens/Favorites";
+import ReviewForm from "../screens/ReviewForm";
 import GalleryImage from "../components/GalleryImage";
 import UpdateProfile from "../screens/UpdateProfile";
 import Login from "../screens/Login";
@@ -28,7 +31,7 @@ const Stack = createNativeStackNavigator();
  */
 const MainStack = () => {
 
-    const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
+  const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
 
     return (
         <CredentialsContext.Consumer>
@@ -86,6 +89,14 @@ const MainStack = () => {
                     <Stack.Screen 
                         name="GalleryImage" 
                         component={GalleryImage}
+                     />
+                     <Stack.Screen 
+                         name="Favorites" 
+                         component={Favorites} 
+                     />
+                     <Stack.Screen 
+                     name="ReviewForm" 
+                     component={ReviewForm} 
                      />
                 </Stack.Navigator>
             )}

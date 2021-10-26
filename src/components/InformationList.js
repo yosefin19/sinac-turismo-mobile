@@ -33,6 +33,7 @@ const InformationList = ({ destinations, navigation, isArea }) => {
           }}
         >
           <ViewImageInformation
+            id={item.id}
             name={item.name}
             imageUrl={`${IMAGE_BASE_URL}${item.photos_path.split(",")[0]}`}
             key={index}

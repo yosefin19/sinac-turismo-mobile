@@ -11,17 +11,18 @@ import { Image, StyleSheet, View } from "react-native";
  * @param filledStar imagen del icono lleno o completo
  * @returns {JSX.Element}
  */
-const Stars = ({ reviewAverage, emptyStar, halfStar, filledStar }) => {
+const Stars = ({ review, emptyStar, halfStar, filledStar }) => {
   let stars = [];
-  reviewAverage = reviewAverage ? reviewAverage : 0;
+  review = review ? review : 0;
 
   for (let i = 0; i < 5; ++i) {
-    if (reviewAverage <= 0)
+    if (review <= 0)
       stars.push(<Image style={styles.star} key={i} source={emptyStar} />);
-    else if (reviewAverage < 1)
+    else if (review < 1)
       stars.push(<Image style={styles.star} key={i} source={halfStar} />);
     else stars.push(<Image style={styles.star} key={i} source={filledStar} />);
-    --reviewAverage;
+    --review;
+
   }
 
   return <View style={styles.container}>{stars}</View>;

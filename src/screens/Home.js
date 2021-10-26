@@ -1,10 +1,19 @@
-import {Image, Pressable, SafeAreaView, StyleSheet, Text,} from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  View,
+} from "react-native";
 import HomeSearchBar from "../components/HomeSearchBar";
 import HomeButton from "../components/HomeButton";
-import React, {useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import OpenURLButton from "../components/OpenURLButton";
-
-import {CredentialsContext} from "../CredentialsContext";
+// Autenticación
+import { CredentialsContext } from "../CredentialsContext";
+import { API_URL, SECRET } from "../config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const appStyles = require("../appStyle");
 
@@ -49,7 +58,6 @@ const Home = ({navigation}) => {
     );
 };
 
-
 /***
  * Estilos utilizados en el componente de Home.
  * @type {{container: {alignItems: string, flex: number, justifyContent: string}, logo: {backgroundColor: string, width: number, marginBottom: number, resizeMode: string, height: number}, aboutButton: {borderBottomColor: string, paddingVertical: number, backgroundColor: string, borderRadius: number, paddingHorizontal: number, shadowOpacity: number, shadowColor: string, marginTop: number}, aboutText: {color: string, textAlign: string, letterSpacing: number, fontSize: number, lineHeight: number, fontStyle: string, fontWeight: string}}}
@@ -67,7 +75,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     marginBottom: 36,
   },
-
     aboutText: {
         fontStyle: "normal",
         fontSize: 12,

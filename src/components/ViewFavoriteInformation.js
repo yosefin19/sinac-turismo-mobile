@@ -8,7 +8,6 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 
 // Autenticación
 import { CredentialsContext } from "../CredentialsContext";
@@ -19,10 +18,6 @@ import Favorite from "../images/filled_orange_heart.png";
 import No_seen from "../images/empty_eye.png";
 import Seen from "../images/seen.png";
 import NoImage from "../images/no_image.png";
-import Empty from "../images/empty_white_star.png";
-import Filled from "../images/filled_white_star.png";
-import Half from "../images/half_white_star.png";
-
 
 // Configuración
 import {
@@ -35,31 +30,35 @@ import {
   DESTINATIONS_IMAGE_WIDTH,
   DESTINATIONS_IMAGE_HEIGHT,
   IMAGE_IN_LIST_PERCENTAGE,
+  VERTICAL_IMAGE_IN_LIST_PERCENTAGE,
 } from "../config";
-import Stars from "./Stars";
 
 // Estilos globales
 const appStyles = require("../appStyle");
 
 // Ancho de la imagen a desplegar
 const image_width = Dimensions.get("window").width * IMAGE_IN_LIST_PERCENTAGE;
+const image_height =
+  Dimensions.get("window").height * VERTICAL_IMAGE_IN_LIST_PERCENTAGE;
 
 /***
  * Imagen y nombre de un destino presente en un área de conservación
- * @param name nombre que se mostrara en al parte inferior de la tarjetas
  * @param imageUrl Dirección de la imagen
- * @param isDestination booleano para saber si la tarjeta corresponde a un destino y agregar la calificación
  * @returns {JSX.Element}
  */
-const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
+const ViewFavoriteInformation = ({
+  name,
+  imageUrl,
+  id,
+  isArea,
+  isFavorite,
+}) => {
   const { storedCredentials, setStoredCredentials } =
     useContext(CredentialsContext);
 
   const [favoriteRelationId, setFavoriteRelationId] = useState(0);
   const [visitedRelationId, setVisitedRelationId] = useState(0);
   const [loading, setLoading] = useState(true);
-
-  const isFocused = useIsFocused();
 
   const requestOptionsUser = {
     method: "GET",
@@ -71,7 +70,9 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
 
   useEffect(() => {
     if (storedCredentials !== null) {
-      const relationEndpoint = `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
+      const relationEndpoint = isArea
+        ? `${API_URL}${AREAS_URL}${id}/${FAVORITES_URL}`
+        : `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
       let isMounted = true;
       setLoading(true);
       fetch(relationEndpoint, requestOptionsUser)
@@ -85,7 +86,7 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
           setLoading(false);
         });
     }
-  }, [isFocused]);
+  }, []);
 
   useEffect(() => {
     if (storedCredentials !== null && !isArea) {
@@ -103,12 +104,14 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
           setLoading(false);
         });
     }
-  }, [isFocused]);
+  }, []);
 
   const handle_favorite = () => {
     if (storedCredentials) {
       if (favoriteRelationId !== 0) {
-        let endpoint = `${API_URL}${DESTINATIONS_URL}${ALL_URL}${FAVORITES_URL}/${favoriteRelationId}`;
+        let endpoint = isArea
+          ? `${API_URL}${AREAS_URL}${ALL_URL}${FAVORITES_URL}/${favoriteRelationId}`
+          : `${API_URL}${DESTINATIONS_URL}${ALL_URL}${FAVORITES_URL}/${favoriteRelationId}`;
 
         fetch(endpoint, {
           method: "DELETE",
@@ -118,11 +121,11 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
           },
         })
           .then((response) => response.json())
-          .then((data) => {
-            setFavoriteRelationId(0);
-          });
+          .then((data) => setFavoriteRelationId(0));
       } else {
-        let endpoint = `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
+        let endpoint = isArea
+          ? `${API_URL}${AREAS_URL}${id}/${FAVORITES_URL}`
+          : `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
 
         fetch(endpoint, {
           method: "POST",
@@ -168,18 +171,22 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
 
   return (
     <View style={[styles.container]}>
-      <Image
-        style={[styles.image]}
-        source={
-          imageUrl
-            ? {
-                width: DESTINATIONS_IMAGE_WIDTH,
-                height: DESTINATIONS_IMAGE_HEIGHT,
-                uri: imageUrl,
-              }
-            : NoImage
-        }
-      />
+      {imageUrl ? (
+        <Image
+          style={[styles.image]}
+          source={
+            imageUrl
+              ? {
+                  width: DESTINATIONS_IMAGE_WIDTH,
+                  height: DESTINATIONS_IMAGE_HEIGHT,
+                  uri: imageUrl,
+                }
+              : NoImage
+          }
+        />
+      ) : (
+        <Image style={[styles.image]} source={NoImage} />
+      )}
       {/* {storedCredentials ? (
         <View>
           <Pressable style={appStyles.default.seenView}>
@@ -191,12 +198,14 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
         </View>
       ) : ( */}
       <View style={styles.horizontalContainer}>
-        <Pressable style={styles.seenView} onPress={handle_visited}>
-          <Image
-            style={appStyles.default.seenImage}
-            source={visitedRelationId !== 0 ? Seen : No_seen}
-          />
-        </Pressable>
+        {!isArea ? (
+          <Pressable style={styles.seenView} onPress={handle_visited}>
+            <Image
+              style={appStyles.default.seenImage}
+              source={visitedRelationId !== 0 ? Seen : No_seen}
+            />
+          </Pressable>
+        ) : null}
         <Pressable style={styles.favoriteView} onPress={handle_favorite}>
           <Image
             style={appStyles.default.favoriteImage}
@@ -204,11 +213,7 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
           />
         </Pressable>
       </View>
-      {!isDestination? null :
-          <View style={styles.starts}>
-              <Stars review={4.5} emptyStar={Empty} halfStar={Half} filledStar={Filled}/>
-          </View>
-      }
+      {/* )} */}
       <View
         style={[
           styles.nameView,
@@ -225,10 +230,11 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
-    width: image_width,
+    width: "95%",
+    height: image_height,
 
     marginHorizontal: 10,
+    marginVertical: 10,
   },
   horizontalContainer: {
     position: "absolute",
@@ -283,17 +289,6 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     borderRadius: 7,
   },
-    starts: {
-        position: "absolute",
-
-        width: 31,
-        height: 31,
-
-        left: 22,
-        top: 9,
-        alignItems: "center",
-        justifyContent: "center",
-    }
 });
 
-export default ViewImageInformation;
+export default ViewFavoriteInformation;

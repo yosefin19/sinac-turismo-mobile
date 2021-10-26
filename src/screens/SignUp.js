@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-
 import { API_URL } from "../config";
 
 const SignUp = () => {
@@ -12,7 +11,6 @@ const SignUp = () => {
 
 
   const Agregar = () => {
-
     if (name === "" || email === "" || phone === "" || password === "") {
       return;
     }
@@ -31,11 +29,13 @@ const SignUp = () => {
     fetch(`${API_URL}add-user`, requestOptionsUser)
       .then((response) => response.json())
       .then((data) => {
+
         setId_user(data.id);
 
         let id_user = data.id;
         console.log("id:", id_user);
         console.log("response adduser", data);
+
         // Agregar perfil
         const requestOptionsProfile = {
           method: "POST",
@@ -57,7 +57,7 @@ const SignUp = () => {
           });
       })
       .catch((error) => console.log(error));
-
+    
       const requestOptionsGallery = {
         method: "POST",
         headers: { "Content-Type": "application/json" },

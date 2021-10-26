@@ -1,34 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Image,
   StyleSheet,
   Text,
   View,
   ScrollView,
+  Pressable,
   SafeAreaView,
   Platform,
   Dimensions, Pressable,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 // Componentes
 import ConstantMenu from "../components/ConstantMenu";
 import DestinationImageList from "../components/DestinationImageList";
 import Stars from "../components/Stars";
 import DestinationDescription from "../components/DestinationDescription";
-import OpinionsMenu from "../components/OptionsMenu";
+import Review from "../components/Review";
+import OpinionsList from "../components/OpinionsList";
+
+// Autenticación
+import { CredentialsContext } from "../CredentialsContext";
 
 // Imagenes
 import Exit from "../images/exit.png";
+import Star from "../images/black_star.png";
 import Empty from "../images/empty_star.png";
 import Filled from "../images/filled_star.png";
 import Half from "../images/half_star.png";
 
+
 // Configuración
 import {
+  API_URL,
+  DESTINATIONS_URL,
+  REVIEWS_URL,
   FIRST_PERCENTAGE,
   SECOND_PERCENTAGE,
   THIRD_PERCENTAGE,
   TEXT_CONTAINER_PERCENTAGE,
+  REVIEWS_CONTAINER_PERCENTAGE,
 } from "../config";
 
 // Estilos globales
@@ -37,6 +49,8 @@ const appStyles = require("../appStyle");
 // Altura del contenedor de la descripción del texto
 const description_height =
   Dimensions.get("window").height * TEXT_CONTAINER_PERCENTAGE;
+const reviews_height =
+  Dimensions.get("window").height * REVIEWS_CONTAINER_PERCENTAGE;
 
 /***
  * Pantalla que muestra la información de un destino turístico
@@ -46,7 +60,6 @@ const description_height =
  */
 const Destination = ({ route, navigation }) => {
   const { destination } = route.params;
-  const loading = destination.loading;
   const id = destination.id;
   const name = destination.name;
   const description = destination.description;
@@ -61,7 +74,55 @@ const Destination = ({ route, navigation }) => {
   const photos_path = destination.photos_path;
   const conservation_area_id = destination.conservation_area_id;
 
+  const { storedCredentials, setStoredCredentials } =
+    useContext(CredentialsContext);
+
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState(0);
+
+  const isFocused = useIsFocused();
+
+  const endpoint = `${API_URL}${DESTINATIONS_URL}${id}/${REVIEWS_URL}`;
+
+  const getAverage = () => {
+    let average = 0;
+    for (let i = 0; i < reviews.length; ++i) {
+      average += reviews[i].calification;
+    }
+    average /= reviews.length;
+    return average;
+  };
+  let stars;
+
+  const getStars = () => {
+    let stars = [0, 0, 0, 0, 0];
+    for (let i = 0; i < reviews.length; ++i) {
+      stars[reviews[i].calification - 1]++;
+    }
+    return stars;
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      let isMounted = true;
+      setLoading(true);
+      fetch(endpoint)
+        .then((response) => response.json())
+        .then((json) => {
+          if (isMounted) {
+            isMounted = false;
+
+            setReviews(json);
+          }
+        })
+        .catch((error) => console.error(error))
+        .finally(() => {
+          isMounted = false;
+          setLoading(false);
+        });
+    }
+  }, [isFocused]);
 
   const changeToInformation = () => {
     if (state !== 0) setState(0);
@@ -72,6 +133,7 @@ const Destination = ({ route, navigation }) => {
   const changeToReviews = () => {
     if (state !== 2) setState(2);
   };
+  if (loading) return <View></View>;
   return (
     <SafeAreaView
       style={[styles.safeContainer, appStyles.default.appBackgroundColor]}
@@ -90,13 +152,16 @@ const Destination = ({ route, navigation }) => {
           { elevation: 30, backgroundColor: "rgba(0,0,0,0.5)" },
         ]}
       >
-        <DestinationImageList photos_path={photos_path} />
+        <DestinationImageList destinationId={id} photos_path={photos_path} />
       </View>
-      <View style={[appStyles.default.exitView, { elevation: 31 }]}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Image style={appStyles.default.exitImage} source={Exit} />
-        </Pressable>
-      </View>
+
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={[appStyles.default.exitView, { elevation: 31 }]}
+      >
+        <Image style={appStyles.default.exitImage} source={Exit} />
+      </Pressable>
+
       <View style={styles.container}>
         <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
           {name}
@@ -114,9 +179,11 @@ const Destination = ({ route, navigation }) => {
           </ScrollView>
         </View>
         <View style={styles.horizontalContainer}>
-          <Stars reviewAverage={4.5} emptyStar={Empty} halfStar={Half} filledStar={Filled}/>
+
+          <Stars review={getAverage()} emptyStar={Empty} halfStar={Half} filledStar={Filled}/>
+
           <Text style={[styles.reviewsText, appStyles.default.defaultFont]}>
-            480 votos
+            {reviews.length} votos
           </Text>
         </View>
 
@@ -187,7 +254,7 @@ const Destination = ({ route, navigation }) => {
             { elevation: -10 },
           ]}
         />
-        {state === 0 && (
+        {state === 0 ? (
           <DestinationDescription
             schedule={schedule}
             fare={fare}
@@ -196,8 +263,8 @@ const Destination = ({ route, navigation }) => {
             hikes={hikes}
             recommendation={recommendation}
           />
-        )}
-        {state === 1 && (
+        ) : null}
+        {state === 1 ? (
           <View
             style={{
               margin: 10,
@@ -207,8 +274,123 @@ const Destination = ({ route, navigation }) => {
           >
             {/* <AreaRegion imageUrl="https://www.costaricavibes.com/wp-content/uploads/2020/05/costaricaregionmap-1024x683.jpg" /> */}
           </View>
-        )}
-        {state === 2 && <OpinionsMenu />}
+        ) : null}
+        {state === 2 ? (
+          <View style={{ flex: 1 }}>
+            {/* <ReviewsMenu /> */}
+            <View>
+              <Text style={[styles.rateText, appStyles.default.defaultFont]}>
+                Califica este destino:
+              </Text>
+              <View style={styles.starsContainer}>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 1,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 2,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 3,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 4,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 5,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+              </View>
+              <Pressable
+                onPress={() => {
+                  storedCredentials
+                    ? navigation.push("ReviewForm", {
+                        destination_id: id,
+                        clickedCalification: 0,
+                      })
+                    : navigation.push("Login");
+                }}
+              >
+                <Text
+                  style={[
+                    styles.writeOpinionText,
+                    appStyles.default.defaultFont,
+                  ]}
+                >
+                  Escribe una opinión
+                </Text>
+              </Pressable>
+              <View style={styles.opinionsLine} />
+            </View>
+            {/* <View> */}
+            <View style={styles.reviewsContainer}>
+              <ScrollView style={{ paddingRight: 5 }}>
+                <OpinionsList starsList={getStars()} />
+                {reviews
+                  ? reviews.map((review, index) => (
+                      <View
+                        // onPress={() => {
+                        //   isArea
+                        //     ? navigation.push("Area", { area: item[0] })
+                        //     : navigation.push("Destination", { destination: item[0] });
+                        // }} EDIT
+                        key={review.id}
+                      >
+                        <Review
+                          review={review}
+                          key={review.id}
+                          style={{ marginLeft: 50 }}
+                        />
+                      </View>
+                    ))
+                  : null}
+              </ScrollView>
+            </View>
+          </View>
+        ) : null}
       </View>
       <View
         style={{
@@ -218,7 +400,7 @@ const Destination = ({ route, navigation }) => {
           width: "100%",
         }}
       >
-        <ConstantMenu />
+        <ConstantMenu navigation={navigation} />
       </View>
     </SafeAreaView>
   );
@@ -242,6 +424,13 @@ const styles = StyleSheet.create({
     marginTop: 19,
     marginBottom: 5,
   },
+  reviewsContainer: {
+    flex: 1,
+
+    paddingHorizontal: 33,
+    marginTop: 10,
+    paddingBottom: 5,
+  },
   horizontalContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -249,6 +438,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     paddingBottom: 20,
     paddingHorizontal: 23,
+  },
+  starsContainer: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 10,
   },
   optionsContainer: {
     flexDirection: "row",
@@ -273,6 +469,31 @@ const styles = StyleSheet.create({
 
     color: "#7f7f7f",
   },
+  rateText: {
+    fontStyle: "normal",
+    fontWeight: "bold",
+    fontSize: 13,
+    lineHeight: 17,
+
+    marginHorizontal: 33,
+    marginTop: 8,
+
+    color: "#383837",
+  },
+  writeOpinionText: {
+    fontStyle: "normal",
+    fontWeight: "bold",
+    fontSize: 12,
+    lineHeight: 16,
+
+    textAlign: "justify",
+    textDecorationLine: "underline",
+
+    marginHorizontal: 33,
+    marginTop: 8,
+
+    color: "#769F5E",
+  },
   reviewsText: {
     fontStyle: "normal",
     fontWeight: "300",
@@ -282,7 +503,20 @@ const styles = StyleSheet.create({
 
     color: "#676767",
   },
+  starImage: {
+    width: 28.33,
+    height: 25.33,
+
+    marginHorizontal: 5,
+  },
   horizontalLine: {
+    borderWidth: 0.5,
+    borderColor: "rgba(0,0,0,0.2)",
+
+    marginTop: 3.5,
+  },
+  opinionsLine: {
+    width: "150%",
     borderWidth: 0.5,
     borderColor: "rgba(0,0,0,0.2)",
 
