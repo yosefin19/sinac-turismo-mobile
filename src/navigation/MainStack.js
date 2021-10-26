@@ -12,6 +12,7 @@ import SignUp from "../screens/SignUp";
 import UpdateProfile from "../screens/UpdateProfile";
 import Login from "../screens/Login";
 import {CredentialsContext} from "../CredentialsContext";
+import Profile from "../screens/Profile";
 
 /***
  * Pila de Ventanas de la Aplicación
