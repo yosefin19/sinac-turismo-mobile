@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {SafeAreaView, StyleSheet, Text, View} from "react-native";
-import {API_URL, DESTINATIONS_URL, FIRST_PERCENTAGE} from "../config";
+import {API_URL, AREAS_URL, DESTINATIONS_URL, FIRST_PERCENTAGE} from "../config";
 import {ActivityIndicator} from 'react-native-paper';
 import ConstantMenu from "../components/ConstantMenu";
 import TagsFilter from "../components/TagsFilter";
@@ -9,11 +9,26 @@ import InformationList from "../components/InformationList";
 const appStyles = require("../appStyle");
 
 const InformationSection = ({navigation}) => {
+    const [areas, setAreas] = useState({});
     const [seasonDestinations, setSeasonDestinations] = useState([])
 
+    const [loadingArea, setLoadingArea] = useState(true);
     const [loadingDestinations, setLoadingDestinations] = useState(true);
 
+    const areas_endpoint = `${API_URL}${AREAS_URL}`;
     const destination_endpoint = `${API_URL}${DESTINATIONS_URL}season/`
+
+    useEffect(() => {
+        let isMounted = true;
+        fetch(areas_endpoint)
+            .then((response) => response.json())
+            .then((json) => setAreas(json))
+            .catch((error) => console.error(error))
+            .finally(() => {
+                setLoadingArea(false);
+                isMounted = false;
+            });
+    }, []);
 
     useEffect(() => {
         let isMounted = true;
@@ -44,6 +59,14 @@ const InformationSection = ({navigation}) => {
                 <Text style={styles.listInformationText}>
                     Áreas de Conservación
                 </Text>
+                {loadingArea ?
+                    <ActivityIndicator animating={true} size={"large"} color={'rgba(118, 159, 94, 0.6)'}/> : (
+                        <InformationList
+                            destinations={areas}
+                            navigation={navigation}
+                            isArea={true}
+                        />
+                    )}
             </View>
             <View
                 style={styles.listInformationContainer}

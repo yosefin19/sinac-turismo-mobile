@@ -6,9 +6,9 @@ import { Image, StyleSheet, View } from "react-native";
 /***
  * Estrellas que representan la media de puntuación de un destino
  * @param reviewAverage Media de la puntuación de un destino turístico
- * @param emptyStar emptyStar imagen de icono vacio
- * @param halfStar halfStar imagen del icono a la mitad
- * @param filledStar filledStar imagen del icono lleno o completo
+ * @param emptyStar imagen de icono vacio
+ * @param halfStar imagen del icono a la mitad
+ * @param filledStar imagen del icono lleno o completo
  * @returns {JSX.Element}
  */
 const Stars = ({ reviewAverage, emptyStar, halfStar, filledStar }) => {
