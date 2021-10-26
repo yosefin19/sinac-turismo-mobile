@@ -7,6 +7,7 @@ import Volcano from "../images/volcano.png";
 import Mountain from "../images/mountain.png";
 import Forest from "../images/forest.png";
 
+
 const TagsFilter = () => {
     const [beachTag, setBeachTag] = useState(false);
     const [mountainTag, setMountainTag] = useState(false);

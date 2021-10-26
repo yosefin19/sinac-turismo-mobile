@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {SafeAreaView, StyleSheet, Text, View} from "react-native";
-import {API_URL, AREAS_URL, FIRST_PERCENTAGE} from "../config";
+import {API_URL, AREAS_URL, DESTINATIONS_URL, FIRST_PERCENTAGE} from "../config";
 import {ActivityIndicator} from 'react-native-paper';
 import ConstantMenu from "../components/ConstantMenu";
 import TagsFilter from "../components/TagsFilter";
@@ -10,10 +10,13 @@ const appStyles = require("../appStyle");
 
 const InformationSection = ({navigation}) => {
     const [areas, setAreas] = useState({});
+    const [seasonDestinations, setSeasonDestinations] = useState([])
 
     const [loadingArea, setLoadingArea] = useState(true);
+    const [loadingDestinations, setLoadingDestinations] = useState(true);
 
     const areas_endpoint = `${API_URL}${AREAS_URL}`;
+    const destination_endpoint = `${API_URL}${DESTINATIONS_URL}season/`
 
     useEffect(() => {
         let isMounted = true;
@@ -23,6 +26,19 @@ const InformationSection = ({navigation}) => {
             .catch((error) => console.error(error))
             .finally(() => {
                 setLoadingArea(false);
+                isMounted = false;
+            });
+    }, []);
+
+    useEffect(() => {
+        let isMounted = true;
+        let month = new Date().getMonth() + 1;
+        fetch(destination_endpoint + month)
+            .then((response) => response.json())
+            .then((json) => setSeasonDestinations(json))
+            .catch((error) => console.error(error))
+            .finally(() => {
+                setLoadingDestinations(false);
                 isMounted = false;
             });
     }, []);
@@ -58,6 +74,14 @@ const InformationSection = ({navigation}) => {
                 <Text style={styles.listInformationText}>
                     Lugares de Temporada
                 </Text>
+                {loadingDestinations ?
+                    <ActivityIndicator animating={true} size={"large"} color={'rgba(118, 159, 94, 0.6)'}/> : (
+                        <InformationList
+                            destinations={seasonDestinations}
+                            navigation={navigation}
+                            isArea={false}
+                        />
+                    )}
             </View>
             <View style={{
                 alignItems: "center",
