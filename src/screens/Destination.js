@@ -8,7 +8,7 @@ import {
   Pressable,
   SafeAreaView,
   Platform,
-  Dimensions,
+  Dimensions, Pressable,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -26,6 +26,10 @@ import { CredentialsContext } from "../CredentialsContext";
 // Imagenes
 import Exit from "../images/exit.png";
 import Star from "../images/black_star.png";
+import Empty from "../images/empty_star.png";
+import Filled from "../images/filled_star.png";
+import Half from "../images/half_star.png";
+
 
 // Configuración
 import {
@@ -150,12 +154,14 @@ const Destination = ({ route, navigation }) => {
       >
         <DestinationImageList destinationId={id} photos_path={photos_path} />
       </View>
+
       <Pressable
-        onPress={() => navigation.pop()}
+        onPress={() => navigation.goBack()}
         style={[appStyles.default.exitView, { elevation: 31 }]}
       >
         <Image style={appStyles.default.exitImage} source={Exit} />
       </Pressable>
+
       <View style={styles.container}>
         <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
           {name}
@@ -173,11 +179,15 @@ const Destination = ({ route, navigation }) => {
           </ScrollView>
         </View>
         <View style={styles.horizontalContainer}>
-          <Stars review={getAverage()} />
+
+          <Stars review={getAverage()} emptyStar={Empty} halfStar={Half} filledStar={Filled}/>
+
           <Text style={[styles.reviewsText, appStyles.default.defaultFont]}>
             {reviews.length} votos
           </Text>
         </View>
+
+        
         <View style={styles.optionsContainer}>
           <View style={{ alignItems: "center" }}>
             <Text

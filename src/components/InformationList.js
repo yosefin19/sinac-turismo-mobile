@@ -15,18 +15,21 @@ const INIT_NUM_TO_RENDER = 3;
  * @param navigation Pila para el manejo de ventanas
  * @returns {JSX.Element}
  */
-const InformationList = ({ areaDestinations, navigation }) => {
-  const initialImageIndex = Math.floor(areaDestinations.length / 2);
+const InformationList = ({ destinations, navigation, isArea }) => {
+  const initialImageIndex = Math.floor(destinations.length / 2);
 
   return (
     <FlatList
       initialNumToRender={INIT_NUM_TO_RENDER}
       initialScrollIndex={initialImageIndex}
-      data={areaDestinations}
+      data={destinations}
       renderItem={({ item, index }) => (
         <Pressable
           onPress={() => {
-            navigation.push("Destination", { destination: item });
+              isArea ?
+                  navigation.push("Area", { area: item })
+                  :
+                  navigation.push("Destination", { destination: item })
           }}
         >
           <ViewImageInformation
@@ -35,6 +38,7 @@ const InformationList = ({ areaDestinations, navigation }) => {
             imageUrl={`${IMAGE_BASE_URL}${item.photos_path.split(",")[0]}`}
             key={index}
             style={{ marginLeft: 50 }}
+            isDestination={!isArea}
           />
         </Pressable>
       )}

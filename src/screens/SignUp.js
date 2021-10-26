@@ -1,14 +1,7 @@
-import React, { useState, useContext } from "react";
-import { Component } from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-
-import { API_URL, SECRET } from "../config";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// Autenticación
-import { CredentialsContext } from "../CredentialsContext";
+import { API_URL } from "../config";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -16,10 +9,8 @@ const SignUp = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-  const Agregar = () => {
-    console.log("email", email);
-    console.log("password", password);
 
+  const Agregar = () => {
     if (name === "" || email === "" || phone === "" || password === "") {
       return;
     }
@@ -38,22 +29,19 @@ const SignUp = () => {
     fetch(`${API_URL}add-user`, requestOptionsUser)
       .then((response) => response.json())
       .then((data) => {
+
+        setId_user(data.id);
+
         let id_user = data.id;
         console.log("id:", id_user);
         console.log("response adduser", data);
 
-        // if (status !== "SUCCESS") {
-        //   // ERROR?
-        // } else {
-        //   // HOME?
-        // }
         // Agregar perfil
         const requestOptionsProfile = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             id: 0,
-            email: email,
             name: name,
             phone: phone,
             user_id: id_user,
@@ -69,6 +57,21 @@ const SignUp = () => {
           });
       })
       .catch((error) => console.log(error));
+    
+      const requestOptionsGallery = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: 0,
+          profile_id: 0,
+          photos_path: "/"
+        }),
+      };
+  
+      fetch(`${API_URL}add-gallery`, requestOptionsGallery)
+        .then((response) => response.json())
+
+      navigation.navigate("Login")
   };
   return (
     <View style={styles.container}>

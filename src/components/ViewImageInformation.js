@@ -19,6 +19,10 @@ import Favorite from "../images/filled_orange_heart.png";
 import No_seen from "../images/empty_eye.png";
 import Seen from "../images/seen.png";
 import NoImage from "../images/no_image.png";
+import Empty from "../images/empty_white_star.png";
+import Filled from "../images/filled_white_star.png";
+import Half from "../images/half_white_star.png";
+
 
 // Configuración
 import {
@@ -32,6 +36,7 @@ import {
   DESTINATIONS_IMAGE_HEIGHT,
   IMAGE_IN_LIST_PERCENTAGE,
 } from "../config";
+import Stars from "./Stars";
 
 // Estilos globales
 const appStyles = require("../appStyle");
@@ -41,7 +46,9 @@ const image_width = Dimensions.get("window").width * IMAGE_IN_LIST_PERCENTAGE;
 
 /***
  * Imagen y nombre de un destino presente en un área de conservación
+ * @param name nombre que se mostrara en al parte inferior de la tarjetas
  * @param imageUrl Dirección de la imagen
+ * @param isDestination booleano para saber si la tarjeta corresponde a un destino y agregar la calificación
  * @returns {JSX.Element}
  */
 const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
@@ -197,7 +204,11 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
           />
         </Pressable>
       </View>
-      {/* )} */}
+      {!isDestination? null :
+          <View style={styles.starts}>
+              <Stars review={4.5} emptyStar={Empty} halfStar={Half} filledStar={Filled}/>
+          </View>
+      }
       <View
         style={[
           styles.nameView,
@@ -272,6 +283,17 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     borderRadius: 7,
   },
+    starts: {
+        position: "absolute",
+
+        width: 31,
+        height: 31,
+
+        left: 22,
+        top: 9,
+        alignItems: "center",
+        justifyContent: "center",
+    }
 });
 
 export default ViewImageInformation;
