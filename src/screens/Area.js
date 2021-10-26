@@ -9,7 +9,6 @@ import {
   Platform,
   Dimensions,
   Pressable,
-
 } from "react-native";
 
 // Componentes
@@ -30,7 +29,7 @@ import {
   FIRST_PERCENTAGE,
   SECOND_PERCENTAGE,
   THIRD_PERCENTAGE,
-  TEXT_CONTAINER_PERCENTAGE, AREAS_URL,
+  TEXT_CONTAINER_PERCENTAGE,
 } from "../config";
 
 // Estilos globales
@@ -151,8 +150,8 @@ const Area = ({ route, navigation }) => {
           </Text>
           {loading ? null : (
             <InformationList
-                destinations={destinations}
-                isArea={false}
+              destinations={destinations}
+              isArea={false}
               navigation={navigation}
             />
           )}

@@ -8,7 +8,7 @@ import {
   Pressable,
   SafeAreaView,
   Platform,
-  Dimensions, Pressable,
+  Dimensions,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -29,7 +29,6 @@ import Star from "../images/black_star.png";
 import Empty from "../images/empty_star.png";
 import Filled from "../images/filled_star.png";
 import Half from "../images/half_star.png";
-
 
 // Configuración
 import {
@@ -93,7 +92,6 @@ const Destination = ({ route, navigation }) => {
     average /= reviews.length;
     return average;
   };
-  let stars;
 
   const getStars = () => {
     let stars = [0, 0, 0, 0, 0];
@@ -179,15 +177,18 @@ const Destination = ({ route, navigation }) => {
           </ScrollView>
         </View>
         <View style={styles.horizontalContainer}>
-
-          <Stars review={getAverage()} emptyStar={Empty} halfStar={Half} filledStar={Filled}/>
+          <Stars
+            review={getAverage()}
+            emptyStar={Empty}
+            halfStar={Half}
+            filledStar={Filled}
+          />
 
           <Text style={[styles.reviewsText, appStyles.default.defaultFont]}>
             {reviews.length} votos
           </Text>
         </View>
 
-        
         <View style={styles.optionsContainer}>
           <View style={{ alignItems: "center" }}>
             <Text

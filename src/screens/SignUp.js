@@ -3,12 +3,11 @@ import { Pressable, StyleSheet, Text, View, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { API_URL } from "../config";
 
-const SignUp = () => {
+const SignUp = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-
 
   const Agregar = () => {
     if (name === "" || email === "" || phone === "" || password === "") {
@@ -29,7 +28,6 @@ const SignUp = () => {
     fetch(`${API_URL}add-user`, requestOptionsUser)
       .then((response) => response.json())
       .then((data) => {
-
         setId_user(data.id);
 
         let id_user = data.id;
@@ -57,21 +55,22 @@ const SignUp = () => {
           });
       })
       .catch((error) => console.log(error));
-    
-      const requestOptionsGallery = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: 0,
-          profile_id: 0,
-          photos_path: "/"
-        }),
-      };
-  
-      fetch(`${API_URL}add-gallery`, requestOptionsGallery)
-        .then((response) => response.json())
 
-      navigation.navigate("Login")
+    const requestOptionsGallery = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: 0,
+        profile_id: 0,
+        photos_path: "/",
+      }),
+    };
+
+    fetch(`${API_URL}add-gallery`, requestOptionsGallery).then((response) =>
+      response.json()
+    );
+
+    navigation.navigate("Login");
   };
   return (
     <View style={styles.container}>

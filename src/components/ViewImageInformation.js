@@ -23,12 +23,12 @@ import Empty from "../images/empty_white_star.png";
 import Filled from "../images/filled_white_star.png";
 import Half from "../images/half_white_star.png";
 
-
 // Configuración
 import {
   API_URL,
   AREAS_URL,
   DESTINATIONS_URL,
+  REVIEWS_URL,
   FAVORITES_URL,
   VISITED_URL,
   ALL_URL,
@@ -51,12 +51,13 @@ const image_width = Dimensions.get("window").width * IMAGE_IN_LIST_PERCENTAGE;
  * @param isDestination booleano para saber si la tarjeta corresponde a un destino y agregar la calificación
  * @returns {JSX.Element}
  */
-const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
+const ViewImageInformation = ({ id, name, imageUrl, isArea }) => {
   const { storedCredentials, setStoredCredentials } =
     useContext(CredentialsContext);
 
   const [favoriteRelationId, setFavoriteRelationId] = useState(0);
   const [visitedRelationId, setVisitedRelationId] = useState(0);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const isFocused = useIsFocused();
@@ -69,15 +70,28 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
     },
   };
 
+  const getAverage = () => {
+    let average = 0;
+    for (let i = 0; i < reviews.length; ++i) {
+      average += reviews[i].calification;
+    }
+    average /= reviews.length;
+    return average;
+  };
+
   useEffect(() => {
     if (storedCredentials !== null) {
-      const relationEndpoint = `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
+      const relationEndpoint = isArea
+        ? `${API_URL}${AREAS_URL}${id}/${FAVORITES_URL}`
+        : `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
       let isMounted = true;
       setLoading(true);
       fetch(relationEndpoint, requestOptionsUser)
         .then((response) => response.json())
         .then((json) => {
-          if (isMounted) setFavoriteRelationId(json);
+          if (isMounted) {
+            if (typeof json === "number") setFavoriteRelationId(json);
+          }
         })
         .catch((error) => console.error(error))
         .finally(() => {
@@ -95,7 +109,9 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
       fetch(relationEndpoint, requestOptionsUser)
         .then((response) => response.json())
         .then((json) => {
-          if (isMounted) setVisitedRelationId(json);
+          if (isMounted) {
+            if (typeof json === "number") setVisitedRelationId(json);
+          }
         })
         .catch((error) => console.error(error))
         .finally(() => {
@@ -105,10 +121,35 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
     }
   }, [isFocused]);
 
+  // const endpoint = `${API_URL}${DESTINATIONS_URL}${id}/${REVIEWS_URL}`;
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     let isMounted = true;
+  //     setLoading(true);
+  //     fetch(endpoint)
+  //       .then((response) => response.json())
+  //       .then((json) => {
+  //         if (isMounted) {
+  //           isMounted = false;
+
+  //           setReviews(json);
+  //         }
+  //       })
+  //       .catch((error) => console.error(error))
+  //       .finally(() => {
+  //         isMounted = false;
+  //         setLoading(false);
+  //       });
+  //   }
+  // }, [isFocused]);
+
   const handle_favorite = () => {
     if (storedCredentials) {
       if (favoriteRelationId !== 0) {
-        let endpoint = `${API_URL}${DESTINATIONS_URL}${ALL_URL}${FAVORITES_URL}/${favoriteRelationId}`;
+        let endpoint = isArea
+          ? `${API_URL}${AREAS_URL}${ALL_URL}${FAVORITES_URL}/${favoriteRelationId}`
+          : `${API_URL}${DESTINATIONS_URL}${ALL_URL}${FAVORITES_URL}/${favoriteRelationId}`;
 
         fetch(endpoint, {
           method: "DELETE",
@@ -122,7 +163,9 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
             setFavoriteRelationId(0);
           });
       } else {
-        let endpoint = `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
+        let endpoint = isArea
+          ? `${API_URL}${AREAS_URL}${id}/${FAVORITES_URL}`
+          : `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
 
         fetch(endpoint, {
           method: "POST",
@@ -180,23 +223,15 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
             : NoImage
         }
       />
-      {/* {storedCredentials ? (
-        <View>
-          <Pressable style={appStyles.default.seenView}>
-            <Image style={appStyles.default.seenImage} source={Favorite} />
-          </Pressable>
-          <Pressable style={appStyles.default.favoriteView}>
-            <Image style={appStyles.default.favoriteImage} source={Favorite} />
-          </Pressable>
-        </View>
-      ) : ( */}
       <View style={styles.horizontalContainer}>
-        <Pressable style={styles.seenView} onPress={handle_visited}>
-          <Image
-            style={appStyles.default.seenImage}
-            source={visitedRelationId !== 0 ? Seen : No_seen}
-          />
-        </Pressable>
+        {isArea ? null : (
+          <Pressable style={styles.seenView} onPress={handle_visited}>
+            <Image
+              style={appStyles.default.seenImage}
+              source={visitedRelationId !== 0 ? Seen : No_seen}
+            />
+          </Pressable>
+        )}
         <Pressable style={styles.favoriteView} onPress={handle_favorite}>
           <Image
             style={appStyles.default.favoriteImage}
@@ -204,11 +239,16 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea, isFavorite }) => {
           />
         </Pressable>
       </View>
-      {!isDestination? null :
-          <View style={styles.starts}>
-              <Stars review={4.5} emptyStar={Empty} halfStar={Half} filledStar={Filled}/>
-          </View>
-      }
+      {isArea ? null : (
+        <View style={styles.starts}>
+          <Stars
+            review={getAverage()}
+            emptyStar={Empty}
+            halfStar={Half}
+            filledStar={Filled}
+          />
+        </View>
+      )}
       <View
         style={[
           styles.nameView,
@@ -283,17 +323,17 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     borderRadius: 7,
   },
-    starts: {
-        position: "absolute",
+  starts: {
+    position: "absolute",
 
-        width: 31,
-        height: 31,
+    width: 31,
+    height: 31,
 
-        left: 22,
-        top: 9,
-        alignItems: "center",
-        justifyContent: "center",
-    }
+    left: 22,
+    top: 9,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 export default ViewImageInformation;

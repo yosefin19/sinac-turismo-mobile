@@ -26,10 +26,9 @@ const InformationList = ({ destinations, navigation, isArea }) => {
       renderItem={({ item, index }) => (
         <Pressable
           onPress={() => {
-              isArea ?
-                  navigation.push("Area", { area: item })
-                  :
-                  navigation.push("Destination", { destination: item })
+            isArea
+              ? navigation.push("Area", { area: item })
+              : navigation.push("Destination", { destination: item });
           }}
         >
           <ViewImageInformation
@@ -38,7 +37,7 @@ const InformationList = ({ destinations, navigation, isArea }) => {
             imageUrl={`${IMAGE_BASE_URL}${item.photos_path.split(",")[0]}`}
             key={index}
             style={{ marginLeft: 50 }}
-            isDestination={!isArea}
+            isArea={isArea}
           />
         </Pressable>
       )}
