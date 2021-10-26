@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, Pressable, Image, ScrollView, Dimensions} from "react-native";
 import Icon from "react-native-vector-icons/Fontisto";
+import GalleryList from '../components/GalleryList'
+
 import { CredentialsContext } from "../CredentialsContext";
 
 import { API_URL, IMAGE_BASE_URL} from "../config";
@@ -10,6 +12,7 @@ let deviceWidth = Dimensions.get("window").width;
 import Exit from "../images/exit.png";
 import defaultProfile from "../images/defaultProfile.png"
 import defaultCover from "../images/defaultCover.jpg"
+
 // Estilos globales
 const appStyles = require("../appStyle");
 
@@ -73,7 +76,8 @@ const MyProfile = ({navigation}) => {
       </View>
   ) : (
         <ScrollView>
-               <View >
+                    <View >
+
                         <Image source={cover_photo} style={styles.cover} /> 
  
                     </View>                       
@@ -85,9 +89,9 @@ const MyProfile = ({navigation}) => {
                         <Image style={appStyles.default.exitImage} source={Exit} />
                     </View>
 
+
                     <Pressable style={styles.update} onPress={() => {
-                      
-                    navigation.navigate("Update", { profile: user });
+                              navigation.navigate("Update", { profile: user });
                         }}>
                     <Icon name="player-settings" size={21} color={"grey"} />
                      </Pressable>
@@ -123,11 +127,15 @@ const MyProfile = ({navigation}) => {
 
         {state === 0 /** aqui se agrega visitados y recomendados */}
 
+        {state === 1 && (
+            <ScrollView>
+              <View style={styles.container}>
+              <GalleryList navigation={navigation} />
+                </View>
+            </ScrollView>
+            
+        )}      
 
-        {state === 1
-
-/** aqui se agrega Galeria */
-        }      
             </ScrollView>
         </ScrollView>
         )

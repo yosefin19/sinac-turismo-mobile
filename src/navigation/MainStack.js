@@ -9,16 +9,17 @@ import Area from "../screens/Area";
 import Destination from "../screens/Destination";
 import Region from "../screens/Region";
 import SignUp from "../screens/SignUp";
+import GalleryImage from "../components/GalleryImage";
 import UpdateProfile from "../screens/UpdateProfile";
 import Login from "../screens/Login";
 import {CredentialsContext} from "../CredentialsContext";
 import Profile from "../screens/Profile";
 
+
 /***
  * Pila de Ventanas de la Aplicación
  */
 const Stack = createNativeStackNavigator();
-
 
 /***
  * Componente que proporciona la posibilidad de realizar transiciones
@@ -26,6 +27,7 @@ const Stack = createNativeStackNavigator();
  * @returns {JSX.Element}
  */
 const MainStack = () => {
+
     const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
 
     return (
@@ -81,6 +83,10 @@ const MainStack = () => {
                         name="Update"
                         component={UpdateProfile}
                     />
+                    <Stack.Screen 
+                        name="GalleryImage" 
+                        component={GalleryImage}
+                     />
                 </Stack.Navigator>
             )}
         </CredentialsContext.Consumer>

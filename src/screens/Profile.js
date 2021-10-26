@@ -1,3 +1,4 @@
+
 import React, {useContext} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {CredentialsContext} from "../CredentialsContext";
@@ -26,16 +27,16 @@ const Profile = ({navigation}) => {
             </Pressable>
         </View>
     );
+
 };
 
 const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: '#F0F0F0',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-    }
-);
+  container: {
+    flex: 1,
+    backgroundColor: "#F0F0F0",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default Profile;
