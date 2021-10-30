@@ -64,6 +64,7 @@ const UpdateProfile = ({route, navigation}) => {
       
       fetch(endpoint, requestOptions)
       .then(response => response.json())
+      .catch((error) => console.error(error)); 
      }
     };
 
@@ -134,7 +135,6 @@ const UpdateProfile = ({route, navigation}) => {
             cover_photo_path: ""
           })
         };
-        console.log(requestOptionsProfile)
           fetch(endpointProfile, requestOptionsProfile)
           .then(response => response.json()) 
           .catch((error) => console.error(error)); 
@@ -154,7 +154,6 @@ const UpdateProfile = ({route, navigation}) => {
          body: JSON.stringify({ 
            id: 0, email: email, password:password, admin:false})
        };
-        console.log(requestOptionsUser)
          fetch(endpointUser, requestOptionsUser)
          .then(response => response.json())
          .catch((error) => console.error(error));

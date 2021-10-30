@@ -24,7 +24,6 @@ const GalleryList = ({ navigation }) => {
   const [isMountedG, setMounted] = useState(false);
 
   const getGallery = () => {
-    console.log("getGallery");
     const endpointGallery = API_URL + "gallery";
     const requestOptionsGallery = {
       method: "GET",
@@ -44,7 +43,7 @@ const GalleryList = ({ navigation }) => {
         }
       })
       .catch((error) => console.error(error));
-    console.log(photos_path);
+    
   };
 
   useEffect(() => {
@@ -95,7 +94,6 @@ const GalleryList = ({ navigation }) => {
 
         .catch((error) => console.error(error));
     }
-    console.log("agregar");
     getGallery();
   };
 
