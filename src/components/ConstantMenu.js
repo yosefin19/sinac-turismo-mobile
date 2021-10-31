@@ -30,7 +30,7 @@ const ConstantMenu = ({ navigation }) => {
         <Icon text="inicio" imageUrl={Home} width={19.65} height={20.72} />
         <Pressable
           onPress={() => {
-            storedCredentials !== null
+            storedCredentials !== "" && storedCredentials !== null
               ? navigation.navigate("Favorites")
               : navigation.navigate("Login");
           }}

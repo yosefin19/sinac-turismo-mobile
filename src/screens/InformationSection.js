@@ -27,7 +27,9 @@ const InformationSection = ({ navigation }) => {
     let isMounted = true;
     fetch(areas_endpoint)
       .then((response) => response.json())
-      .then((json) => setAreas(json))
+      .then((json) => {
+        if (isMounted) setAreas(json);
+      })
       .catch((error) => console.error(error))
       .finally(() => {
         setLoadingArea(false);
