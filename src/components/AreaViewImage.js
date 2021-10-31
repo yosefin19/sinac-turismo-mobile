@@ -53,7 +53,7 @@ const AreaViewImage = ({ areaId, imageUrl }) => {
   };
 
   useEffect(() => {
-    if (storedCredentials !== null) {
+    if (storedCredentials !== "" && storedCredentials !== null) {
       let isMounted = true;
       setLoading(true);
       fetch(favoriteEndpoint, requestOptionsUser)

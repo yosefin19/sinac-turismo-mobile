@@ -55,7 +55,7 @@ const DestinationViewImage = ({ id, imageUrl }) => {
   };
 
   useEffect(() => {
-    if (storedCredentials !== null) {
+    if (storedCredentials !== "" && storedCredentials !== null) {
       const relationEndpoint = `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
       let isMounted = true;
       // setLoading(true);
@@ -73,7 +73,7 @@ const DestinationViewImage = ({ id, imageUrl }) => {
   }, [isFocused]);
 
   useEffect(() => {
-    if (storedCredentials !== null) {
+    if (storedCredentials !== "" && storedCredentials !== null) {
       const relationEndpoint = `${API_URL}${DESTINATIONS_URL}${id}/${VISITED_URL}`;
       let isMounted = true;
       // setLoading(true);

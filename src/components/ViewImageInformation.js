@@ -80,7 +80,7 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea }) => {
   };
 
   useEffect(() => {
-    if (storedCredentials !== null) {
+    if (storedCredentials !== "" && storedCredentials !== null) {
       const relationEndpoint = isArea
         ? `${API_URL}${AREAS_URL}${id}/${FAVORITES_URL}`
         : `${API_URL}${DESTINATIONS_URL}${id}/${FAVORITES_URL}`;
@@ -102,7 +102,7 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea }) => {
   }, [isFocused]);
 
   useEffect(() => {
-    if (storedCredentials !== null && !isArea) {
+    if (storedCredentials !== "" && storedCredentials !== null && !isArea) {
       const relationEndpoint = `${API_URL}${DESTINATIONS_URL}${id}/${VISITED_URL}`;
       let isMounted = true;
       setLoading(true);
