@@ -272,13 +272,10 @@ const Destination = ({ route, navigation }) => {
               alignItems: "center",
               justifyContent: "center",
             }}
-          >
-            {/* <AreaRegion imageUrl="https://www.costaricavibes.com/wp-content/uploads/2020/05/costaricaregionmap-1024x683.jpg" /> */}
-          </View>
+          ></View>
         ) : null}
         {state === 2 ? (
           <View style={{ flex: 1 }}>
-            {/* <ReviewsMenu /> */}
             <View>
               <Text style={[styles.rateText, appStyles.default.defaultFont]}>
                 Califica este destino:
