@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View, TextInput } from "react-native";
+import { Pressable, StyleSheet, Text, View, TextInput, SafeAreaView, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { API_URL } from "../config";
+import { API_URL, FIRST_PERCENTAGE } from "../config";
+import ConstantMenu from "../components/ConstantMenu";
+let deviceHeight = Dimensions.get("window").height;
 
 const SignUp = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -24,6 +26,7 @@ const SignUp = ({ navigation }) => {
         admin: false,
       }),
     };
+    print(requestOptionsUser)
 
     fetch(`${API_URL}add-user`, requestOptionsUser)
       .then((response) => response.json())
@@ -46,13 +49,13 @@ const SignUp = ({ navigation }) => {
         fetch(`${API_URL}add-profile`, requestOptionsProfile)
           .then((response) => response.json())
           .then((data) => {
-           
+            let id_profile = data.id;
             const requestOptionsGallery = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 id: 0,
-                profile_id: id_user,
+                profile_id: id_profile,
                 photos_path: "/",
               }),
             };
@@ -66,7 +69,8 @@ const SignUp = ({ navigation }) => {
     navigation.navigate("Login");
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+     
       <Text style={styles.textTitle}>Crear una cuenta</Text>
 
       <View style={[styles.containerV, { borderColor: "#eeee" }]}>
@@ -118,9 +122,25 @@ const SignUp = ({ navigation }) => {
         style={[styles.containerS, { backgroundColor: "#769E5F" }]}
         onPress={Agregar}
       >
-        <Text style={styles.submitText}>Registrar</Text>
+        <Text style={styles.submitText}>Registrar </Text>
       </Pressable>
-    </View>
+    
+
+
+      <View
+          style={{
+          top: deviceHeight/9,
+          alignItems: "center",
+          justifyContent: "center",
+          flex: FIRST_PERCENTAGE,
+          width: "100%",
+        }}
+      >
+        <ConstantMenu navigation={navigation} />
+      
+      
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -136,7 +156,7 @@ const styles = StyleSheet.create({
   containerS: {
     width: "35%",
     borderRadius: 15,
-    marginVertical: 20,
+    marginVertical: 0,
   },
   submitText: {
     fontSize: 19,
@@ -146,8 +166,10 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   container: {
-    marginTop: 200,
-    alignItems: "center",
+    height: deviceHeight,
+    flex:1,
+    top: deviceHeight/3,
+    alignItems: 'center',
   },
 
   textTitle: {

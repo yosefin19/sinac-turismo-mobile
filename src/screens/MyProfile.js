@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, Text, View, Pressable, Image, ScrollView, Dimensions} from "react-native";
+import { StyleSheet, Text, View, Pressable, Image, ScrollView, Dimensions, SafeAreaView} from "react-native";
 import Icon from "react-native-vector-icons/Fontisto";
 import GalleryList from '../components/GalleryList'
+import ConstantMenu from "../components/ConstantMenu";
 
 import { CredentialsContext } from "../CredentialsContext";
 
-import { API_URL, IMAGE_BASE_URL} from "../config";
+import { API_URL, IMAGE_BASE_URL, FIRST_PERCENTAGE, THIRD_PERCENTAGE, SECOND_PERCENTAGE} from "../config";
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 // Imagenes
 import Exit from "../images/exit.png";
-import defaultProfile from "../images/defaultProfile.png"
-import defaultCover from "../images/defaultCover.jpg"
 
 // Estilos globales
 const appStyles = require("../appStyle");
@@ -72,15 +71,13 @@ const MyProfile = ({navigation}) => {
 
     return loading ? (
       <View style={{ height: "100%", justifyContent: "center" }}>
-          <Text>Cargando...</Text>
+
       </View>
   ) : (
-        <ScrollView>
-                    <View >
-
-                        <Image source={cover_photo} style={styles.cover} /> 
- 
-                    </View>                       
+        <SafeAreaView style={styles.safeContainer}>
+       <View  style = {styles.profile} >
+                <Image source={cover_photo} style={styles.cover} /> 
+                     
                     <View style={{alignItems:'center'}}>
                             <Image source={profile_photo} style={styles.profileImage}/>
                             <Text>{name}</Text>
@@ -95,7 +92,8 @@ const MyProfile = ({navigation}) => {
                         }}>
                     <Icon name="player-settings" size={21} color={"grey"} />
                      </Pressable>
-            <ScrollView> 
+       </View>
+       
 
         <View style={styles.optionsContainer}>
           <View style={{ alignItems: "center" }}>
@@ -121,32 +119,44 @@ const MyProfile = ({navigation}) => {
               />
             )}
           </View>
+         
 
+         </View>
 
- </View>
-
-        {state === 0 /** aqui se agrega visitados y recomendados */}
+        {state === 0 && (
+          <ScrollView style={styles.scrollView}>
+          <View style={styles.container}>
+            </View>
+        </ScrollView>
+        )}
 
         {state === 1 && (
-            <ScrollView>
-              <View style={styles.container}>
+          <ScrollView style={styles.scrollView}>
               <GalleryList navigation={navigation} />
-                </View>
+               
             </ScrollView>
-            
         )}      
 
-            </ScrollView>
-        </ScrollView>
+       <View
+          style={{
+          top: -5,
+          alignItems: "center",
+          justifyContent: "center",
+          flex: 0,
+          width: "100%",
+        }}
+      >
+        <ConstantMenu navigation={navigation} />
+      </View>
+      </SafeAreaView>
         )
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeContainer: {
     flex: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
     text: {
         color: "#52575D"
@@ -172,6 +182,17 @@ const styles = StyleSheet.create({
         flex: 1,
         width: deviceWidth,
         height:deviceHeight*0.25,
+    },
+    profile:{
+      width: deviceWidth,
+      height:deviceHeight*0.35,
+
+    },
+    scrollView:{
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingVertical: 10,
+
     },
       optionsContainer: {
         flexDirection:'row',
