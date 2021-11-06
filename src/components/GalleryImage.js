@@ -14,15 +14,18 @@ const GalleryImage = ({route, navigation}) => {
     
     const Delete = () => {
   
-        const url =  `${API_URL}delete-photo`;
+        const deleteName = name.split("/");
+        const result = Object.keys(deleteName).map((key)=> {
+            return [key, deleteName[key]];
+          });
         const requestOptions = {
         method: 'DELETE',        
         headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + storedCredentials ,
-          },
-        body: JSON.stringify({name: name })
-    };
+            Authorization: "Bearer " + storedCredentials,
+          },};  
+        const url =  `${API_URL}delete-photo/`+ result[result.length-1][1];
+        
          fetch(url, requestOptions)
         .then(response => response.json())
         .then((data) => { console.log(data)})
