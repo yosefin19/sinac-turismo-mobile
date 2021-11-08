@@ -8,11 +8,11 @@ import {
 } from "react-native";
 import HomeSearchBar from "../components/HomeSearchBar";
 import HomeButton from "../components/HomeButton";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import OpenURLButton from "../components/OpenURLButton";
 // Autenticación
 import { CredentialsContext } from "../CredentialsContext";
-import { API_URL, SECRET } from "../config";
+import { SECRET } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const appStyles = require("../appStyle");
@@ -65,7 +65,7 @@ const Home = ({ navigation }) => {
           navigation.navigate("About");
         }}
       >
-        <Text style={styles.aboutText}>Conozcanos</Text>
+        <Text style={styles.aboutText}>Conózcanos</Text>
       </Pressable>
       {storedCredentials ? (
         <Pressable

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ParsedText from "react-native-parsed-text";
 import {
   StyleSheet,
   Text,
@@ -7,6 +8,7 @@ import {
   ScrollView,
   Pressable,
   Image,
+  Dimensions,
 } from "react-native";
 
 // Componentes
@@ -15,7 +17,7 @@ import ConstantMenu from "../components/ConstantMenu";
 // Imagenes
 import Exit from "../images/exit.png";
 import NoImage from "../images/no_image.png";
-// import Banner from "../images/banner_sinac.gif";
+const Banner = require("../images/banner.gif");
 
 // Configuración
 import {
@@ -26,6 +28,10 @@ import {
 
 // Estilos globales
 const appStyles = require("../appStyle");
+
+const B = (props) => (
+  <Text style={{ fontWeight: "bold" }}>{props.children}</Text>
+);
 
 const About = ({ navigation }) => {
   const [state, setState] = useState(0);
@@ -55,15 +61,15 @@ de la biodiversidad y los recursos naturales, con gestión participativa y equit
 mantener los servicios ecosistémicos, que contribuya al desarrollo sostenible de Costa Rica.";
   const valuesText = [
     "Solidaridad: Es el compromiso manifiesto de los funcionarios con las necesidades de los grupos de \
-interés, los usuarios y sociedad en general.\n\n",
+interés, los usuarios y sociedad en general.",
     "Proactividad: Es la actitud en la que la persona asume el pleno control de su conducta vital de modo \
 activo, lo que implica la toma de iniciativa en el desarrollo de acciones creativas y audaces para \
-generar mejoras, haciendo prevalecer la libertad de elección sobre las circunstancias de la vida.\n\n",
+generar mejoras, haciendo prevalecer la libertad de elección sobre las circunstancias de la vida.",
     "Compromiso: Es la actitud que identifica la lealtad y la dedicación personal, organizacional y \
 ambiental de los colaboradores y cuerpos directivos; es sentir y vivir como propios los objetivos y \
-metas organizacionales, responsabilizándose por el logro de los mismos.\n\n",
+metas organizacionales, responsabilizándose por el logro de los mismos.",
     "Actitud de servicio: Es la conducta para ayudar a otras personas espontáneamente, manteniendo una \
-actitud permanente de colaboración hacia los demás.\n\n",
+actitud permanente de colaboración hacia los demás.",
   ];
 
   const changeToHistory = () => {
@@ -85,23 +91,17 @@ actitud permanente de colaboración hacia los demás.\n\n",
       <View
         style={[
           {
-            alignItems: "center",
-            justifyContent: "center",
             flex: ABOUT_US_FIRST_PERCENTAGE,
-            marginBottom: 10,
           },
-          Platform.OS === "android"
-            ? appStyles.default.androidShadowBox
-            : appStyles.default.iosShadowBox,
-          { elevation: 30, backgroundColor: "rgba(0,0,0,0.5)" },
         ]}
       >
         <Image
+          source={Banner}
           style={{
-            resizeMode: "stretch",
-            flex: 1,
+            width: Dimensions.get("window").width,
+            height: "100%",
+            backgroundColor: "#000",
           }}
-          source={NoImage}
         />
       </View>
       <Pressable
@@ -206,67 +206,99 @@ actitud permanente de colaboración hacia los demás.\n\n",
           ]}
         />
         {state === 0 ? (
-          <ScrollView
-            style={{
-              flex: 0.9,
-              margin: 10,
-              marginBottom: 20,
-              paddingRight: 10,
-            }}
-          >
-            <Text style={[styles.aboutText, appStyles.default.defaultFont]}>
+          <ScrollView style={styles.textContainer}>
+            <ParsedText
+              style={[styles.aboutText, appStyles.default.defaultFont]}
+              parse={[
+                {
+                  pattern: /SINAC/,
+                  style: { fontWeight: "bold" },
+                },
+                {
+                  pattern:
+                    /materia forestal|vida silvestre|áreas protegidas|cuencas hidrográficas|sistemas hídricos|gestión pública responsable|ambiente sano|ecológicamente equilibrado|once áreas de conservación|estrategias de conservación|desarrollo sostenible/,
+                  style: { fontWeight: "bold" },
+                },
+              ]}
+              childrenProps={{ allowFontScaling: false }}
+            >
               {historyText}
-            </Text>
+            </ParsedText>
           </ScrollView>
         ) : null}
         {state === 1 ? (
-          <ScrollView
-            style={{
-              flex: 0.9,
-              margin: 10,
-              marginBottom: 20,
-              paddingRight: 10,
-            }}
-          >
-            <Text style={[styles.aboutText, appStyles.default.defaultFont]}>
+          <ScrollView style={styles.textContainer}>
+            <ParsedText
+              style={[styles.aboutText, appStyles.default.defaultFont]}
+              parse={[
+                {
+                  pattern: /SINAC/,
+                  style: { fontWeight: "bold" },
+                },
+                {
+                  pattern:
+                    /vida silvestre|recursos forestales|áreas silvestres protegidas|cuencas hidrográficas|sistemas hídricos|bienestar/,
+                  style: { fontWeight: "bold" },
+                },
+              ]}
+              childrenProps={{ allowFontScaling: false }}
+            >
               {missionText}
-            </Text>
+            </ParsedText>
           </ScrollView>
         ) : null}
         {state === 2 ? (
-          <ScrollView
-            style={{
-              flex: 0.9,
-              margin: 10,
-              marginBottom: 20,
-              paddingRight: 10,
-            }}
-          >
-            <Text style={[styles.aboutText, appStyles.default.defaultFont]}>
+          <ScrollView style={styles.textContainer}>
+            <ParsedText
+              style={[styles.aboutText, appStyles.default.defaultFont]}
+              parse={[
+                {
+                  pattern: /SINAC/,
+                  style: { fontWeight: "bold" },
+                },
+                {
+                  pattern:
+                    /lidera la conservación y uso sostenible|mejorar y mantener|contribuya al desarrollo sostenible/,
+                  style: { fontWeight: "bold" },
+                },
+              ]}
+              childrenProps={{ allowFontScaling: false }}
+            >
               {visionText}
-            </Text>
+            </ParsedText>
           </ScrollView>
         ) : null}
         {state === 3 ? (
-          <ScrollView
-            style={{
-              flex: 0.9,
-              margin: 10,
-              marginBottom: 20,
-              paddingRight: 10,
-            }}
-          >
-            <Text style={[styles.aboutText, appStyles.default.defaultFont]}>
-              {valuesText}
-            </Text>
+          <ScrollView style={styles.textContainer}>
+            <ParsedText
+              style={[styles.aboutText, appStyles.default.defaultFont]}
+              parse={[
+                {
+                  pattern: /SINAC/,
+                  style: { fontWeight: "bold" },
+                },
+                {
+                  pattern:
+                    /Solidaridad\:|Proactividad\:|Compromiso|Actitud de servicio/,
+                  style: { fontWeight: "bold" },
+                },
+                {
+                  pattern:
+                    /compromiso|necesidades|toma de iniciativa|lealtad|dedicación personal|sentir y vivir como propios|colaboración/,
+                  style: { fontWeight: "bold" },
+                },
+              ]}
+              childrenProps={{ allowFontScaling: false }}
+            >
+              {valuesText.join("\n\n")}
+            </ParsedText>
           </ScrollView>
         ) : null}
         <View
           style={{
             alignItems: "center",
-            justifyContent: "center",
             flex: ABOUT_US_THIRD_PERCENTAGE,
-            width: "100%",
+            top: 0,
           }}
         >
           <ConstantMenu navigation={navigation} />
@@ -279,14 +311,9 @@ actitud permanente de colaboración hacia los demás.\n\n",
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    //backgroundColor: "#F0F0F0",
-    justifyContent: "center",
-    alignItems: "center",
   },
   container: {
     flex: ABOUT_US_SECOND_PERCENTAGE,
-    height: "100%",
-    width: "100%",
   },
   optionsContainer: {
     flexDirection: "row",
@@ -294,6 +321,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
 
     marginHorizontal: 10,
+  },
+  textContainer: {
+    flex: 0.9,
+    margin: 10,
+    paddingRight: 10,
   },
   selectedLine: {
     borderWidth: 1,
