@@ -240,7 +240,7 @@ const Login = ({navigation}) => {
                 flex: FIRST_PERCENTAGE,
                 width: "100%",
             }}>
-                <ConstantMenu/>
+                <ConstantMenu navigation={navigation}/>
             </View>
         </SafeAreaView>
     );
