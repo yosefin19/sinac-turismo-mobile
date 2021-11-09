@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Pressable, Image, StyleSheet, Text, View, TextInput, ScrollView } from "react-native";
+import { Pressable, Image, StyleSheet, Text, View, TextInput, SafeAreaView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { API_URL } from "../config";
 const appStyles = require("../appStyle");
+import ConstantMenu from "../components/ConstantMenu";
+import Exit from "../images/exit.png";
+
 const SignUp = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,9 +69,15 @@ const SignUp = ({ navigation }) => {
     navigation.navigate("Login");
   };
   return (
-    <ScrollView>
+    <SafeAreaView style={styles.safeContainer}>
             
      <View style={styles.container}>
+     <Pressable
+        onPress={() => navigation.goBack()}
+        style={[appStyles.default.exitView, { elevation: 31 }]}
+      >
+        <Image style={appStyles.default.exitImage} source={Exit} />
+      </Pressable>
      <Image style={styles.logo} source={require('../../assets/menu-icon.png')}/>
       
       <Text style={styles.textTitle}>Crear una cuenta</Text>
@@ -120,14 +129,29 @@ const SignUp = ({ navigation }) => {
       <Pressable
         style={styles.containerS}  onPress={Agregar}
       >
-         <Text style={[styles.submitText,appStyles.default.defaultFont]}>Actualizar</Text>
+         <Text style={[styles.submitText,appStyles.default.defaultFont]}>Registrar</Text>
     </Pressable>
     </View>
-    </ScrollView>
+    <View
+          style={{
+          bottom:5,
+          alignItems: "center",
+          justifyContent: "center",
+          flex: 0,
+          width: "100%",
+        }}
+      >
+        <ConstantMenu navigation={navigation} />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
   containerV: {
     marginTop: 100,
     width: "90%",
@@ -186,3 +210,4 @@ const styles = StyleSheet.create({
   },
 });
 export default SignUp;
+

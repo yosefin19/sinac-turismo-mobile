@@ -8,6 +8,7 @@ import GalleryList from '../components/GalleryList'
 import InformationList from "../components/InformationList";
 import { CredentialsContext } from "../CredentialsContext";
 
+
 import { API_URL, IMAGE_BASE_URL, FIRST_PERCENTAGE, THIRD_PERCENTAGE, SECOND_PERCENTAGE} from "../config";
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
@@ -114,9 +115,12 @@ const MyProfile = ({navigation}) => {
                        <Image source={profile_photo} style={styles.profileImage}/>
                        <Text>{name}</Text>
                    </View>
-               <View style={[appStyles.default.exitView, { elevation: 31 }]}>
-                   <Image style={appStyles.default.exitImage} source={Exit} />
-               </View>
+                   <Pressable
+                      onPress={() => navigation.goBack()}
+                       style={[appStyles.default.exitView, { elevation: 31 }]}
+                       >
+                     <Image style={appStyles.default.exitImage} source={Exit} />
+                  </Pressable>
 
 
                <Pressable style={styles.update} onPress={() => {
