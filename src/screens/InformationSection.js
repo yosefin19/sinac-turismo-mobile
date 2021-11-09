@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
+  Dimensions,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
   FlatList,
   Pressable,
-  Dimensions,
 } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
 import FA from "react-native-vector-icons/FontAwesome";
+import { ActivityIndicator } from "react-native-paper";
 
 // Configuración
 import {
@@ -37,17 +37,17 @@ const InformationSection = ({ navigation }) => {
   const [areas, setAreas] = useState({});
   const [seasonDestinations, setSeasonDestinations] = useState([]);
 
+  const [loading, setLoading] = useState([]);
   const [loadingArea, setLoadingArea] = useState(true);
   const [destinations, setDestinations] = useState([]);
-  const [loading, setLoading] = useState([]);
 
   const [loadingDestinations, setLoadingDestinations] = useState(true);
 
+  const [onClick, setOnClick] = useState(false);
   const [beachTag, setBeachTag] = useState(false);
   const [mountainTag, setMountainTag] = useState(false);
   const [volcanoTag, setVolcanoTag] = useState(false);
   const [forestTag, setForestTag] = useState(false);
-  const [onClick, setOnClick] = useState(false);
 
   const [filterResult, setFilterResult] = useState([]);
 
@@ -84,98 +84,6 @@ const InformationSection = ({ navigation }) => {
         setLoading(false);
       });
   }, []);
-
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   setLoading(true);
-  //   setDestinations([
-  //     {
-  //       name: "Test1",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test2",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test3",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: false,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test4",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: true,
-  //       is_mountain: false,
-  //     },
-  //     {
-  //       name: "Test5",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test6",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: false,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test7",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: true,
-  //       is_mountain: false,
-  //     },
-  //     {
-  //       name: "Test8",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: false,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test9",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: false,
-  //     },
-  //     {
-  //       name: "Test10",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: false,
-  //       is_mountain: false,
-  //     },
-  //     {
-  //       name: "Test11",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test12",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //   ]);
-  //   setLoading(false);
-  // }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -268,7 +176,7 @@ const InformationSection = ({ navigation }) => {
               paddingHorizontal: 15,
               margin: 10,
               width: "98%",
-              height: Dimensions.get("window").height, // * FIRST_PERCENTAGE//"100%",
+              height: Dimensions.get("window").height,
 
               alignSelf: "center",
               justifyContent: "center",
