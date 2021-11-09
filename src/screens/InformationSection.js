@@ -1,24 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Pressable,
+} from "react-native";
+import FA from "react-native-vector-icons/FontAwesome";
+import { ActivityIndicator } from "react-native-paper";
+
+// Configuración
 import {
   API_URL,
   AREAS_URL,
   DESTINATIONS_URL,
   FIRST_PERCENTAGE,
 } from "../config";
-import { ActivityIndicator } from "react-native-paper";
+
+// Componentes
 import ConstantMenu from "../components/ConstantMenu";
 import TagsFilter from "../components/TagsFilter";
 import InformationList from "../components/InformationList";
 
+// Estilos globales
 const appStyles = require("../appStyle");
 
+/***
+ * Pantalla que muestra información referente a las áreas de conservación y destinos
+ * turísticos registrados en la aplicación.
+ * @param navigation Pila para el manejo de ventanas
+ * @returns {JSX.Element}
+ */
 const InformationSection = ({ navigation }) => {
   const [areas, setAreas] = useState({});
   const [seasonDestinations, setSeasonDestinations] = useState([]);
 
+  const [loading, setLoading] = useState([]);
   const [loadingArea, setLoadingArea] = useState(true);
+  const [destinations, setDestinations] = useState([]);
+
   const [loadingDestinations, setLoadingDestinations] = useState(true);
+
+  const [onClick, setOnClick] = useState(false);
+  const [beachTag, setBeachTag] = useState(false);
+  const [mountainTag, setMountainTag] = useState(false);
+  const [volcanoTag, setVolcanoTag] = useState(false);
+  const [forestTag, setForestTag] = useState(false);
+
+  const [filterResult, setFilterResult] = useState([]);
 
   const areas_endpoint = `${API_URL}${AREAS_URL}`;
   const destination_endpoint = `${API_URL}${DESTINATIONS_URL}season/`;
@@ -54,7 +85,6 @@ const InformationSection = ({ navigation }) => {
       });
   }, []);
 
-
   useEffect(() => {
     let isMounted = true;
     let month = new Date().getMonth() + 1;
@@ -68,11 +98,53 @@ const InformationSection = ({ navigation }) => {
       });
   }, []);
 
+  const filterItems = (beachTag, mountainTag, volcanoTag, forestTag) => {
+    const newData = destinations.filter((item) => {
+      return (
+        (!beachTag || item.is_beach) &&
+        (!mountainTag || item.is_mountain) &&
+        (!volcanoTag || item.is_volcano) &&
+        (!forestTag || item.is_forest)
+      );
+    });
+    setFilterResult(newData);
+  };
+
+  useEffect(() => {
+    if (!beachTag && !mountainTag && !volcanoTag && !forestTag) {
+      setFilterResult([]);
+      setOnClick(false);
+    } else {
+      setOnClick(true);
+      filterItems(beachTag, mountainTag, volcanoTag, forestTag);
+    }
+  }, [beachTag, mountainTag, volcanoTag, forestTag]);
+
+  const handleExitClick = () => {
+    setOnClick(false);
+    setBeachTag(false);
+    setMountainTag(false);
+    setVolcanoTag(false);
+    setForestTag(false);
+    setFilterResult([]);
+  };
+
+  const renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: "100%",
+          backgroundColor: "#CED0CE",
+        }}
+      />
+    );
+  };
+
   return (
     <SafeAreaView
       style={[styles.safeContainer, appStyles.default.appBackgroundColor]}
     >
-
       <View style={[styles.title, styles.nameContainer]}>
         {onClick && (
           <Pressable style={styles.backButton} onPressIn={handleExitClick}>
@@ -104,7 +176,7 @@ const InformationSection = ({ navigation }) => {
               paddingHorizontal: 15,
               margin: 10,
               width: "98%",
-              height: Dimensions.get("window").height, // * FIRST_PERCENTAGE//"100%",
+              height: Dimensions.get("window").height,
 
               alignSelf: "center",
               justifyContent: "center",
@@ -142,11 +214,13 @@ const InformationSection = ({ navigation }) => {
             />
           </View>
         ) : null}
-
       </View>
-      <TagsFilter />
       <View style={styles.listInformationContainer}>
-        <Text style={styles.listInformationText}>Áreas de Conservación</Text>
+        <Text
+          style={[styles.listInformationText, appStyles.default.defaultFont]}
+        >
+          Áreas de Conservación
+        </Text>
         {loadingArea ? (
           <ActivityIndicator
             animating={true}
@@ -162,7 +236,11 @@ const InformationSection = ({ navigation }) => {
         )}
       </View>
       <View style={styles.listInformationContainer}>
-        <Text style={styles.listInformationText}>Lugares de Temporada</Text>
+        <Text
+          style={[styles.listInformationText, appStyles.default.defaultFont]}
+        >
+          Lugares de Temporada
+        </Text>
         {loadingDestinations ? (
           <ActivityIndicator
             animating={true}
@@ -196,6 +274,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  nameContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
   title: {
     marginTop: "18%",
     alignContent: "flex-start",
@@ -203,7 +285,6 @@ const styles = StyleSheet.create({
   },
   titleText: {
     textAlign: "left",
-    fontFamily: "Segoe UI",
     fontStyle: "normal",
     fontWeight: "bold",
     fontSize: 16,
@@ -211,7 +292,6 @@ const styles = StyleSheet.create({
     color: "#605F5F",
   },
   listInformationText: {
-    fontFamily: "Segoe UI",
     fontStyle: "normal",
     fontWeight: "900",
     fontSize: 16,
@@ -225,6 +305,22 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: "5%",
     marginTop: "5%",
+  },
+  backButton: {
+    height: 24,
+    width: 24,
+    backgroundColor: "#E7E7E7",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    borderColor: "rgba(0, 0, 0, 0.25)",
+    borderWidth: 1,
+    marginRight: 10,
+  },
+  icon: {
+    marginLeft: 6,
+    marginRight: 7,
+    fontSize: 20,
   },
 });
 
