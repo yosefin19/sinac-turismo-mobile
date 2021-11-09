@@ -19,6 +19,7 @@ import Stars from "../components/Stars";
 import DestinationDescription from "../components/DestinationDescription";
 import Review from "../components/Review";
 import OpinionsList from "../components/OpinionsList";
+import Maps from "../components/Map";
 
 // Autenticación
 import { CredentialsContext } from "../CredentialsContext";
@@ -273,8 +274,8 @@ const Destination = ({ route, navigation }) => {
               justifyContent: "center",
             }}
           >
-            {/* <AreaRegion imageUrl="https://www.costaricavibes.com/wp-content/uploads/2020/05/costaricaregionmap-1024x683.jpg" /> */}
-          </View>
+             <Maps latitude = {latitude} longitude = {longitude} />
+           </View>
         ) : null}
         {state === 2 ? (
           <View style={{ flex: 1 }}>
