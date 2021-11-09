@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, Text, View, Image, ScrollView, TextInput, Pressable, Platform, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView, TextInput, SafeAreaView, Pressable, Platform, Dimensions } from "react-native";
 import IconA from "react-native-vector-icons/MaterialIcons";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from 'expo-image-picker';
 import { CredentialsContext } from "../CredentialsContext";
+import ConstantMenu from "../components/ConstantMenu";
 
 
 let deviceHeight = Dimensions.get("window").height;
@@ -196,8 +197,9 @@ const UpdateProfile = ({route, navigation}) => {
        navigation.navigate("MyProfile");
      }
     return (
-
-          <ScrollView>
+    <SafeAreaView style={styles.safeContainer}>
+    <ScrollView >
+          
             <View>
             <Image source={cover_photo} style={styles.cover}/>
               <Pressable style={styles.updatecover} onPress={pickImageCover}>
@@ -205,9 +207,12 @@ const UpdateProfile = ({route, navigation}) => {
               </Pressable>
               
           </View> 
-                   <View style={[appStyles.default.exitView, { elevation: 31 }]}>
-                  <Image style={appStyles.default.exitImage} source={Exit} />
-              </View>
+          <Pressable
+          onPress={() => navigation.goBack()}
+          style={[appStyles.default.exitView, { elevation: 31 }]}
+          >
+                <Image style={appStyles.default.exitImage} source={Exit} />
+             </Pressable>
 
                <View style={{alignItems:'center'}}>
                    <Image source={profile_photo} style={styles.profileImage}/>
@@ -270,13 +275,27 @@ const UpdateProfile = ({route, navigation}) => {
       >
         <Text style={[styles.submitText,appStyles.default.defaultFont]}>Actualizar</Text>
       </Pressable>
-   
-
-            </ScrollView>
+   </ScrollView>
+      <View
+          style={{
+          bottom:5,
+          alignItems: "center",
+          justifyContent: "center",
+          flex: 0,
+          width: "100%",
+        }}
+      >
+        <ConstantMenu navigation={navigation} />
+          </View>
+    </SafeAreaView>
         )
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    height:"100%"
+  },
     text: {
         color: "#52575D"
     },
@@ -358,3 +377,4 @@ const styles = StyleSheet.create({
 
 });
 export default UpdateProfile;
+
