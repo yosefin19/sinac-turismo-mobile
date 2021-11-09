@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  Dimensions,
   SafeAreaView,
+  Dimensions,
   StyleSheet,
   Text,
   View,

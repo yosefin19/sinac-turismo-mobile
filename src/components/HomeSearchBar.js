@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Pressable,
   Keyboard,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import FA from "react-native-vector-icons/FontAwesome";
 
@@ -63,12 +64,35 @@ const style = StyleSheet.create({
 
 /***
  * Componente de la Barra de Busqueda de la Ventana Principal de la Aplicación
+ * @param setSearchTerm Funcion que se ejecuta al cambiar el valor del input
  * @returns {JSX.Element}
  * @constructor
  */
-const HomeSearchBar = () => {
-  const [data, setData] = useState("");
+const HomeSearchBar = ({ setSearchTerm }) => {
+  const [state, setState] = useState("");
   const [onClick, setOnClick] = useState(false);
+  const initial = useRef(true);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      setState("");
+      setOnClick(false);
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (initial.current) {
+      initial.current = false;
+      return;
+    }
+    const timer = setTimeout(() => {
+      setSearchTerm(state);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [setSearchTerm, state]);
 
   const handleOnClick = () => {
     setOnClick(true);
@@ -76,12 +100,18 @@ const HomeSearchBar = () => {
 
   const handleNotClick = () => {
     setOnClick(false);
-    setData("");
+    Keyboard.dismiss();
+  };
+
+  const handleExitClick = () => {
+    setOnClick(false);
+    setState("");
+    setSearchTerm("");
     Keyboard.dismiss();
   };
 
   return (
-    <SafeAreaView
+    <View
       style={{
         width: "100%",
         marginHorizontal: 10,
@@ -91,7 +121,7 @@ const HomeSearchBar = () => {
     >
       <View style={style.container}>
         {onClick && (
-          <Pressable style={style.backButton} onPressIn={handleNotClick}>
+          <Pressable style={style.backButton} onPressIn={handleExitClick}>
             <FA name={"long-arrow-left"} style={style.icon} />
           </Pressable>
         )}
@@ -102,12 +132,12 @@ const HomeSearchBar = () => {
             placeholder="Buscar"
             onFocus={handleOnClick}
             onEndEditing={handleNotClick}
-            value={data}
-            onChangeText={setData}
+            value={state}
+            onChangeText={setState}
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
