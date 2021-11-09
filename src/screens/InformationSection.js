@@ -85,98 +85,6 @@ const InformationSection = ({ navigation }) => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   setLoading(true);
-  //   setDestinations([
-  //     {
-  //       name: "Test1",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test2",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test3",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: false,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test4",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: true,
-  //       is_mountain: false,
-  //     },
-  //     {
-  //       name: "Test5",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test6",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: false,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test7",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: true,
-  //       is_mountain: false,
-  //     },
-  //     {
-  //       name: "Test8",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: false,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test9",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: false,
-  //     },
-  //     {
-  //       name: "Test10",
-  //       is_beach: true,
-  //       is_forest: true,
-  //       is_volcano: false,
-  //       is_mountain: false,
-  //     },
-  //     {
-  //       name: "Test11",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //     {
-  //       name: "Test12",
-  //       is_beach: true,
-  //       is_forest: false,
-  //       is_volcano: true,
-  //       is_mountain: true,
-  //     },
-  //   ]);
-  //   setLoading(false);
-  // }, []);
-
   useEffect(() => {
     let isMounted = true;
     let month = new Date().getMonth() + 1;
@@ -274,11 +182,8 @@ const InformationSection = ({ navigation }) => {
               justifyContent: "center",
               position: "absolute",
               backgroundColor: "#F0F0F0",
-              // borderColor: "#000",
-              // borderWidth: 2,
               zIndex: 10,
               top: 140,
-              // maxHeight: "70%",
             }}
           >
             <FlatList
