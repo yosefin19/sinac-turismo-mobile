@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View, TextInput, SafeAreaView, Dimensions } from "react-native";
+import { Pressable, Image, StyleSheet, Text, View, TextInput, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { API_URL, FIRST_PERCENTAGE } from "../config";
-import ConstantMenu from "../components/ConstantMenu";
-let deviceHeight = Dimensions.get("window").height;
-
+import { API_URL } from "../config";
+const appStyles = require("../appStyle");
 const SignUp = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,7 +24,6 @@ const SignUp = ({ navigation }) => {
         admin: false,
       }),
     };
-    print(requestOptionsUser)
 
     fetch(`${API_URL}add-user`, requestOptionsUser)
       .then((response) => response.json())
@@ -49,13 +46,13 @@ const SignUp = ({ navigation }) => {
         fetch(`${API_URL}add-profile`, requestOptionsProfile)
           .then((response) => response.json())
           .then((data) => {
-            let id_profile = data.id;
+           
             const requestOptionsGallery = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 id: 0,
-                profile_id: id_profile,
+                profile_id: id_user,
                 photos_path: "/",
               }),
             };
@@ -69,37 +66,40 @@ const SignUp = ({ navigation }) => {
     navigation.navigate("Login");
   };
   return (
-    <SafeAreaView style={styles.container}>
-     
+    <ScrollView>
+            
+     <View style={styles.container}>
+     <Image style={styles.logo} source={require('../../assets/menu-icon.png')}/>
+      
       <Text style={styles.textTitle}>Crear una cuenta</Text>
 
-      <View style={[styles.containerV, { borderColor: "#eeee" }]}>
-        <Icon name="user" size={22} color={"grey"} />
+      <View style={styles.containerForm}>
+          <Icon style={{marginLeft: 8, marginRight:8}} name="user" size={22} color={"grey"} />
         <TextInput
           placeholder="Nombre"
-          style={styles.inputText}
-          secureTextEntry={false}
+          inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+           secureTextEntry={false}
           onChangeText={(event) => setName(event)}
           value={name}
         />
       </View>
 
-      <View style={[styles.containerV, { borderColor: "#eeee" }]}>
-        <Icon name="envelope" size={22} color={"grey"} />
+      <View style={styles.containerForm}>
+        <Icon style={{marginLeft: 8, marginRight:8}} name="envelope" size={22} color={"grey"} />
         <TextInput
           placeholder="Correo electronico"
-          style={styles.inputText}
+          inputStyle={[styles.inputText, appStyles.default.defaultFont]}
           secureTextEntry={false}
           onChangeText={(event) => setEmail(event)}
           value={email}
         />
       </View>
 
-      <View style={[styles.containerV, { borderColor: "#eeee" }]}>
-        <Icon name="phone" size={22} color={"grey"} />
+      <View style={styles.containerForm}>
+         <Icon style={{marginLeft: 8, marginRight:8}} name="phone" size={22} color={"grey"} />
         <TextInput
           placeholder="Numero telefonico"
-          style={styles.inputText}
+          inputStyle={[styles.inputText, appStyles.default.defaultFont]}
           secureTextEntry={false}
           onChangeText={(event) => setPhone(event)}
           value={phone}
@@ -107,11 +107,10 @@ const SignUp = ({ navigation }) => {
         />
       </View>
 
-      <View style={[styles.containerV, { borderColor: "#eeee" }]}>
-        <Icon name="lock" size={22} color={"grey"} />
+      <View style={styles.containerForm}><Icon style={{marginLeft: 8, marginRight:8}}  name="lock" size={22} color={"grey"} />
         <TextInput
           placeholder="Contraseña"
-          inputStyle={styles.inputText}
+          inputStyle={[styles.inputText, appStyles.default.defaultFont]}
           secureTextEntry={true}
           onChangeText={(event) => setPassword(event)}
           value={password}
@@ -119,44 +118,39 @@ const SignUp = ({ navigation }) => {
       </View>
 
       <Pressable
-        style={[styles.containerS, { backgroundColor: "#769E5F" }]}
-        onPress={Agregar}
+        style={styles.containerS}  onPress={Agregar}
       >
-        <Text style={styles.submitText}>Registrar </Text>
-      </Pressable>
-    
-
-
-      <View
-          style={{
-          top: deviceHeight/9,
-          alignItems: "center",
-          justifyContent: "center",
-          flex: FIRST_PERCENTAGE,
-          width: "100%",
-        }}
-      >
-        <ConstantMenu navigation={navigation} />
-      
-      
-      </View>
-    </SafeAreaView>
+         <Text style={[styles.submitText,appStyles.default.defaultFont]}>Actualizar</Text>
+    </Pressable>
+    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   containerV: {
+    marginTop: 100,
     width: "90%",
     height: 50,
-    borderRadius: 100,
     marginVertical: 10,
-    borderWidth: 3.5,
     flexDirection: "row",
   },
+  logo: {
+    height: 70,
+    width: 120,
+    resizeMode: "stretch",
+    backgroundColor: "transparent",
+    marginTop: "20%",
+    marginBottom: '15%',
+},
   containerS: {
-    width: "35%",
-    borderRadius: 15,
-    marginVertical: 0,
+    borderRadius: 4,
+    backgroundColor: "rgba(118, 159, 94, 0.6)",
+    width: "30%",
+    height: 50,
+    alignItems: 'center',
+    justifyContent: "center",
+    marginTop: "5%",
   },
   submitText: {
     fontSize: 19,
@@ -165,16 +159,26 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 5,
   },
-  container: {
-    height: deviceHeight,
-    flex:1,
-    top: deviceHeight/3,
+  containerForm: {
     alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: "80%",
+    height: 50,
+    borderWidth: 0.7,
+    borderColor: "#C4C4C4",
+    borderRadius: 7,
+    marginTop: "5%",
+    },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
   textTitle: {
-    fontSize: 20,
-    marginVertical: 5,
+    width: "80%",
+    marginTop:50,
+    fontSize: 18,
   },
   inputText: {
     color: "#9999",
