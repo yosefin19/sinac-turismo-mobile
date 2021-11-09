@@ -4,6 +4,7 @@ import { Image, View, StyleSheet, Platform, Pressable } from "react-native";
 
 // Imagenes
 import Arrow from "../images/arrow.png";
+import NoImage from "../images/no_image.png";
 
 // Configuración
 import {
@@ -32,11 +33,15 @@ const AreaRegion = ({ imageUrl, navigation }) => (
   >
     <Image
       style={styles.region}
-      source={{
-        width: AREAS_IMAGE_WIDTH,
-        height: AREAS_IMAGE_HEIGHT,
-        uri: `${IMAGE_BASE_URL}${imageUrl}`,
-      }}
+      source={
+        imageUrl
+          ? {
+              width: AREAS_IMAGE_WIDTH,
+              height: AREAS_IMAGE_HEIGHT,
+              uri: `${IMAGE_BASE_URL}${imageUrl}`,
+            }
+          : NoImage
+      }
     />
     <Pressable
       onPress={() => {

@@ -13,11 +13,17 @@ const appStyles = require("../appStyle");
  * @param photos_path Lista de direcciones de imágenes
  * @returns {JSX.Element}
  */
-const AreaImageList = (photos_path) => {
+const AreaImageList = ({ areaId, photos_path }) => {
   // Referencia para utilizar "scrollToIndex"
   const myRef = useRef(null);
 
-  const paths = Object.values(photos_path)[0].split(",");
+  let paths;
+  if (photos_path !== undefined) {
+    paths = photos_path.split(",");
+  } else {
+    paths = [""];
+  }
+
   const initialImageIndex = Math.floor(paths.length / 2);
 
   return (
@@ -35,6 +41,7 @@ const AreaImageList = (photos_path) => {
               <AreaViewImage
                 style={[styles.image, appStyles.default.imageListSize]}
                 imageUrl={item}
+                areaId={areaId}
                 key={item}
               />
             </Pressable>
