@@ -182,11 +182,8 @@ const InformationSection = ({ navigation }) => {
               justifyContent: "center",
               position: "absolute",
               backgroundColor: "#F0F0F0",
-              // borderColor: "#000",
-              // borderWidth: 2,
               zIndex: 10,
               top: 140,
-              // maxHeight: "70%",
             }}
           >
             <FlatList
