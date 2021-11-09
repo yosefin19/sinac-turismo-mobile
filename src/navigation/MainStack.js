@@ -17,6 +17,7 @@ import UpdateProfile from "../screens/UpdateProfile";
 import Login from "../screens/Login";
 import {CredentialsContext} from "../CredentialsContext";
 import Profile from "../screens/Profile";
+import ResetPassword from "../screens/ResetPassword";
 
 
 /***
@@ -95,9 +96,13 @@ const MainStack = () => {
                          component={Favorites} 
                      />
                      <Stack.Screen 
-                     name="ReviewForm" 
-                     component={ReviewForm} 
+                        name="ReviewForm"
+                        component={ReviewForm}
                      />
+                    <Stack.Screen
+                        name="ResetPassword"
+                        component={ResetPassword}
+                    />
                 </Stack.Navigator>
             )}
         </CredentialsContext.Consumer>
