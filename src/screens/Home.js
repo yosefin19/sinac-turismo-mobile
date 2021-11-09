@@ -55,26 +55,6 @@ const Home = ({ navigation }) => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   setLoading(true);
-  //   setDestinations([
-  //     { name: "Test1" },
-  //     { name: "Test2" },
-  //     { name: "Test3" },
-  //     { name: "Test4" },
-  //     { name: "Test5" },
-  //     { name: "Test6" },
-  //     { name: "Test7" },
-  //     { name: "Test8" },
-  //     { name: "Test9" },
-  //     { name: "Test10" },
-  //     { name: "Test11" },
-  //     { name: "Test12" },
-  //   ]);
-  //   setLoading(false);
-  // }, []);
-
   const searchItems = (text) => {
     const newData = destinations.filter((item) => {
       const itemData = `${item.name.toUpperCase()}`;
@@ -111,19 +91,6 @@ const Home = ({ navigation }) => {
       })
       .catch((error) => console.log(error));
   };
-
-  {
-    /* 
-                <Pressable
-                  onPress={() => {
-                    navigation.push("Destination", { destination: item });
-                  }}
-                >
-                  <Text style={{ padding: 10 }}>{item.name} </Text>
-                </Pressable>
-                
-                */
-  }
 
   return (
     <KeyboardAvoidingView
@@ -214,7 +181,7 @@ const Home = ({ navigation }) => {
         }}
         opacity={searchTerm !== "" ? 0.3 : 1}
       >
-        <Text style={styles.aboutText}>Conozcanos</Text>
+        <Text style={styles.aboutText}>Conózcanos</Text>
       </Pressable>
       {storedCredentials ? (
         <Pressable
