@@ -37,6 +37,24 @@ const InformationSection = ({ navigation }) => {
       });
   }, []);
 
+  const endpoint = API_URL + DESTINATIONS_URL;
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    fetch(endpoint)
+      .then((response) => response.json())
+      .then((json) => {
+        if (isMounted) setDestinations(json);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        isMounted = false;
+        setLoading(false);
+      });
+  }, []);
+
+
   useEffect(() => {
     let isMounted = true;
     let month = new Date().getMonth() + 1;
@@ -54,8 +72,77 @@ const InformationSection = ({ navigation }) => {
     <SafeAreaView
       style={[styles.safeContainer, appStyles.default.appBackgroundColor]}
     >
-      <View style={styles.title}>
-        <Text style={styles.titleText}>Destinos de Costa Rica</Text>
+
+      <View style={[styles.title, styles.nameContainer]}>
+        {onClick && (
+          <Pressable style={styles.backButton} onPressIn={handleExitClick}>
+            <FA name={"long-arrow-left"} style={styles.icon} />
+          </Pressable>
+        )}
+        <Text style={[styles.titleText, appStyles.default.defaultFont]}>
+          Destinos de Costa Rica
+        </Text>
+      </View>
+      <View>
+        <TagsFilter
+          beachTag={beachTag}
+          setBeachTag={setBeachTag}
+          mountainTag={mountainTag}
+          setMountainTag={setMountainTag}
+          volcanoTag={volcanoTag}
+          setVolcanoTag={setVolcanoTag}
+          forestTag={forestTag}
+          setForestTag={setForestTag}
+          setOnClick={setOnClick}
+        />
+        {beachTag || mountainTag || volcanoTag || forestTag ? (
+          <View
+            style={{
+              // flex: 1,
+              // flexGrow: 1,
+              paddingVertical: 5,
+              paddingHorizontal: 15,
+              margin: 10,
+              width: "98%",
+              height: Dimensions.get("window").height, // * FIRST_PERCENTAGE//"100%",
+
+              alignSelf: "center",
+              justifyContent: "center",
+              position: "absolute",
+              backgroundColor: "#F0F0F0",
+              zIndex: 10,
+              top: 140,
+            }}
+          >
+            <FlatList
+              style={{ flexGrow: 1 }}
+              contentContainerStyle={{ flexGrow: 1 }}
+              data={filterResult}
+              renderItem={({ item }) => (
+                <Pressable
+                  onPress={() => {
+                    navigation.push("Destination", { destination: item });
+                  }}
+                >
+                  <Text style={{ padding: 10 }}>{item.name} </Text>
+                </Pressable>
+              )}
+              keyExtractor={(item) => item.name}
+              ItemSeparatorComponent={renderSeparator}
+              ListEmptyComponent={() => (
+                <Text
+                  style={[
+                    { padding: 10, color: "#7B7B7B" },
+                    appStyles.default.defaultFont,
+                  ]}
+                >
+                  Ningún destino coincide
+                </Text>
+              )}
+            />
+          </View>
+        ) : null}
+
       </View>
       <TagsFilter />
       <View style={styles.listInformationContainer}>
