@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, Pressable, Image, ScrollView, Dimensions, SafeAreaView} from "react-native";
+
+import ConstantMenu from "../components/ConstantMenu";
 import { ActivityIndicator } from "react-native-paper";
 import Icon from "react-native-vector-icons/Fontisto";
 import GalleryList from '../components/GalleryList'
 import InformationList from "../components/InformationList";
 import { CredentialsContext } from "../CredentialsContext";
 
-import { API_URL, IMAGE_BASE_URL} from "../config";
+import { API_URL, IMAGE_BASE_URL, FIRST_PERCENTAGE, THIRD_PERCENTAGE, SECOND_PERCENTAGE} from "../config";
 let deviceHeight = Dimensions.get("window").height;
 let deviceWidth = Dimensions.get("window").width;
 // Imagenes
@@ -183,8 +185,18 @@ const MyProfile = ({navigation}) => {
           
        </ScrollView>
    )}      
-
- </SafeAreaView>
+    <View
+          style={{
+          top: -5,
+          alignItems: "center",
+          justifyContent: "center",
+          flex: 0,
+          width: "100%",
+        }}
+      >
+        <ConstantMenu navigation={navigation} />
+      </View>
+      </SafeAreaView>
    )
 };
 
