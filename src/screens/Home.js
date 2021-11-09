@@ -1,18 +1,24 @@
+import React, { useState, useEffect, useContext } from "react";
 import {
   Image,
   Pressable,
   StyleSheet,
   Text,
+  TextInput,
+  FlatList,
   SafeAreaView,
+  KeyboardAvoidingView,
   View,
 } from "react-native";
+
+// Componentes
 import HomeSearchBar from "../components/HomeSearchBar";
 import HomeButton from "../components/HomeButton";
-import React, { useContext } from "react";
 import OpenURLButton from "../components/OpenURLButton";
+
 // Autenticación
 import { CredentialsContext } from "../CredentialsContext";
-import { SECRET } from "../config";
+import { API_URL, DESTINATIONS_URL, SECRET } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const appStyles = require("../appStyle");
@@ -26,6 +32,58 @@ const Home = ({ navigation }) => {
   const { storedCredentials, setStoredCredentials } =
     useContext(CredentialsContext);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [destinations, setDestinations] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const endpoint = API_URL + DESTINATIONS_URL;
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    fetch(endpoint)
+      .then((response) => response.json())
+      .then((json) => {
+        if (isMounted) setDestinations(json);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        isMounted = false;
+        setLoading(false);
+      });
+  }, []);
+
+  const searchItems = (text) => {
+    const newData = destinations.filter((item) => {
+      const itemData = `${item.name.toUpperCase()}`;
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    setSearchResult(newData);
+  };
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      setSearchResult([]);
+    } else {
+      searchItems(searchTerm);
+    }
+  }, [searchTerm]);
+
+  const renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: "100%",
+          backgroundColor: "#CED0CE",
+        }}
+      />
+    );
+  };
+
   const ClearLogin = () => {
     AsyncStorage.removeItem(SECRET)
       .then(() => {
@@ -35,22 +93,77 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView
+    <KeyboardAvoidingView
+      behavior={"height"}
       style={[styles.container, appStyles.default.appBackgroundColor]}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 40 : -100}
     >
       <Image
         style={styles.logo}
         source={require("../../assets/menu-icon.png")}
       />
-      <HomeSearchBar />
+      <View>
+        <HomeSearchBar setSearchTerm={setSearchTerm} />
+        {searchTerm !== "" ? (
+          <View
+            style={{
+              flex: 1,
+              flexGrow: 1,
+
+              borderRadius: 7,
+              paddingVertical: 5,
+              paddingHorizontal: 15,
+              margin: 10,
+              width: "90%",
+              // height: "100%",
+              alignSelf: "center",
+              justifyContent: "center",
+              position: "absolute",
+              backgroundColor: "#FFF",
+              borderColor: "rgba(0, 0, 0, 0.5)",
+              borderWidth: 2,
+              zIndex: 10,
+              top: 90,
+              maxHeight: "70%",
+            }}
+          >
+            <FlatList
+              data={searchResult}
+              renderItem={({ item }) => (
+                <Pressable
+                  onPress={() => {
+                    navigation.push("Destination", { destination: item });
+                  }}
+                >
+                  <Text style={{ padding: 10 }}>{item.name} </Text>
+                </Pressable>
+              )}
+              keyExtractor={(item) => item.name}
+              ItemSeparatorComponent={renderSeparator}
+              ListEmptyComponent={() => (
+                <Text
+                  style={[
+                    { padding: 10, color: "#7B7B7B" },
+                    appStyles.default.defaultFont,
+                  ]}
+                >
+                  Ningún nombre de destino coincide
+                </Text>
+              )}
+            />
+          </View>
+        ) : null}
+      </View>
       <HomeButton
         title="Destinos de Costa Rica"
         to="InformationSection"
         navigation={navigation}
+        opacity={searchTerm !== "" ? 0.3 : 1}
       />
       <OpenURLButton
         url={"https://serviciosenlinea.sinac.go.cr/"}
         text="Compra y Reserva"
+        opacity={searchTerm !== "" ? 0.3 : 1}
       >
         Open Supported URL
       </OpenURLButton>
@@ -58,12 +171,15 @@ const Home = ({ navigation }) => {
         title="Mi Perfil"
         to={storedCredentials ? "MyProfile" : "Login"}
         navigation={navigation}
+        opacity={searchTerm !== "" ? 0.3 : 1}
       />
       <Pressable
+        opacity={searchTerm !== "" ? 0.3 : 1}
         style={styles.aboutButton}
         onPress={() => {
           navigation.navigate("About");
         }}
+        opacity={searchTerm !== "" ? 0.3 : 1}
       >
         <Text style={styles.aboutText}>Conózcanos</Text>
       </Pressable>
@@ -73,11 +189,12 @@ const Home = ({ navigation }) => {
           onPress={() => {
             ClearLogin();
           }}
+          opacity={searchTerm !== "" ? 0.3 : 1}
         >
           <Text style={styles.aboutText}>Salir de la sesión</Text>
         </Pressable>
       ) : null}
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
