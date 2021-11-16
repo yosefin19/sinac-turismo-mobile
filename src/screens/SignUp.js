@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View, TextInput } from "react-native";
+import {
+  Pressable,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  SafeAreaView,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-
 import { API_URL } from "../config";
+const appStyles = require("../appStyle");
+import ConstantMenu from "../components/ConstantMenu";
+import Exit from "../images/exit.png";
 
-const SignUp = () => {
+const SignUp = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-
   const Agregar = () => {
-
     if (name === "" || email === "" || phone === "" || password === "") {
       return;
     }
@@ -31,11 +39,8 @@ const SignUp = () => {
     fetch(`${API_URL}add-user`, requestOptionsUser)
       .then((response) => response.json())
       .then((data) => {
-        setId_user(data.id);
-
         let id_user = data.id;
-        console.log("id:", id_user);
-        console.log("response adduser", data);
+
         // Agregar perfil
         const requestOptionsProfile = {
           method: "POST",
@@ -49,102 +54,157 @@ const SignUp = () => {
             cover_photo_path: "/",
           }),
         };
-        console.log("requestaddprofile", requestOptionsProfile);
         fetch(`${API_URL}add-profile`, requestOptionsProfile)
           .then((response) => response.json())
           .then((data) => {
-            console.log("response addprofile", data);
+            const requestOptionsGallery = {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: 0,
+                profile_id: id_user,
+                photos_path: "/",
+              }),
+            };
+            fetch(`${API_URL}add-gallery`, requestOptionsGallery).then(
+              (response) => response.json()
+            );
           });
       })
       .catch((error) => console.log(error));
 
-      const requestOptionsGallery = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: 0,
-          profile_id: 0,
-          photos_path: "/"
-        }),
-      };
-  
-      fetch(`${API_URL}add-gallery`, requestOptionsGallery)
-        .then((response) => response.json())
-
-      navigation.navigate("Login")
+    navigation.navigate("Login");
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.textTitle}>Crear una cuenta</Text>
-
-      <View style={[styles.containerV, { borderColor: "#eeee" }]}>
-        <Icon name="user" size={22} color={"grey"} />
-        <TextInput
-          placeholder="Nombre"
-          style={styles.inputText}
-          secureTextEntry={false}
-          onChangeText={(event) => setName(event)}
-          value={name}
+    <SafeAreaView style={styles.safeContainer}>
+      <View style={styles.container}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={[appStyles.default.exitView, { elevation: 31 }]}
+        >
+          <Image style={appStyles.default.exitImage} source={Exit} />
+        </Pressable>
+        <Image
+          style={styles.logo}
+          source={require("../../assets/menu-icon.png")}
         />
-      </View>
 
-      <View style={[styles.containerV, { borderColor: "#eeee" }]}>
-        <Icon name="envelope" size={22} color={"grey"} />
-        <TextInput
-          placeholder="Correo electronico"
-          style={styles.inputText}
-          secureTextEntry={false}
-          onChangeText={(event) => setEmail(event)}
-          value={email}
-        />
-      </View>
+        <Text style={styles.textTitle}>Crear una cuenta</Text>
 
-      <View style={[styles.containerV, { borderColor: "#eeee" }]}>
-        <Icon name="phone" size={22} color={"grey"} />
-        <TextInput
-          placeholder="Numero telefonico"
-          style={styles.inputText}
-          secureTextEntry={false}
-          onChangeText={(event) => setPhone(event)}
-          value={phone}
-          keyboardType="numeric"
-        />
-      </View>
+        <View style={styles.containerForm}>
+          <Icon
+            style={{ marginLeft: 8, marginRight: 8 }}
+            name="user"
+            size={22}
+            color={"grey"}
+          />
+          <TextInput
+            placeholder="Nombre"
+            inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+            secureTextEntry={false}
+            onChangeText={(event) => setName(event)}
+            value={name}
+          />
+        </View>
 
-      <View style={[styles.containerV, { borderColor: "#eeee" }]}>
-        <Icon name="lock" size={22} color={"grey"} />
-        <TextInput
-          placeholder="Contraseña"
-          inputStyle={styles.inputText}
-          secureTextEntry={true}
-          onChangeText={(event) => setPassword(event)}
-          value={password}
-        />
-      </View>
+        <View style={styles.containerForm}>
+          <Icon
+            style={{ marginLeft: 8, marginRight: 8 }}
+            name="envelope"
+            size={22}
+            color={"grey"}
+          />
+          <TextInput
+            placeholder="Correo electronico"
+            inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+            secureTextEntry={false}
+            onChangeText={(event) => setEmail(event)}
+            value={email}
+          />
+        </View>
 
-      <Pressable
-        style={[styles.containerS, { backgroundColor: "#769E5F" }]}
-        onPress={Agregar}
+        <View style={styles.containerForm}>
+          <Icon
+            style={{ marginLeft: 8, marginRight: 8 }}
+            name="phone"
+            size={22}
+            color={"grey"}
+          />
+          <TextInput
+            placeholder="Numero telefonico"
+            inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+            secureTextEntry={false}
+            onChangeText={(event) => setPhone(event)}
+            value={phone}
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View style={styles.containerForm}>
+          <Icon
+            style={{ marginLeft: 8, marginRight: 8 }}
+            name="lock"
+            size={22}
+            color={"grey"}
+          />
+          <TextInput
+            placeholder="Contraseña"
+            inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+            secureTextEntry={true}
+            onChangeText={(event) => setPassword(event)}
+            value={password}
+          />
+        </View>
+
+        <Pressable style={styles.containerS} onPress={Agregar}>
+          <Text style={[styles.submitText, appStyles.default.defaultFont]}>
+            Registrar
+          </Text>
+        </Pressable>
+      </View>
+      <View
+        style={{
+          bottom: 5,
+          alignItems: "center",
+          justifyContent: "center",
+          flex: 0,
+          width: "100%",
+        }}
       >
-        <Text style={styles.submitText}>Registrar</Text>
-      </Pressable>
-    </View>
+        <ConstantMenu navigation={navigation} />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
   containerV: {
+    marginTop: 100,
     width: "90%",
     height: 50,
-    borderRadius: 100,
     marginVertical: 10,
-    borderWidth: 3.5,
     flexDirection: "row",
   },
+  logo: {
+    height: 70,
+    width: 120,
+    resizeMode: "stretch",
+    backgroundColor: "transparent",
+    marginTop: "20%",
+    marginBottom: "15%",
+  },
   containerS: {
-    width: "35%",
-    borderRadius: 15,
-    marginVertical: 20,
+    borderRadius: 4,
+    backgroundColor: "rgba(118, 159, 94, 0.6)",
+    width: "30%",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "5%",
   },
   submitText: {
     fontSize: 19,
@@ -153,14 +213,26 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 5,
   },
-  container: {
-    marginTop: 200,
+  containerForm: {
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: "80%",
+    height: 50,
+    borderWidth: 0.7,
+    borderColor: "#C4C4C4",
+    borderRadius: 7,
+    marginTop: "5%",
   },
-
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   textTitle: {
-    fontSize: 20,
-    marginVertical: 5,
+    width: "80%",
+    marginTop: 50,
+    fontSize: 18,
   },
   inputText: {
     color: "#9999",
