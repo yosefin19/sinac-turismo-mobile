@@ -103,7 +103,6 @@ const SignUp = ({ navigation }) => {
           value={email}
         />
       </View>
-
       <View style={styles.containerForm}>
          <Icon style={{marginLeft: 8, marginRight:8}} name="phone" size={22} color={"grey"} />
         <TextInput
@@ -125,7 +124,6 @@ const SignUp = ({ navigation }) => {
           value={password}
         />
       </View>
-
       <Pressable
         style={styles.containerS}  onPress={Agregar}
       >

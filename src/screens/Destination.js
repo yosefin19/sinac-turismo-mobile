@@ -153,14 +153,12 @@ const Destination = ({ route, navigation }) => {
       >
         <DestinationImageList destinationId={id} photos_path={photos_path} />
       </View>
-
       <Pressable
         onPress={() => navigation.goBack()}
         style={[appStyles.default.exitView, { elevation: 31 }]}
       >
         <Image style={appStyles.default.exitImage} source={Exit} />
       </Pressable>
-
       <View style={styles.container}>
         <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
           {name}
@@ -184,7 +182,6 @@ const Destination = ({ route, navigation }) => {
             halfStar={Half}
             filledStar={Filled}
           />
-
           <Text style={[styles.reviewsText, appStyles.default.defaultFont]}>
             {reviews.length} votos
           </Text>
@@ -279,7 +276,6 @@ const Destination = ({ route, navigation }) => {
         ) : null}
         {state === 2 ? (
           <View style={{ flex: 1 }}>
-            {/* <ReviewsMenu /> */}
             <View>
               <Text style={[styles.rateText, appStyles.default.defaultFont]}>
                 Califica este destino:
