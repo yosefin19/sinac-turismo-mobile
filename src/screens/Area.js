@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,8 @@ import {
   Image,
   SafeAreaView,
   Platform,
-  Dimensions, Pressable,
+  Dimensions,
+  Pressable,
 } from "react-native";
 
 // Componentes
@@ -22,11 +23,13 @@ import Exit from "../images/exit.png";
 // Configuración
 import {
   API_URL,
+  AREAS_URL,
   DESTINATIONS_URL,
+  FAVORITES_URL,
   FIRST_PERCENTAGE,
   SECOND_PERCENTAGE,
   THIRD_PERCENTAGE,
-  TEXT_CONTAINER_PERCENTAGE, AREAS_URL,
+  TEXT_CONTAINER_PERCENTAGE,
 } from "../config";
 
 // Estilos globales
@@ -57,6 +60,7 @@ const Area = ({ route, navigation }) => {
 
   useEffect(() => {
     let isMounted = true;
+    setLoading(true);
     fetch(endpoint)
       .then((response) => response.json())
       .then((json) => {
@@ -68,6 +72,8 @@ const Area = ({ route, navigation }) => {
         setLoading(false);
       });
   }, []);
+
+  if (loading) return null;
 
   return (
     <SafeAreaView
@@ -89,13 +95,17 @@ const Area = ({ route, navigation }) => {
           },
         ]}
       >
-        {loading ? null : <AreaImageList photos_path={photos_path} />}
+        {loading ? null : (
+          <AreaImageList areaId={id} photos_path={photos_path} />
+        )}
       </View>
-      <View style={[appStyles.default.exitView, { elevation: 31 }]}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Image style={appStyles.default.exitImage} source={Exit} />
-        </Pressable>
-      </View>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={[appStyles.default.exitView, { elevation: 31 }]}
+      >
+        <Image style={appStyles.default.exitImage} source={Exit} />
+      </Pressable>
+
       <View style={styles.container}>
         <View>
           <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
@@ -140,8 +150,8 @@ const Area = ({ route, navigation }) => {
           </Text>
           {loading ? null : (
             <InformationList
-                destinations={destinations}
-                isArea={false}
+              destinations={destinations}
+              isArea={false}
               navigation={navigation}
             />
           )}
@@ -155,7 +165,7 @@ const Area = ({ route, navigation }) => {
           width: "100%",
         }}
       >
-        <ConstantMenu />
+        <ConstantMenu navigation={navigation} />
       </View>
     </SafeAreaView>
   );

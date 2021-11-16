@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-
 import { API_URL } from "../config";
 
-const SignUp = () => {
+const SignUp = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-
   const Agregar = () => {
-
     if (name === "" || email === "" || phone === "" || password === "") {
       return;
     }
@@ -31,11 +28,8 @@ const SignUp = () => {
     fetch(`${API_URL}add-user`, requestOptionsUser)
       .then((response) => response.json())
       .then((data) => {
-        setId_user(data.id);
-
         let id_user = data.id;
-        console.log("id:", id_user);
-        console.log("response adduser", data);
+
         // Agregar perfil
         const requestOptionsProfile = {
           method: "POST",
@@ -49,29 +43,27 @@ const SignUp = () => {
             cover_photo_path: "/",
           }),
         };
-        console.log("requestaddprofile", requestOptionsProfile);
         fetch(`${API_URL}add-profile`, requestOptionsProfile)
           .then((response) => response.json())
           .then((data) => {
-            console.log("response addprofile", data);
+           
+            const requestOptionsGallery = {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: 0,
+                profile_id: id_user,
+                photos_path: "/",
+              }),
+            };
+            fetch(`${API_URL}add-gallery`, requestOptionsGallery)
+            .then((response) => response.json())
+
           });
       })
       .catch((error) => console.log(error));
 
-      const requestOptionsGallery = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: 0,
-          profile_id: 0,
-          photos_path: "/"
-        }),
-      };
-  
-      fetch(`${API_URL}add-gallery`, requestOptionsGallery)
-        .then((response) => response.json())
-
-      navigation.navigate("Login")
+    navigation.navigate("Login");
   };
   return (
     <View style={styles.container}>

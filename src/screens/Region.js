@@ -11,6 +11,7 @@ import {
 
 // Imagenes
 import Exit from "../images/exit.png";
+import NoImage from "../images/no_image.png";
 
 // Configuración
 import {
@@ -41,11 +42,15 @@ const Region = ({ route }) => {
           <ScrollView horizontal={true}>
             <Image
               style={styles.region}
-              source={{
-                width: REGION_IMAGE_WIDTH,
-                height: REGION_IMAGE_HEIGHT,
-                uri: `${IMAGE_BASE_URL}${imageUrl}`,
-              }}
+              source={
+                imageUrl
+                  ? {
+                      width: REGION_IMAGE_WIDTH,
+                      height: REGION_IMAGE_HEIGHT,
+                      uri: `${IMAGE_BASE_URL}${imageUrl}`,
+                    }
+                  : NoImage
+              }
             />
           </ScrollView>
         </ScrollView>

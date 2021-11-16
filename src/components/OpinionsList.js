@@ -16,13 +16,12 @@ const appStyles = require("../appStyle");
  * @param oneStarsCount Cantidad de reseñas de 1 estrella
  * @returns {JSX.Element}
  */
-const OpinionsList = ({
-  fiveStarsCount,
-  fourStarsCount,
-  threeStarsCount,
-  twoStarsCount,
-  oneStarsCount,
-}) => {
+const OpinionsList = ({ starsList }) => {
+  const fiveStarsCount = starsList[4];
+  const fourStarsCount = starsList[3];
+  const threeStarsCount = starsList[2];
+  const twoStarsCount = starsList[1];
+  const oneStarsCount = starsList[0];
   const totalReviews =
     fiveStarsCount +
     fourStarsCount +
