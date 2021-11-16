@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Image, Text, StyleSheet, Dimensions } from "react-native";
 
 // Componentes
-import Stars from "../components/Stars";
+import Stars from "./Stars";
 
 // Imagenes
 import NoImage from "../images/no_image.png";
@@ -43,13 +43,14 @@ const Review = ({ review }) => {
   const user_id = review.user_id;
   const tourist_destination_id = review.tourist_destination_id;
 
-  const [profile, setProfile] = useState([]);
+  const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
 
   const profilesEndpoint = `${API_URL}${USERS_URL}${review.user_id}/${PROFILES_URL}`;
 
   useEffect(() => {
     let isMounted = true;
+
     fetch(profilesEndpoint)
       .then((response) => response.json())
       .then((json) => {
@@ -141,11 +142,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
   profileImage: {
     width: 31,
     height: 31,
-    resizeMode: "contain",
   },
   reviewImage: {
     height: image_height,
