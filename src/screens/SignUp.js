@@ -90,7 +90,6 @@ const SignUp = ({ navigation }) => {
           value={email}
         />
       </View>
-
       <View style={[styles.containerV, { borderColor: "#eeee" }]}>
         <Icon name="phone" size={22} color={"grey"} />
         <TextInput
@@ -113,7 +112,6 @@ const SignUp = ({ navigation }) => {
           value={password}
         />
       </View>
-
       <Pressable
         style={[styles.containerS, { backgroundColor: "#769E5F" }]}
         onPress={Agregar}

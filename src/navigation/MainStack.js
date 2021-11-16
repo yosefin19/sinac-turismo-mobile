@@ -9,6 +9,7 @@ import Area from "../screens/Area";
 import Destination from "../screens/Destination";
 import Region from "../screens/Region";
 import SignUp from "../screens/SignUp";
+import Favorites from "../screens/Favorites";
 
 import Favorites from "../screens/Favorites";
 import ReviewForm from "../screens/ReviewForm";
@@ -30,7 +31,6 @@ const Stack = createNativeStackNavigator();
  * @returns {JSX.Element}
  */
 const MainStack = () => {
-
   const {storedCredentials, setStoredCredentials} = useContext(CredentialsContext);
 
     return (

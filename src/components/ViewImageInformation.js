@@ -88,6 +88,7 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea }) => {
       fetch(relationEndpoint, requestOptionsUser)
         .then((response) => response.json())
         .then((json) => {
+
           if (isMounted) {
             if (typeof json === "number") setFavoriteRelationId(json);
           }
