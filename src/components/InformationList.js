@@ -1,11 +1,14 @@
 import React from "react";
-import { FlatList, StyleSheet, Pressable } from "react-native";
+import { FlatList, Text, StyleSheet, Pressable } from "react-native";
 
 // Componentes
 import ViewImageInformation from "./ViewImageInformation";
 
 // Configuración
 import { IMAGE_BASE_URL } from "../config";
+
+// Estilos globales
+const appStyles = require("../appStyle");
 
 const INIT_NUM_TO_RENDER = 3;
 
@@ -40,6 +43,16 @@ const InformationList = ({ destinations, navigation, isArea }) => {
             isArea={isArea}
           />
         </Pressable>
+      )}
+      ListEmptyComponent={() => (
+        <Text
+          style={[
+            { padding: 10, color: "#7B7B7B" },
+            appStyles.default.defaultFont,
+          ]}
+        >
+          {isArea ? "Ningún área coincide" : "Ningún destino coincide"}
+        </Text>
       )}
       keyExtractor={(item) => item.id.toString()}
       horizontal={true}
