@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -56,7 +56,7 @@ const Area = ({ route, navigation }) => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const endpoint = API_URL + DESTINATIONS_URL;
+  const endpoint = API_URL + DESTINATIONS_URL + AREAS_URL + id;
 
   useEffect(() => {
     let isMounted = true;
@@ -64,8 +64,7 @@ const Area = ({ route, navigation }) => {
     fetch(endpoint)
       .then((response) => response.json())
       .then((json) => {
-        const data = json.filter((item) => item.conservation_area_id === id);
-        if (isMounted) setDestinations(data);
+        if (isMounted) setDestinations(json);
       })
       .catch((error) => console.error(error))
       .finally(() => {
@@ -101,11 +100,12 @@ const Area = ({ route, navigation }) => {
         )}
       </View>
       <Pressable
-        onPress={() => navigation.pop()}
+        onPress={() => navigation.goBack()}
         style={[appStyles.default.exitView, { elevation: 31 }]}
       >
         <Image style={appStyles.default.exitImage} source={Exit} />
       </Pressable>
+
       <View style={styles.container}>
         <View>
           <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
@@ -150,7 +150,8 @@ const Area = ({ route, navigation }) => {
           </Text>
           {loading ? null : (
             <InformationList
-              areaDestinations={destinations}
+              destinations={destinations}
+              isArea={false}
               navigation={navigation}
             />
           )}
