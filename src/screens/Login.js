@@ -115,7 +115,7 @@ const Login = ({navigation}) => {
      * @param email
      */
     const emailValidation = (email) => {
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w\w+)+$/;
         return reg.test(email);
     }
 
@@ -128,7 +128,7 @@ const Login = ({navigation}) => {
         const re = {
             'capital': /[A-Z]/,
             'digit': /[0-9]/,
-            'full': /^[A-Za-z0-9]{7,13}$/
+            'full': /^[A-Za-z0-9]{7,33}$/
         };
         return password.length > 7 && password.length < 32 &&
             re.capital.test(password) && re.digit.test(password) && re.full.test(password);
@@ -219,7 +219,9 @@ const Login = ({navigation}) => {
             <Text style={styles.error_msg}>Contraseña incorrecta, debe contener: mayusculas, minusculas y
                 números</Text>}
             <View style={styles.leftText}>
-                <Pressable>
+                <Pressable onPress={() => {
+                    navigation.navigate("ResetPassword");
+                }}>
                     <Text style={{textAlign: "right", color: "#605f5f"}}> ¿Olvidó su contraseña?</Text>
                 </Pressable>
             </View>
@@ -240,13 +242,13 @@ const Login = ({navigation}) => {
                 flex: FIRST_PERCENTAGE,
                 width: "100%",
             }}>
-                <ConstantMenu/>
+                <ConstantMenu navigation={navigation}/>
             </View>
         </SafeAreaView>
     );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
