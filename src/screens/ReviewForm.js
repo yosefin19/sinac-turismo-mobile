@@ -427,11 +427,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
   profileImage: {
     width: 31,
     height: 31,
-    resizeMode: "contain",
   },
   starImage: {
     width: 28.33,
