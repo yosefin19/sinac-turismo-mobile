@@ -1,11 +1,14 @@
 import React from "react";
-import { FlatList, StyleSheet, Pressable } from "react-native";
+import { FlatList, Text, StyleSheet, Pressable } from "react-native";
 
 // Componentes
 import ViewImageInformation from "./ViewImageInformation";
 
 // Configuración
 import { IMAGE_BASE_URL } from "../config";
+
+// Estilos globales
+const appStyles = require("../appStyle");
 
 const INIT_NUM_TO_RENDER = 3;
 
@@ -15,18 +18,20 @@ const INIT_NUM_TO_RENDER = 3;
  * @param navigation Pila para el manejo de ventanas
  * @returns {JSX.Element}
  */
-const InformationList = ({ areaDestinations, navigation }) => {
-  const initialImageIndex = Math.floor(areaDestinations.length / 2);
+const InformationList = ({ destinations, navigation, isArea }) => {
+  const initialImageIndex = Math.floor(destinations.length / 2);
 
   return (
     <FlatList
       initialNumToRender={INIT_NUM_TO_RENDER}
       initialScrollIndex={initialImageIndex}
-      data={areaDestinations}
+      data={destinations}
       renderItem={({ item, index }) => (
         <Pressable
           onPress={() => {
-            navigation.push("Destination", { destination: item });
+            isArea
+              ? navigation.push("Area", { area: item })
+              : navigation.push("Destination", { destination: item });
           }}
         >
           <ViewImageInformation
@@ -35,8 +40,19 @@ const InformationList = ({ areaDestinations, navigation }) => {
             imageUrl={`${IMAGE_BASE_URL}${item.photos_path.split(",")[0]}`}
             key={index}
             style={{ marginLeft: 50 }}
+            isArea={isArea}
           />
         </Pressable>
+      )}
+      ListEmptyComponent={() => (
+        <Text
+          style={[
+            { padding: 10, color: "#7B7B7B" },
+            appStyles.default.defaultFont,
+          ]}
+        >
+          {isArea ? "Ningún área coincide" : "Ningún destino coincide"}
+        </Text>
       )}
       keyExtractor={(item) => item.id.toString()}
       horizontal={true}

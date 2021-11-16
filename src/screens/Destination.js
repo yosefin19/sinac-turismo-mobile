@@ -17,7 +17,7 @@ import ConstantMenu from "../components/ConstantMenu";
 import DestinationImageList from "../components/DestinationImageList";
 import Stars from "../components/Stars";
 import DestinationDescription from "../components/DestinationDescription";
-// import Review from "../components/Review";
+import Review from "../components/Review";
 import OpinionsList from "../components/OpinionsList";
 
 // Autenticación
@@ -26,6 +26,9 @@ import { CredentialsContext } from "../CredentialsContext";
 // Imagenes
 import Exit from "../images/exit.png";
 import Star from "../images/black_star.png";
+import Empty from "../images/empty_star.png";
+import Filled from "../images/filled_star.png";
+import Half from "../images/half_star.png";
 
 // Configuración
 import {
@@ -89,7 +92,6 @@ const Destination = ({ route, navigation }) => {
     average /= reviews.length;
     return average;
   };
-  let stars;
 
   const getStars = () => {
     let stars = [0, 0, 0, 0, 0];
@@ -151,7 +153,7 @@ const Destination = ({ route, navigation }) => {
         <DestinationImageList destinationId={id} photos_path={photos_path} />
       </View>
       <Pressable
-        onPress={() => navigation.pop()}
+        onPress={() => navigation.goBack()}
         style={[appStyles.default.exitView, { elevation: 31 }]}
       >
         <Image style={appStyles.default.exitImage} source={Exit} />
@@ -173,11 +175,17 @@ const Destination = ({ route, navigation }) => {
           </ScrollView>
         </View>
         <View style={styles.horizontalContainer}>
-          <Stars review={getAverage()} />
+          <Stars
+            review={getAverage()}
+            emptyStar={Empty}
+            halfStar={Half}
+            filledStar={Filled}
+          />
           <Text style={[styles.reviewsText, appStyles.default.defaultFont]}>
             {reviews.length} votos
           </Text>
         </View>
+
         <View style={styles.optionsContainer}>
           <View style={{ alignItems: "center" }}>
             <Text
@@ -272,18 +280,111 @@ const Destination = ({ route, navigation }) => {
                 Califica este destino:
               </Text>
               <View style={styles.starsContainer}>
-                <Image style={styles.starImage} source={Star} />
-                <Image style={styles.starImage} source={Star} />
-                <Image style={styles.starImage} source={Star} />
-                <Image style={styles.starImage} source={Star} />
-                <Image style={styles.starImage} source={Star} />
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 1,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 2,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 3,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 4,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    storedCredentials
+                      ? navigation.push("ReviewForm", {
+                          destination_id: id,
+                          clickedCalification: 5,
+                        })
+                      : navigation.push("Login");
+                  }}
+                >
+                  <Image style={styles.starImage} source={Star} />
+                </Pressable>
               </View>
-              <Text
-                style={[styles.writeOpinionText, appStyles.default.defaultFont]}
+              <Pressable
+                onPress={() => {
+                  storedCredentials
+                    ? navigation.push("ReviewForm", {
+                        destination_id: id,
+                        clickedCalification: 0,
+                      })
+                    : navigation.push("Login");
+                }}
               >
-                Escribe una opinión
-              </Text>
+                <Text
+                  style={[
+                    styles.writeOpinionText,
+                    appStyles.default.defaultFont,
+                  ]}
+                >
+                  Escribe una opinión
+                </Text>
+              </Pressable>
               <View style={styles.opinionsLine} />
+            </View>
+            {/* <View> */}
+            <View style={styles.reviewsContainer}>
+              <ScrollView style={{ paddingRight: 5 }}>
+                <OpinionsList starsList={getStars()} />
+                {reviews
+                  ? reviews.map((review, index) => (
+                      <View
+                        // onPress={() => {
+                        //   isArea
+                        //     ? navigation.push("Area", { area: item[0] })
+                        //     : navigation.push("Destination", { destination: item[0] });
+                        // }} EDIT
+                        key={review.id}
+                      >
+                        <Review
+                          review={review}
+                          key={review.id}
+                          style={{ marginLeft: 50 }}
+                        />
+                      </View>
+                    ))
+                  : null}
+              </ScrollView>
             </View>
           </View>
         ) : null}

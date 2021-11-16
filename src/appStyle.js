@@ -12,7 +12,7 @@ export default StyleSheet.create({
     width: image_width,
   },
   defaultFont: {
-    fontFamily: "Segoe UI",
+    fontFamily: "Open Sans",
   },
   appBackgroundColor: {
     backgroundColor: "#F0F0F0",
