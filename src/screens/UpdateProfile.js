@@ -99,9 +99,6 @@ const UpdateProfile = ({ route, navigation }) => {
           Authorization: "Bearer " + storedCredentials,
         },
       };
-      console.log("localUri", localUri);
-      console.log("filename", filename);
-      console.log("type", type);
 
       fetch(endpoint, requestOptions)
         .then((response) => response.json())
@@ -127,9 +124,6 @@ const UpdateProfile = ({ route, navigation }) => {
           Authorization: "Bearer " + storedCredentials,
         },
       };
-      console.log("localUri", localUri);
-      console.log("filename", filename);
-      console.log("type", type);
       fetch(endpoint, requestOptions).then((response) => response.json());
     }
   };
@@ -210,29 +204,29 @@ const UpdateProfile = ({ route, navigation }) => {
   };
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <ScrollView>
-        <View>
-          <Image source={cover_photo} style={styles.cover} />
-          <Pressable style={styles.updatecover} onPress={pickImageCover}>
-            <IconA name="photo-camera" size={21} color={"grey"} />
-          </Pressable>
-        </View>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={[appStyles.default.exitView, { elevation: 31 }]}
-        >
-          <Image style={appStyles.default.exitImage} source={Exit} />
+      <View>
+        <Image source={cover_photo} style={styles.cover} />
+        <Pressable style={styles.updatecover} onPress={pickImageCover}>
+          <IconA name="photo-camera" size={21} color={"grey"} />
         </Pressable>
+      </View>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={[appStyles.default.exitView, { elevation: 31 }]}
+      >
+        <Image style={appStyles.default.exitImage} source={Exit} />
+      </Pressable>
 
-        <View style={{ alignItems: "center" }}>
-          <Image source={profile_photo} style={styles.profileImage} />
+      <View style={{ alignItems: "center" }}>
+        <Image source={profile_photo} style={styles.profileImage} />
 
-          <Pressable style={styles.updateprofile} onPress={pickImageProfile}>
-            <IconA name="photo-camera" size={21} color={"grey"} />
-          </Pressable>
-          <Text style={appStyles.default.defaultFont}>{profile.name}</Text>
-        </View>
+        <Pressable style={styles.updateprofile} onPress={pickImageProfile}>
+          <IconA name="photo-camera" size={21} color={"grey"} />
+        </Pressable>
+        <Text style={appStyles.default.defaultFont}>{profile.name}</Text>
+      </View>
 
+      <ScrollView>
         <View style={styles.containerForm}>
           <Icon
             style={{ marginLeft: 8 }}
@@ -322,7 +316,7 @@ const UpdateProfile = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    height: "100%",
+    // height: "100%",
   },
   text: {
     color: "#52575D",
@@ -334,7 +328,7 @@ const styles = StyleSheet.create({
     marginTop: -70,
   },
   cover: {
-    flex: 1,
+    // flex: 1,
     width: deviceWidth,
     height: deviceHeight * 0.25,
   },
@@ -358,6 +352,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: "5%",
+    marginBottom: "5%",
     marginLeft: "10%",
   },
   submitText: {

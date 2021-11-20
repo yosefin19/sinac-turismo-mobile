@@ -73,7 +73,7 @@ const MyProfile = ({ navigation }) => {
         setStoredCredentials("");
         navigation.goBack();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   useEffect(() => {
@@ -377,18 +377,10 @@ const styles = StyleSheet.create({
   },
   recommendationContainer: {
     width: "95%",
-    // height: 700,
     flex: 1,
-    // alignContent: "flex-start",
-    // justifyContent: "flex-start",
-    // padding: -10,
-    // backgroundColor: "#F0FFFF",
-    // marginBottom: "5%",
   },
   reco: {
-    // height: 300,
     height: lists_height,
-    // backgroundColor: "#000",
   },
 });
 export default MyProfile;
