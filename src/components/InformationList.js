@@ -1,5 +1,5 @@
-import React from "react";
-import { FlatList, StyleSheet, Pressable } from "react-native";
+import React, { useRef } from "react";
+import { FlatList, Text, StyleSheet, Pressable } from "react-native";
 
 // Componentes
 import ViewImageInformation from "./ViewImageInformation";
@@ -7,7 +7,10 @@ import ViewImageInformation from "./ViewImageInformation";
 // Configuración
 import { IMAGE_BASE_URL } from "../config";
 
-const INIT_NUM_TO_RENDER = 3;
+// Estilos globales
+const appStyles = require("../appStyle");
+
+const INIT_NUM_TO_RENDER = 10;
 
 /***
  * Lista de destinos turísticos presentes en un área
@@ -17,11 +20,22 @@ const INIT_NUM_TO_RENDER = 3;
  */
 const InformationList = ({ destinations, navigation, isArea }) => {
   const initialImageIndex = Math.floor(destinations.length / 2);
+  const flatList = useRef(null);
 
   return (
     <FlatList
+      ref={flatList}
       initialNumToRender={INIT_NUM_TO_RENDER}
       initialScrollIndex={initialImageIndex}
+      onScrollToIndexFailed={(info) => {
+        const wait = new Promise((resolve) => setTimeout(resolve, 500));
+        wait.then(() => {
+          flatList.current?.scrollToIndex({
+            index: initialImageIndex,
+            animated: true,
+          });
+        });
+      }}
       data={destinations}
       renderItem={({ item, index }) => (
         <Pressable
@@ -40,6 +54,16 @@ const InformationList = ({ destinations, navigation, isArea }) => {
             isArea={isArea}
           />
         </Pressable>
+      )}
+      ListEmptyComponent={() => (
+        <Text
+          style={[
+            { padding: 10, color: "#7B7B7B" },
+            appStyles.default.defaultFont,
+          ]}
+        >
+          {isArea ? "Ningún área coincide" : "Ningún destino coincide"}
+        </Text>
       )}
       keyExtractor={(item) => item.id.toString()}
       horizontal={true}
