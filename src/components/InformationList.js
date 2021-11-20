@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FlatList, Text, StyleSheet, Pressable } from "react-native";
 
 // Componentes
@@ -20,11 +20,22 @@ const INIT_NUM_TO_RENDER = 3;
  */
 const InformationList = ({ destinations, navigation, isArea }) => {
   const initialImageIndex = Math.floor(destinations.length / 2);
+  const flatList = useRef(null);
 
   return (
     <FlatList
+      ref={flatList}
       initialNumToRender={INIT_NUM_TO_RENDER}
       initialScrollIndex={initialImageIndex}
+      onScrollToIndexFailed={(info) => {
+        const wait = new Promise((resolve) => setTimeout(resolve, 500));
+        wait.then(() => {
+          flatList.current?.scrollToIndex({
+            index: initialImageIndex,
+            animated: true,
+          });
+        });
+      }}
       data={destinations}
       renderItem={({ item, index }) => (
         <Pressable
