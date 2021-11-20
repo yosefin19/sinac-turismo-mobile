@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Pressable, Image, StyleSheet, Text, View, TextInput, SafeAreaView } from "react-native";
+import {
+  Pressable,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  SafeAreaView,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { API_URL } from "../config";
 const appStyles = require("../appStyle");
@@ -49,7 +57,6 @@ const SignUp = ({ navigation }) => {
         fetch(`${API_URL}add-profile`, requestOptionsProfile)
           .then((response) => response.json())
           .then((data) => {
-           
             const requestOptionsGallery = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -59,9 +66,9 @@ const SignUp = ({ navigation }) => {
                 photos_path: "/",
               }),
             };
-            fetch(`${API_URL}add-gallery`, requestOptionsGallery)
-            .then((response) => response.json())
-
+            fetch(`${API_URL}add-gallery`, requestOptionsGallery).then(
+              (response) => response.json()
+            );
           });
       })
       .catch((error) => console.log(error));
@@ -70,69 +77,94 @@ const SignUp = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.safeContainer}>
-            
-     <View style={styles.container}>
-     <Pressable
-        onPress={() => navigation.goBack()}
-        style={[appStyles.default.exitView, { elevation: 31 }]}
-      >
-        <Image style={appStyles.default.exitImage} source={Exit} />
-      </Pressable>
-     <Image style={styles.logo} source={require('../../assets/menu-icon.png')}/>
-      
-      <Text style={styles.textTitle}>Crear una cuenta</Text>
+      <View style={styles.container}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={[appStyles.default.exitView, { elevation: 31 }]}
+        >
+          <Image style={appStyles.default.exitImage} source={Exit} />
+        </Pressable>
+        <Image
+          style={styles.logo}
+          source={require("../../assets/menu-icon.png")}
+        />
 
-      <View style={styles.containerForm}>
-          <Icon style={{marginLeft: 8, marginRight:8}} name="user" size={22} color={"grey"} />
-        <TextInput
-          placeholder="Nombre"
-          inputStyle={[styles.inputText, appStyles.default.defaultFont]}
-           secureTextEntry={false}
-          onChangeText={(event) => setName(event)}
-          value={name}
-        />
-      </View>
+        <Text style={styles.textTitle}>Crear una cuenta</Text>
 
-      <View style={styles.containerForm}>
-        <Icon style={{marginLeft: 8, marginRight:8}} name="envelope" size={22} color={"grey"} />
-        <TextInput
-          placeholder="Correo electronico"
-          inputStyle={[styles.inputText, appStyles.default.defaultFont]}
-          secureTextEntry={false}
-          onChangeText={(event) => setEmail(event)}
-          value={email}
-        />
-      </View>
-      <View style={styles.containerForm}>
-         <Icon style={{marginLeft: 8, marginRight:8}} name="phone" size={22} color={"grey"} />
-        <TextInput
-          placeholder="Numero telefonico"
-          inputStyle={[styles.inputText, appStyles.default.defaultFont]}
-          secureTextEntry={false}
-          onChangeText={(event) => setPhone(event)}
-          value={phone}
-          keyboardType="numeric"
-        />
-      </View>
+        <View style={styles.containerForm}>
+          <Icon
+            style={{ marginLeft: 8, marginRight: 8 }}
+            name="user"
+            size={22}
+            color={"grey"}
+          />
+          <TextInput
+            placeholder="Nombre"
+            inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+            secureTextEntry={false}
+            onChangeText={(event) => setName(event)}
+            value={name}
+          />
+        </View>
 
-      <View style={styles.containerForm}><Icon style={{marginLeft: 8, marginRight:8}}  name="lock" size={22} color={"grey"} />
-        <TextInput
-          placeholder="Contraseña"
-          inputStyle={[styles.inputText, appStyles.default.defaultFont]}
-          secureTextEntry={true}
-          onChangeText={(event) => setPassword(event)}
-          value={password}
-        />
+        <View style={styles.containerForm}>
+          <Icon
+            style={{ marginLeft: 8, marginRight: 8 }}
+            name="envelope"
+            size={22}
+            color={"grey"}
+          />
+          <TextInput
+            placeholder="Correo electronico"
+            inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+            secureTextEntry={false}
+            onChangeText={(event) => setEmail(event)}
+            value={email}
+          />
+        </View>
+
+        <View style={styles.containerForm}>
+          <Icon
+            style={{ marginLeft: 8, marginRight: 8 }}
+            name="phone"
+            size={22}
+            color={"grey"}
+          />
+          <TextInput
+            placeholder="Numero telefonico"
+            inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+            secureTextEntry={false}
+            onChangeText={(event) => setPhone(event)}
+            value={phone}
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View style={styles.containerForm}>
+          <Icon
+            style={{ marginLeft: 8, marginRight: 8 }}
+            name="lock"
+            size={22}
+            color={"grey"}
+          />
+          <TextInput
+            placeholder="Contraseña"
+            inputStyle={[styles.inputText, appStyles.default.defaultFont]}
+            secureTextEntry={true}
+            onChangeText={(event) => setPassword(event)}
+            value={password}
+          />
+        </View>
+
+        <Pressable style={styles.containerS} onPress={Agregar}>
+          <Text style={[styles.submitText, appStyles.default.defaultFont]}>
+            Registrar
+          </Text>
+        </Pressable>
       </View>
-      <Pressable
-        style={styles.containerS}  onPress={Agregar}
-      >
-         <Text style={[styles.submitText,appStyles.default.defaultFont]}>Registrar</Text>
-    </Pressable>
-    </View>
-    <View
-          style={{
-          bottom:5,
+      <View
+        style={{
+          bottom: 5,
           alignItems: "center",
           justifyContent: "center",
           flex: 0,
@@ -163,14 +195,14 @@ const styles = StyleSheet.create({
     resizeMode: "stretch",
     backgroundColor: "transparent",
     marginTop: "20%",
-    marginBottom: '15%',
-},
+    marginBottom: "15%",
+  },
   containerS: {
     borderRadius: 4,
     backgroundColor: "rgba(118, 159, 94, 0.6)",
     width: "30%",
     height: 50,
-    alignItems: 'center',
+    alignItems: "center",
     justifyContent: "center",
     marginTop: "5%",
   },
@@ -182,24 +214,24 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   containerForm: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
     width: "80%",
     height: 50,
     borderWidth: 0.7,
     borderColor: "#C4C4C4",
     borderRadius: 7,
     marginTop: "5%",
-    },
+  },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   textTitle: {
     width: "80%",
-    marginTop:50,
+    marginTop: 50,
     fontSize: 18,
   },
   inputText: {
@@ -208,4 +240,3 @@ const styles = StyleSheet.create({
   },
 });
 export default SignUp;
-
