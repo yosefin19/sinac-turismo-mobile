@@ -165,7 +165,6 @@ const DestinationViewImage = ({ id, imageUrl }) => {
             : NoImage
         }
       />
-      {/* <View style={appStyles.default.favoriteView}> */}
       <Pressable
         style={appStyles.default.favoriteView}
         onPress={handle_favorite}
@@ -175,15 +174,12 @@ const DestinationViewImage = ({ id, imageUrl }) => {
           source={favoriteRelationId !== 0 ? Favorite : No_favorite}
         />
       </Pressable>
-      {/* </View> */}
-      {/* <View style={appStyles.default.seenView}> */}
       <Pressable style={appStyles.default.seenView} onPress={handle_visited}>
         <Image
           style={appStyles.default.seenImage}
           source={visitedRelationId !== 0 ? Seen : No_seen}
         />
       </Pressable>
-      {/* </View> */}
     </View>
   );
 };

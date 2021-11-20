@@ -9,6 +9,7 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 // Autenticación
 import { CredentialsContext } from "../CredentialsContext";
@@ -55,6 +56,8 @@ const Favorites = ({ navigation }) => {
   const [favoriteDestinations, setFavoriteDestinations] = useState([]);
   const [visited, setVisited] = useState([]);
 
+  const isFocused = useIsFocused();
+
   const requestOptionsUser = {
     method: "GET",
     headers: {
@@ -77,7 +80,7 @@ const Favorites = ({ navigation }) => {
         isMounted = false;
         setLoading(false);
       });
-  }, []);
+  }, [isFocused]);
 
   const favoriteDestinationsEndpoint = `${API_URL}${DESTINATIONS_URL}${ALL_URL}${FAVORITES_URL}`;
   useEffect(() => {
@@ -92,13 +95,13 @@ const Favorites = ({ navigation }) => {
         isMounted = false;
         setLoading(false);
       });
-  }, []);
+  }, [isFocused]);
 
   const visitedEndpoint = `${API_URL}${DESTINATIONS_URL}${ALL_URL}${VISITED_URL}`;
   useEffect(() => {
     let isMounted = true;
     fetch(visitedEndpoint, requestOptionsUser)
-      .then((response) => response.json(), requestOptionsUser)
+      .then((response) => response.json())
       .then((json) => {
         if (isMounted) setVisited(json);
       })
@@ -107,7 +110,7 @@ const Favorites = ({ navigation }) => {
         isMounted = false;
         setLoading(false);
       });
-  }, []);
+  }, [isFocused]);
 
   const [state, setState] = useState(0);
 

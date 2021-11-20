@@ -43,7 +43,6 @@ const GalleryList = ({ navigation }) => {
         }
       })
       .catch((error) => console.error(error));
-    
   };
 
   useEffect(() => {

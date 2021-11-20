@@ -4,9 +4,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  TextInput,
   FlatList,
-  SafeAreaView,
   KeyboardAvoidingView,
   View,
 } from "react-native";
@@ -18,8 +16,7 @@ import OpenURLButton from "../components/OpenURLButton";
 
 // Autenticación
 import { CredentialsContext } from "../CredentialsContext";
-import { API_URL, DESTINATIONS_URL, SECRET } from "../config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API_URL, DESTINATIONS_URL } from "../config";
 
 const appStyles = require("../appStyle");
 
@@ -82,14 +79,6 @@ const Home = ({ navigation }) => {
         }}
       />
     );
-  };
-
-  const ClearLogin = () => {
-    AsyncStorage.removeItem(SECRET)
-      .then(() => {
-        setStoredCredentials("");
-      })
-      .catch((error) => console.log(error));
   };
 
   return (
@@ -183,17 +172,6 @@ const Home = ({ navigation }) => {
       >
         <Text style={styles.aboutText}>Conózcanos</Text>
       </Pressable>
-      {storedCredentials ? (
-        <Pressable
-          style={[styles.aboutButton, { bottom: 30 }]}
-          onPress={() => {
-            ClearLogin();
-          }}
-          opacity={searchTerm !== "" ? 0.3 : 1}
-        >
-          <Text style={styles.aboutText}>Salir de la sesión</Text>
-        </Pressable>
-      ) : null}
     </KeyboardAvoidingView>
   );
 };

@@ -10,7 +10,7 @@ import { IMAGE_BASE_URL } from "../config";
 // Estilos globales
 const appStyles = require("../appStyle");
 
-const INIT_NUM_TO_RENDER = 10;
+const INIT_NUM_TO_RENDER = 3;
 
 /***
  * Lista de destinos turísticos presentes en un área
