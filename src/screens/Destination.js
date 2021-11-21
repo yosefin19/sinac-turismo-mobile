@@ -271,8 +271,8 @@ const Destination = ({ route, navigation }) => {
               justifyContent: "center",
             }}
           >
-             <Maps latitude = {latitude} longitude = {longitude} />
-           </View>
+            <Maps latitude={latitude} longitude={longitude} />
+          </View>
         ) : null}
         {state === 2 ? (
           <View style={{ flex: 1 }}>
