@@ -7,6 +7,9 @@ import Stars from "./Stars";
 // Imagenes
 import NoImage from "../images/no_image.png";
 import NoProfile from "../images/no_profile.png";
+import Empty from "../images/empty_star.png";
+import Filled from "../images/filled_star.png";
+import Half from "../images/half_star.png";
 
 // Configuración
 import {
@@ -84,7 +87,12 @@ const Review = ({ review }) => {
           <Text style={[styles.usernameText, appStyles.default.defaultFont]}>
             {profile.name}
           </Text>
-          <Stars review={calification} />
+          <Stars
+            review={calification}
+            emptyStar={Empty}
+            halfStar={Half}
+            filledStar={Filled}
+          />
         </View>
       </View>
       {title ? (

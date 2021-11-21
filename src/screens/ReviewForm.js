@@ -185,7 +185,6 @@ const ReviewForm = ({ route, navigation }) => {
       fetch(addReviewEndpoint, requestOptionsUser)
         .then((response) => response.json())
         .then((data) => {
-          // alert()
           navigation.pop();
         });
     }
@@ -339,7 +338,7 @@ const ReviewForm = ({ route, navigation }) => {
         >
           <Text style={styles.submitText}>Agregar Imagen</Text>
         </Pressable>
-        {image !== null ? (
+        {image !== null && image !== "" ? (
           <Pressable
             style={[
               styles.containerS,
