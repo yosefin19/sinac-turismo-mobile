@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   ScrollView,
   Image,
+  Pressable,
   SafeAreaView,
-  StatusBar,
   Dimensions,
 } from "react-native";
 
@@ -24,9 +24,7 @@ import {
 const appStyles = require("../appStyle");
 
 // Dimensiones de la imagen
-const image_height = Dimensions.get("window").height;
-const image_width =
-  REGION_IMAGE_WIDTH * (Dimensions.get("window").height / REGION_IMAGE_HEIGHT);
+const image_width = Dimensions.get("window").width;
 
 /***
  * Imagen de las que existen de un destino turístico
@@ -34,14 +32,32 @@ const image_width =
  * @returns {JSX.Element}
  */
 const Region = ({ route }) => {
+  const [doubleClicked, setDoubleClicked] = useState(false);
   const { imageUrl } = route.params;
+  let lastTap = null;
+
+  function onClick(event) {
+    const now = Date.now();
+    const DOUBLE_PRESS_DELAY = 300;
+    if (lastTap && now - lastTap < DOUBLE_PRESS_DELAY) {
+      setDoubleClicked(!doubleClicked);
+    } else {
+      lastTap = now;
+    }
+  }
   return (
     <SafeAreaView style={[styles.safeContainer]}>
-      <View style={styles.container}>
-        <ScrollView>
-          <ScrollView horizontal={true}>
+      <View>
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+        >
+          <Pressable onPress={onClick}>
             <Image
-              style={styles.region}
+              style={[
+                styles.region,
+                doubleClicked ? { height: "100%" } : { width: image_width },
+              ]}
               source={
                 imageUrl
                   ? {
@@ -52,7 +68,7 @@ const Region = ({ route }) => {
                   : NoImage
               }
             />
-          </ScrollView>
+          </Pressable>
         </ScrollView>
       </View>
       <View style={appStyles.default.exitView}>
@@ -66,21 +82,10 @@ const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFF",
-  },
-  container: {
-    height: "100%",
-    position: "absolute",
-    left: 0,
-    top: StatusBar.currentHeight,
-    width: "100%",
-    overflow: "hidden",
+    backgroundColor: "#DEDEDE",
   },
   region: {
     resizeMode: "contain",
-    width: image_width,
-    height: image_height,
   },
 });
 
