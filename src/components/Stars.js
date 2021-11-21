@@ -22,7 +22,6 @@ const Stars = ({ review, emptyStar, halfStar, filledStar }) => {
       stars.push(<Image style={styles.star} key={i} source={halfStar} />);
     else stars.push(<Image style={styles.star} key={i} source={filledStar} />);
     --review;
-
   }
 
   return <View style={styles.container}>{stars}</View>;
