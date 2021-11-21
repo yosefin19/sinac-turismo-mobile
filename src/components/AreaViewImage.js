@@ -86,9 +86,7 @@ const AreaViewImage = ({ areaId, imageUrl }) => {
             setIsFavorite(0);
           });
       } else {
-        let endpoint = `${API_URL}${AREAS_URL}${areaId}/${FAVORITES_URL}`;
-
-        fetch(endpoint, {
+        fetch(favoriteEndpoint, {
           method: "POST",
           headers: {
             // "Content-Type": "application/json",
@@ -118,7 +116,7 @@ const AreaViewImage = ({ areaId, imageUrl }) => {
         <Pressable onPress={handleFavorite}>
           <Image
             style={appStyles.default.favoriteImage}
-            source={isFavorite !== false ? Favorite : No_favorite}
+            source={isFavorite !== 0 ? Favorite : No_favorite}
           />
         </Pressable>
       </View>
