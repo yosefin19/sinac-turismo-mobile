@@ -71,7 +71,7 @@ const SignUp = ({ navigation }) => {
             );
           });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
 
     navigation.navigate("Login");
   };
