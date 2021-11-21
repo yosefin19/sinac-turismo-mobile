@@ -70,6 +70,8 @@ const Login = ({ navigation }) => {
      * se establecen los encabezados necesarios de la consulta
      * @type {{headers: {"Content-Type": string}, method: string, body: string}}
      */
+    email = email.trim().toLowerCase();
+    password = password.trim();
     setLoading(true);
     const requestOptionsUser = {
       method: "POST",
@@ -126,7 +128,7 @@ const Login = ({ navigation }) => {
    * @param email
    */
   const emailValidation = (email) => {
-    let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w\w+)+$/;
+    let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w+)+/;
     return reg.test(email);
   };
 
@@ -139,7 +141,7 @@ const Login = ({ navigation }) => {
     const re = {
       capital: /[A-Z]/,
       digit: /[0-9]/,
-      full: /^[A-Za-z0-9]{7,33}$/,
+      full: /^[A-Za-z0-9]{7,33}/,
     };
     return (
       password.length > 7 &&
@@ -206,7 +208,7 @@ const Login = ({ navigation }) => {
         source={require("../../assets/menu-icon.png")}
       />
       <View style={styles.section}>
-        <View style={styles.form}>
+        <View style={[styles.form, appStyles.default.defaultFont]}>
           <Icon
             style={{ marginLeft: 6, marginRight: 6 }}
             name="envelope"
@@ -224,12 +226,12 @@ const Login = ({ navigation }) => {
         </View>
       </View>
       {!emailValidated && (
-        <Text style={styles.error_msg}>
+        <Text style={[styles.error_msg, appStyles.default.defaultFont]}>
           Formato invalido de correo electrónico
         </Text>
       )}
       <View style={styles.section}>
-        <View style={styles.form}>
+        <View style={[styles.form, appStyles.default.defaultFont]}>
           <Icon
             style={{ marginLeft: 8, marginRight: 8 }}
             name="lock"
@@ -254,11 +256,11 @@ const Login = ({ navigation }) => {
         </Pressable>
       </View>
       {!passwordValidated && (
-        <Text style={styles.error_msg}>
+        <Text style={[styles.error_msg, appStyles.default.defaultFont]}>
           Contraseña incorrecta, debe contener: mayusculas, minusculas y números
         </Text>
       )}
-      <View style={styles.leftText}>
+      <View style={[styles.leftText, appStyles.default.defaultFont]}>
         <Pressable
           onPress={() => {
             navigation.navigate("ResetPassword");
@@ -278,9 +280,15 @@ const Login = ({ navigation }) => {
         )}
       </Pressable>
       <View style={styles.register}>
-        <Text style={styles.register_text}>¿No tiene cuenta?</Text>
+        <Text style={[styles.register_text, appStyles.default.defaultFont]}>
+          ¿No tiene cuenta?
+        </Text>
         <Pressable style={styles.register_button} onPress={SignUp}>
-          <Text style={styles.register_button_text}>Registrar</Text>
+          <Text
+            style={[styles.register_button_text, appStyles.default.defaultFont]}
+          >
+            Registrar
+          </Text>
         </Pressable>
       </View>
       <View
@@ -326,7 +334,6 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: "80%",
     flexDirection: "row",
-    fontFamily: "Segoe UI",
     fontStyle: "normal",
     fontSize: 13,
     lineHeight: 17,
@@ -341,7 +348,6 @@ export const styles = StyleSheet.create({
   leftText: {
     width: "80%",
     marginTop: 10,
-    fontFamily: "Segoe UI",
     fontStyle: "normal",
   },
   submit: {
@@ -368,7 +374,6 @@ export const styles = StyleSheet.create({
   },
   register_text: {
     color: "#605F5F",
-    fontFamily: "Segoe UI",
     fontStyle: "normal",
     fontWeight: "normal",
     paddingRight: 5,
@@ -383,13 +388,11 @@ export const styles = StyleSheet.create({
   },
   register_button_text: {
     color: "#4A4A4A",
-    fontFamily: "Segoe UI",
     fontWeight: "bold",
   },
   error_msg: {
     color: "#D8000C",
     width: "80%",
-    fontFamily: "Segoe UI",
     fontStyle: "normal",
     fontWeight: "normal",
     textAlign: "center",
