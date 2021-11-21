@@ -116,7 +116,7 @@ const AreaViewImage = ({ areaId, imageUrl }) => {
         <Pressable onPress={handleFavorite}>
           <Image
             style={appStyles.default.favoriteImage}
-            source={isFavorite !== false ? Favorite : No_favorite}
+            source={isFavorite !== 0 ? Favorite : No_favorite}
           />
         </Pressable>
       </View>
