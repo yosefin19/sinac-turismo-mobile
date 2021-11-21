@@ -19,6 +19,7 @@ import Stars from "../components/Stars";
 import DestinationDescription from "../components/DestinationDescription";
 import Review from "../components/Review";
 import OpinionsList from "../components/OpinionsList";
+import Maps from "../components/Map";
 
 // Autenticación
 import { CredentialsContext } from "../CredentialsContext";
@@ -152,14 +153,12 @@ const Destination = ({ route, navigation }) => {
       >
         <DestinationImageList destinationId={id} photos_path={photos_path} />
       </View>
-
       <Pressable
         onPress={() => navigation.goBack()}
         style={[appStyles.default.exitView, { elevation: 31 }]}
       >
         <Image style={appStyles.default.exitImage} source={Exit} />
       </Pressable>
-
       <View style={styles.container}>
         <Text style={[appStyles.default.name, appStyles.default.defaultFont]}>
           {name}
@@ -183,7 +182,6 @@ const Destination = ({ route, navigation }) => {
             halfStar={Half}
             filledStar={Filled}
           />
-
           <Text style={[styles.reviewsText, appStyles.default.defaultFont]}>
             {reviews.length} votos
           </Text>
@@ -273,12 +271,11 @@ const Destination = ({ route, navigation }) => {
               justifyContent: "center",
             }}
           >
-            {/* <AreaRegion imageUrl="https://www.costaricavibes.com/wp-content/uploads/2020/05/costaricaregionmap-1024x683.jpg" /> */}
+            <Maps latitude={latitude} longitude={longitude} />
           </View>
         ) : null}
         {state === 2 ? (
           <View style={{ flex: 1 }}>
-            {/* <ReviewsMenu /> */}
             <View>
               <Text style={[styles.rateText, appStyles.default.defaultFont]}>
                 Califica este destino:

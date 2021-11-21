@@ -47,7 +47,6 @@ const AreaViewImage = ({ areaId, imageUrl }) => {
   const requestOptionsUser = {
     method: "GET",
     headers: {
-      // "Content-Type": "application/json",
       Authorization: "Bearer " + storedCredentials,
     },
   };
@@ -77,7 +76,6 @@ const AreaViewImage = ({ areaId, imageUrl }) => {
         fetch(endpoint, {
           method: "DELETE",
           headers: {
-            // "Content-Type": "application/json",
             Authorization: "Bearer " + storedCredentials,
           },
         })
@@ -86,12 +84,9 @@ const AreaViewImage = ({ areaId, imageUrl }) => {
             setIsFavorite(0);
           });
       } else {
-        let endpoint = `${API_URL}${AREAS_URL}${areaId}/${FAVORITES_URL}`;
-
-        fetch(endpoint, {
+        fetch(favoriteEndpoint, {
           method: "POST",
           headers: {
-            // "Content-Type": "application/json",
             Authorization: "Bearer " + storedCredentials,
           },
         })
