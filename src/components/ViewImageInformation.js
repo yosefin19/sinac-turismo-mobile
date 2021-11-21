@@ -28,7 +28,6 @@ import {
   API_URL,
   AREAS_URL,
   DESTINATIONS_URL,
-  REVIEWS_URL,
   FAVORITES_URL,
   VISITED_URL,
   ALL_URL,
@@ -89,6 +88,7 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea }) => {
       fetch(relationEndpoint, requestOptionsUser)
         .then((response) => response.json())
         .then((json) => {
+
           if (isMounted) {
             if (typeof json === "number") setFavoriteRelationId(json);
           }
@@ -120,29 +120,6 @@ const ViewImageInformation = ({ id, name, imageUrl, isArea }) => {
         });
     }
   }, [isFocused]);
-
-  // const endpoint = `${API_URL}${DESTINATIONS_URL}${id}/${REVIEWS_URL}`;
-
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     let isMounted = true;
-  //     setLoading(true);
-  //     fetch(endpoint)
-  //       .then((response) => response.json())
-  //       .then((json) => {
-  //         if (isMounted) {
-  //           isMounted = false;
-
-  //           setReviews(json);
-  //         }
-  //       })
-  //       .catch((error) => console.error(error))
-  //       .finally(() => {
-  //         isMounted = false;
-  //         setLoading(false);
-  //       });
-  //   }
-  // }, [isFocused]);
 
   const handle_favorite = () => {
     if (storedCredentials) {
