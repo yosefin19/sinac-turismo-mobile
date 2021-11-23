@@ -38,14 +38,8 @@ const DestinationDescription = ({
         </View>
       ) : null}
       {contact ? (
-        <View style={styles.horizontalContainer}>
-          <Text
-            style={[
-              styles.titleText,
-              { marginRight: 2 },
-              appStyles.default.defaultFont,
-            ]}
-          >
+        <View style={styles.verticalContainer}>
+          <Text style={[styles.titleText, appStyles.default.defaultFont]}>
             Contacto:
           </Text>
           <Text style={[styles.bodyText, appStyles.default.defaultFont]}>
