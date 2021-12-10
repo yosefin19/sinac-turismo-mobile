@@ -23,16 +23,6 @@ El usuario puede marcar como favorito cualquier área de conservación o destino
 ### 6 Registro y manejo de usuarios
 Un usuario puede registrarse en la aplicación y actualizar datos como su correo electrónico, nombre, número de teléfono, foto de perfil y banner. Una vez iniciada la sesión esta se mantiene activa hasta que el usuario decida cerrarla.
 
-5.6 Administración de áreas de conservación
-Un usuario administrador puede realizar funciones de creación, lectura, actualización y eliminación de las áreas de conservación en la aplicación. En esta podrá aplicar lo anterior a un listado de imágenes de la zona, el nombre del área y la ubicación sobre el mapa del mismo.
-5.7 Administración de destinos turísticos.
-Deberá existir un conjunto de opciones para crear, mostrar, modificar y eliminar destinos turísticos para usuarios administradores. Cada destino turístico tendrá nombre, descripción, fotografías, horario, tarifas, recomendaciones, dificultad y ubicación exacta en el mapa.
-5.8 Administración de usuarios.
-Un administrador es capaz de realizar funciones de creación, lectura, actualización y eliminación de los usuarios en la aplicación. Presenta campos para nombre de usuario, correo electrónico, contraseña y teléfono. La contraseña del usuario deberá encontrarse cifrada.
-5.9 Administración de perfiles.
-Deberá existir un conjunto de opciones para crear, actualizar, mostrar y eliminar perfiles de usuarios para usuarios administradores. Cada perfil contiene el nombre, correo electrónico, número telefónico y contraseña de un usuario.
-
-
 ## Ejecución de programa
 
 - Es necesario contar con NodeJS, de igual forma es necesario contar con React Native y Expo.
