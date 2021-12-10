@@ -4,6 +4,16 @@ La presente aplicación fue realizada por Brandon Ledezma Fernández, Walter Mor
 
 ![sinac](https://user-images.githubusercontent.com/56206208/145642076-3dc33fa7-f16a-4fd0-932c-bc4a2a861462.png)
 
+## Aplicaciones relacionadas
+- SINAC Turismo: Móvil (Aplicación móvil para brindar información sobre áreas de conservación y destinos turísticos) 
+https://github.com/yosefin19/sinac-turismo-mobile
+
+- SINAC Turismo: Web (Página web para la administración \[visualización, inserción, modificación y eliminación\] de la información)
+https://github.com/yosefin19/sinac-turismo-web
+
+- SINAC Turismo: API (API donde se obtiene y registra la información relacionada con las aplicaciones) 
+https://github.com/yosefin19/sinac-turismo-api
+
 ## Objetivo
 
 Con el desarrollo de la aplicación se planea resolver el problema de que los turistas costarricenses o internacionales que visitan la página del SINAC requieren de un fácil acceso a la información de sitios turísticos registrados por dicha organización, asimismo, existe la necesidad de poder mejorar el proceso de compra y reserva para visitar estos lugares. Esta aplicación plantea permitir a los turistas realizar dichas acciones de una forma centralizada y rápida, así como también poder compartir sus experiencias en los destinos registrados con las demás personas.
